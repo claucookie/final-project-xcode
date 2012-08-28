@@ -29,11 +29,17 @@
     IBOutlet NSButton *recogCheckFile;
     IBOutlet NSButton *recogCheckTagger;
     IBOutlet NSButton *recogCheckGrammar;
+    IBOutlet NSButton *recogStartRecognitionButton;
+    IBOutlet NSTextField *recogStartRecognitionLabel;
     NSMutableArray *recogFilesListMArray;
     NSURL *recogCorpusURL;
     NSURL *recogFileURL;
+    NSInteger recogSteps;
+    
     
 }
+
+
 
 - (IBAction)switchView:(id)sender;
 

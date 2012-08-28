@@ -32,7 +32,8 @@
     [[self window] setContentSize:[recognition frame].size];
     [[[self window] contentView] addSubview:recognition];
     [[[self window] contentView] setWantsLayer:YES];
-
+    
+    recogSteps = 0;
 }
 
 - (NSRect)newFrameForNewContentView:(NSView *)view {
@@ -114,6 +115,22 @@
  
  **/
 
+- (void)checkRecogSteps {
+    
+    if( recogSteps >= 3){
+        [recogStartRecognitionButton setEnabled:YES];
+        [recogStartRecognitionLabel setHidden:NO];
+    }
+}
+- (IBAction)startRecognitionTask:(id)sender {
+    
+    // TODO: Check if corpus txt folder and file folder are checked.
+    // Show a popup to let the user choose between corpus and folder
+    // recognition.
+    
+    // Call system program with
+}
+
 - (IBAction)openSelectFolderPanel:(id)sender {
     
     // Creating the open panel
@@ -141,6 +158,11 @@
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
         
         NSLog(@"%@", varCorpusDir);
+        
+        // We add +1 to recognition steps if is the first time to use the field
+        if( [[recogInCorpusDirTextField stringValue] length] == 0){
+            recogSteps++;
+        }
         
         [recogInCorpusDirTextField setStringValue:varCorpusDir];
         isCorpusFolderSelected = YES;
@@ -174,7 +196,9 @@
         
         // We check the corpus step
         [recogCheckCorpus setState:1];
-
+        // We activate the tableview
+        [recogFilesListTableView setEnabled:YES];
+        
     }
 }
 
@@ -185,6 +209,7 @@
     NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
     [tvarOp setCanChooseDirectories:NO];
     [tvarOp setCanChooseFiles:YES];
+
     if( [sender tag] == 2 )
         [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"etq"]];
     else if( [sender tag] == 1 )
@@ -230,16 +255,15 @@
     
     if( isFileSelected ){
         
-        [recogGrammarFileTextField setAlignment:NSRightTextAlignment];
-        [recogTaggerFileTextField setAlignment:NSRightTextAlignment];
-        
         switch ([sender tag]) {
             case 1:
+                if( [[recogGrammarFileTextField stringValue] length] == 0)                    recogSteps++;
                 [recogGrammarFileTextField setStringValue:varFileString];
                 [recogCheckGrammar setState:1];
                 break;
             
             case 2:
+                if( [[recogTaggerFileTextField stringValue] length] == 0)                    recogSteps++;
                 [recogTaggerFileTextField setStringValue:varFileString];
                 [recogCheckTagger setState:1];
                 break;
@@ -247,7 +271,11 @@
             default:
                 break;
         }
+        
+        
     }
+    
+    [self checkRecogSteps];
   
 }
 
