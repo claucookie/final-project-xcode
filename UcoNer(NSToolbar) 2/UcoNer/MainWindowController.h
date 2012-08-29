@@ -37,10 +37,7 @@
     NSURL *recogFileURL;
     NSInteger recogSteps;
     
-    // Finder View fields and buttons
-    IBOutlet NSTableView *finderFilesListTableView;
-    IBOutlet NSTextField *finderInCorpusDirTextField;
-    IBOutlet NSTextField *finderFileSelectedTextField;
+
 
     
     
@@ -50,10 +47,6 @@
 
 
 - (IBAction)switchView:(id)sender;
-
-/**
- Recognition methods, outlets
- */
 
 
 @end

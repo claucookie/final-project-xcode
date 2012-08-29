@@ -11,7 +11,15 @@
 @interface FinderViewController : NSView{
     
     @private
-    IBOutlet NSTextField *corpusTextField;
+    // Interface items
+    IBOutlet NSTextField *corpusFolderTextField;
+    IBOutlet NSTextField *selectedFileTextField;
+    IBOutlet NSTableView *filesListTableView;
+    
+    // Global use variables
+    NSMutableArray *mFilesListArray;
+    NSURL *mCorpusURL;
+    NSURL *mFileURL;
 
 }
 

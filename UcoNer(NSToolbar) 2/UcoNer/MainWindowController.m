@@ -142,14 +142,7 @@
             recogSteps++;
         }
         
-        // Click on corpus button in recognition task
-        if ([sender tag] == 1) {
-            [recogInCorpusDirTextField setStringValue:varCorpusDir];
-        }
-        // Click on corpus button in tagger task
-        else if ([sender tag] == 2){
-            [finderInCorpusDirTextField setStringValue:varCorpusDir];
-        }
+        [recogInCorpusDirTextField setStringValue:varCorpusDir];
         
         isCorpusFolderSelected = YES;
         
@@ -175,26 +168,16 @@
         recogFilesListMArray = [[NSMutableArray alloc] init];
         [recogFilesListMArray addObjectsFromArray:filesArray];
         
-        // Click on corpus button in recognition task
-        if ([sender tag] == 1) {
-            // We clean the selected file textfield
-            [recogFileSelectedTextField setStringValue:@""];
-            [recogFilesListTableView reloadData];
-            // We check the corpus step
-            [recogCheckCorpus setState:1];
-            // We activate the tableview
-            [recogFilesListTableView setEnabled:YES];
-        }
-        // Click on corpus button in tagger task
-        else if ([sender tag] == 2){
-            // We clean the selected file textfield
-            [finderFileSelectedTextField setStringValue:@""];
-            [finderFilesListTableView reloadData];
-            // We activate the tableview
-            [finderFilesListTableView setEnabled:YES];
-        }
         
+        // We clean the selected file textfield
+        [recogFileSelectedTextField setStringValue:@""];
+        [recogFilesListTableView reloadData];
+        // We check the corpus step
+        [recogCheckCorpus setState:1];
+        // We activate the tableview
+        [recogFilesListTableView setEnabled:YES];
         
+                
         NSLog(@"%3ld", [sender tag]);
         
         
@@ -310,31 +293,23 @@
     NSInteger row = [sender selectedRow];
     NSString *selectedFileName = [recogFilesListMArray objectAtIndex:row];
     
-    // Action comes from recognition view
-    if ([sender tag] == 1) {
-        
-        [recogFileSelectedTextField setStringValue:selectedFileName];
-        
-        // Getting file data
-        NSMutableString *fullPathFile = [[NSMutableString alloc] init];
-        [fullPathFile appendString:[recogCorpusURL absoluteString]];
-        [fullPathFile appendString:selectedFileName];
-        
-        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:fullPathFile]];
-        // if data is in another encoding, for example ISO-8859-1
-        NSString *fileContent = [[NSString alloc]
-                                 initWithData:data encoding: NSISOLatin1StringEncoding];
-        
-        NSLog(@"%@", fileContent);
-        [recogFileContentTextField setString:fileContent];
-        [recogCheckFile setState:1];
-    }
-    // Action comes from finder view
-    else if ([sender tag] == 2){
-        
-        [finderFileSelectedTextField setStringValue:[recogFilesListMArray objectAtIndex:row]];
-    }
+    [recogFileSelectedTextField setStringValue:selectedFileName];
     
+    // Getting file data
+    NSMutableString *fullPathFile = [[NSMutableString alloc] init];
+    [fullPathFile appendString:[recogCorpusURL absoluteString]];
+    [fullPathFile appendString:selectedFileName];
+    
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:fullPathFile]];
+    // if data is in another encoding, for example ISO-8859-1
+    NSString *fileContent = [[NSString alloc]
+                             initWithData:data encoding: NSISOLatin1StringEncoding];
+    
+    NSLog(@"%@", fileContent);
+    [recogFileContentTextField setString:fileContent];
+    [recogCheckFile setState:1];
+
+        
 }
 
     
