@@ -1,14 +1,19 @@
 //
-//  RecognitionView.m
+//  FinderViewController.m
 //  UcoNer
 //
-//  Created by Claudia María Luque Fernández on 25/08/12.
+//  Created by Claudia María Luque Fernández on 29/08/12.
 //  Copyright (c) 2012 Claudia María Luque Fernández. All rights reserved.
 //
 
-#import "RecognitionView.h"
+#import "FinderViewController.h"
 
-@implementation RecognitionView
+@implementation FinderViewController
+
+- (void)awakeFromNib
+{
+    [corpusTextField setStringValue:@"hola"];
+}
 
 - (id)initWithFrame:(NSRect)frame
 {

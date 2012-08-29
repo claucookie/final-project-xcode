@@ -16,6 +16,7 @@
     IBOutlet NSView *finder;
     IBOutlet NSView *synthesis;
     
+    
     int currentViewTag;
     
     // Recognition View : fields and buttons
@@ -24,7 +25,7 @@
     IBOutlet NSTextField *recogFileSelectedTextField;
     IBOutlet NSTextField *recogGrammarFileTextField;
     IBOutlet NSTextField *recogTaggerFileTextField;
-    IBOutlet NSTextField *recogFileContentTextField;
+    IBOutlet NSTextView *recogFileContentTextField;
     IBOutlet NSButton *recogCheckCorpus;
     IBOutlet NSButton *recogCheckFile;
     IBOutlet NSButton *recogCheckTagger;
@@ -35,6 +36,13 @@
     NSURL *recogCorpusURL;
     NSURL *recogFileURL;
     NSInteger recogSteps;
+    
+    // Finder View fields and buttons
+    IBOutlet NSTableView *finderFilesListTableView;
+    IBOutlet NSTextField *finderInCorpusDirTextField;
+    IBOutlet NSTextField *finderFileSelectedTextField;
+
+    
     
     
 }
