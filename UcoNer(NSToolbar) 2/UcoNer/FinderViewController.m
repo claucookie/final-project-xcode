@@ -12,9 +12,15 @@
 
 - (void)awakeFromNib
 {
-    [corpusFolderTextField setStringValue:@"hola"];
     // Initalize fileListTableView
     [filesListTableView setDataSource:self];
+    
+    // Steps counter = 0
+    mFinderSteps = 0;
+    
+    // Initialize flags
+    mCorpusOrFileToggleButtonWasClickedYet = NO;
+    mRegularExpresionWasWrittenYet = NO;
 }
 
 - (id)initWithFrame:(NSRect)frame
@@ -30,6 +36,16 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Drawing code here.
+}
+
+
+- (void)checkFinderSteps {
+    
+    if(mFinderSteps >= 3){
+        [startSearchButton setEnabled:YES];
+        [startSearchLabel setHidden:NO];
+    }
+    NSLog(@"%ld", mFinderSteps);
 }
 
 
@@ -67,7 +83,10 @@
         NSLog(@"%@", varCorpusDir);
         
         // We add +1 to recognition steps if is the first time to use the field
-        // TODO:
+        if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){
+            // Step done
+            mFinderSteps++;
+        }
         
         [corpusFolderTextField setStringValue:varCorpusDir];
         isCorpusFolderSelected = YES;
@@ -87,7 +106,7 @@
     
     if( isCorpusFolderSelected ){
         
-        
+        // LOADING files list array into Table view
         NSArray *filesArray = [[NSArray alloc] init];
         filesArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:varCorpusDir error:nil];
         
@@ -100,6 +119,10 @@
         [filesListTableView reloadData];
         // We activate the tableview
         [filesListTableView setEnabled:YES];
+        
+        // Step done
+        [checkCorpusStepButton setState:1];
+        [self checkFinderSteps];
         
     }
 }
@@ -123,6 +146,77 @@
                              initWithData:data encoding: NSISOLatin1StringEncoding];
     
     NSLog(@"%@", fileContent);
+    
+    // Step done
+    [checkFileStepButton setState:1];
+    [self checkFinderSteps];
+}
+
+- (IBAction)regularExpressionWritten:(id)sender{
+    
+    if ([[regularExpressionTextField stringValue] isNotEqualTo:@""]) {
+        
+        // Step done
+        [checkRegExpStepButton setState:1];
+        
+        if (!mRegularExpresionWasWrittenYet) {
+            mFinderSteps++;
+            mRegularExpresionWasWrittenYet = YES;
+        }
+        
+    }
+    else if (mFinderSteps > 0 && [checkRegExpStepButton state] == 1){
+        mFinderSteps--;
+        [checkRegExpStepButton setState:0];
+        mRegularExpresionWasWrittenYet = NO;
+    }
+    [self checkFinderSteps];
+    
+}
+
+- (IBAction)selectCorpusOrFileClick:(id)sender{
+    
+    Boolean isOK = YES;
+    
+    // If corpus is clicked
+    if([sender tag] == 1){
+        [fileToggleButton setState:0];
+        [corpusToggleButton setEnabled:NO];
+        [fileToggleButton setEnabled:YES];
+    }
+    // else if file button is clicked and a file was selected from list
+    else if( [sender tag] == 2 && [[selectedFileTextField stringValue] isNotEqualTo:@""]){
+        [corpusToggleButton setState:0];
+        [fileToggleButton setEnabled:NO];
+        [corpusToggleButton setEnabled:YES];
+    }
+    else{
+        [fileToggleButton setState:0];
+        [fileToggleButton setEnabled:YES];
+        isOK = NO;
+    }
+    
+    if (isOK) {
+        
+        if (!mCorpusOrFileToggleButtonWasClickedYet) {
+            mFinderSteps++;
+            mCorpusOrFileToggleButtonWasClickedYet = YES;
+        }
+        
+        // Step done
+        [checkCorpusOrFileStepButton setState:1];
+    }
+    [self checkFinderSteps];
+}
+
+
+- (IBAction)startFinderTask:(id)sender {
+    
+    // TODO: Check if corpus txt folder and file folder are checked.
+    // Show a popup to let the user choose between corpus and folder
+    // recognition.
+    
+    // Call system program with
 }
 
 

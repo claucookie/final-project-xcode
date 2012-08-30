@@ -19,29 +19,6 @@
     
     int currentViewTag;
     
-    // Recognition View : fields and buttons
-    IBOutlet NSTextField *recogInCorpusDirTextField;
-    IBOutlet NSTableView *recogFilesListTableView;
-    IBOutlet NSTextField *recogFileSelectedTextField;
-    IBOutlet NSTextField *recogGrammarFileTextField;
-    IBOutlet NSTextField *recogTaggerFileTextField;
-    IBOutlet NSTextView *recogFileContentTextField;
-    IBOutlet NSButton *recogCheckCorpus;
-    IBOutlet NSButton *recogCheckFile;
-    IBOutlet NSButton *recogCheckTagger;
-    IBOutlet NSButton *recogCheckGrammar;
-    IBOutlet NSButton *recogStartRecognitionButton;
-    IBOutlet NSTextField *recogStartRecognitionLabel;
-    NSMutableArray *recogFilesListMArray;
-    NSURL *recogCorpusURL;
-    NSURL *recogFileURL;
-    NSInteger recogSteps;
-    
-
-
-    
-    
-    
 }
 
 

@@ -15,11 +15,23 @@
     IBOutlet NSTextField *corpusFolderTextField;
     IBOutlet NSTextField *selectedFileTextField;
     IBOutlet NSTableView *filesListTableView;
+    IBOutlet NSButton *corpusToggleButton;
+    IBOutlet NSTextField *regularExpressionTextField;
+    IBOutlet NSButton *fileToggleButton;
+    IBOutlet NSButton *checkCorpusStepButton;
+    IBOutlet NSButton *checkFileStepButton;
+    IBOutlet NSButton *checkRegExpStepButton;
+    IBOutlet NSButton *checkCorpusOrFileStepButton;
+    IBOutlet NSButton *startSearchButton;
+    IBOutlet NSTextField *startSearchLabel;
     
     // Global use variables
     NSMutableArray *mFilesListArray;
     NSURL *mCorpusURL;
     NSURL *mFileURL;
+    NSInteger mFinderSteps;
+    Boolean mCorpusOrFileToggleButtonWasClickedYet;
+    Boolean mRegularExpresionWasWrittenYet;
 
 }
 
