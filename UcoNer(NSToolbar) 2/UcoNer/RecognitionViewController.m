@@ -33,11 +33,7 @@
     // Drawing code here.
 }
 
-/**
- 
- Recognition View methods
- 
- **/
+
 
 - (void)checkRecogSteps {
     
@@ -48,6 +44,13 @@
     
     NSLog(@"%ld", mRecogSteps);
 }
+
+/**
+ 
+ ACTIONS
+ 
+ **/
+
 - (IBAction)startRecognitionTask:(id)sender {
     
     // TODO: Check if corpus txt folder and file folder are checked.
@@ -156,6 +159,8 @@
         [sender setEnabled:YES];
         isOK = NO;
     }
+    
+    [self checkRecogSteps];
 }
 
 

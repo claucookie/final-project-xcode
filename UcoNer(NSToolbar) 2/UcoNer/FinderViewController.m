@@ -179,20 +179,22 @@
     Boolean isOK = YES;
     
     // If corpus is clicked
-    if([sender tag] == 1){
+    if([sender tag] == 1 && [[corpusFolderTextField stringValue] isNotEqualTo:@""]){
         [fileToggleButton setState:0];
-        [corpusToggleButton setEnabled:NO];
         [fileToggleButton setEnabled:YES];
+        [corpusToggleButton setEnabled:NO];
+        [corpusToggleButton setState:1];
     }
     // else if file button is clicked and a file was selected from list
     else if( [sender tag] == 2 && [[selectedFileTextField stringValue] isNotEqualTo:@""]){
         [corpusToggleButton setState:0];
-        [fileToggleButton setEnabled:NO];
         [corpusToggleButton setEnabled:YES];
+        [fileToggleButton setEnabled:NO];
+        [fileToggleButton setState:1];
     }
     else{
-        [fileToggleButton setState:0];
-        [fileToggleButton setEnabled:YES];
+        [sender setState:0];
+        [sender setEnabled:YES];
         isOK = NO;
     }
     
