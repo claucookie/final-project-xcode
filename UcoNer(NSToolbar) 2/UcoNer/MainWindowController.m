@@ -95,6 +95,7 @@
 - (IBAction)showPopupInfo:(id)sender
 {
     [[self popover] showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
+    NSLog(@"%@", @"Info clicked");
 }
 
 
