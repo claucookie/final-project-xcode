@@ -1,30 +1,23 @@
 //
-//  EvaluationViewController.m
+//  SynthesisViewController.m
 //  UcoNer
 //
-//  Created by Claudia María Luque Fernández on 31/08/12.
+//  Created by Claudia María Luque Fernández on 01/09/12.
 //  Copyright (c) 2012 Claudia María Luque Fernández. All rights reserved.
 //
 
-#import "EvaluationViewController.h"
+#import "SynthesisViewController.h"
 
-@implementation EvaluationViewController
+@implementation SynthesisViewController
 
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        
-
+        // Initialization code here.
     }
     
     return self;
-}
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    // Drawing code here.
 }
 
 - (void)awakeFromNib
@@ -33,18 +26,25 @@
     [filesListTableView setDataSource:self];
     
     // Steps counter = 0
-    mEvaluationSteps = 0;
+    mSynthesisSteps = 0;
+
 }
 
-- (void)checkEvaluationSteps
+- (void)drawRect:(NSRect)dirtyRect
+{
+    // Drawing code here.
+}
+
+- (void)checkSynthesisSteps
 {
     
-    if(mEvaluationSteps == 2){
-        [startEvaluationButton setEnabled:YES];
-        [startEvaluationLabel setHidden:NO];
+    if(mSynthesisSteps == 2){
+        [startSynthesisButton setEnabled:YES];
+        [startSynthesisLabel setHidden:NO];
     }
-    NSLog(@"%ld", mEvaluationSteps);
+    NSLog(@"%ld", mSynthesisSteps);
 }
+
 
 /**
  
@@ -52,11 +52,10 @@
  
  **/
 
-- (IBAction)startEvaluationTask:(id)sender
+- (IBAction)startSynthesisTask:(id)sender
 {
     // TODO:
 }
-
 
 - (IBAction)openSelectFolderPanel:(id)sender
 {
@@ -90,7 +89,7 @@
         // We add +1 to recognition steps if is the first time to use the field
         if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){
             // Step done
-            mEvaluationSteps++;
+            mSynthesisSteps++;
         }
         
         [corpusFolderTextField setStringValue:varCorpusDir];
@@ -124,7 +123,7 @@
         
         // Step done
         [checkCorpusStepButton setState:1];
-        [self checkEvaluationSteps];
+        [self checkSynthesisSteps];
         
     }
 }
@@ -179,16 +178,15 @@
     if( isFileSelected ){
         
         if( [[grammarFileTextField stringValue] length] == 0 )
-            mEvaluationSteps++;
-            
+            mSynthesisSteps++;
+        
         [grammarFileTextField setStringValue:varFileString];
         [checkGrammarStepButton setState:1];
         
     }
-    [self checkEvaluationSteps];
+    [self checkSynthesisSteps];
     
 }
-
 
 
 /**
@@ -208,5 +206,6 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 {
     return (NSString *) [mFilesListArray objectAtIndex:row];
 }
+
 
 @end

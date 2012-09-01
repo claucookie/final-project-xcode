@@ -81,8 +81,6 @@
         return YES;
 }
 
-
-
 - (IBAction)switchView:(id)sender {
     
     int tag = (int) [sender tag];

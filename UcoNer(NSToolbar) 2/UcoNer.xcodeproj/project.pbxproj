@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E45D74415F11D100059DB0A /* EvaluationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E45D74315F11D100059DB0A /* EvaluationViewController.m */; };
+		0E5A82B815F2141E00CB5621 /* SynthesisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */; };
 		0E8A682B15DFEDB400412A75 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E8A682A15DFEDB400412A75 /* MainWindow.xib */; };
 		0E8A683315DFF61400412A75 /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A683215DFF61400412A75 /* MainWindowController.m */; };
 		0EC1A97615DFEA6B000E0900 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC1A97515DFEA6B000E0900 /* Cocoa.framework */; };
@@ -37,6 +38,8 @@
 /* Begin PBXFileReference section */
 		0E45D74215F11D100059DB0A /* EvaluationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvaluationViewController.h; sourceTree = "<group>"; };
 		0E45D74315F11D100059DB0A /* EvaluationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvaluationViewController.m; sourceTree = "<group>"; };
+		0E5A82B615F2141E00CB5621 /* SynthesisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesisViewController.h; sourceTree = "<group>"; };
+		0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SynthesisViewController.m; sourceTree = "<group>"; };
 		0E8A682A15DFEDB400412A75 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		0E8A683115DFF61400412A75 /* MainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
 		0E8A683215DFF61400412A75 /* MainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 				0EE8F15F15EFDA990098057A /* RecognitionViewController.m */,
 				0E45D74215F11D100059DB0A /* EvaluationViewController.h */,
 				0E45D74315F11D100059DB0A /* EvaluationViewController.m */,
+				0E5A82B615F2141E00CB5621 /* SynthesisViewController.h */,
+				0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */,
 			);
 			path = UcoNer;
 			sourceTree = "<group>";
@@ -291,6 +296,7 @@
 				0EFF4CC015EE897200688790 /* FinderViewController.m in Sources */,
 				0EE8F16015EFDA9A0098057A /* RecognitionViewController.m in Sources */,
 				0E45D74415F11D100059DB0A /* EvaluationViewController.m in Sources */,
+				0E5A82B815F2141E00CB5621 /* SynthesisViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

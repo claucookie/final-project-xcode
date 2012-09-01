@@ -51,7 +51,8 @@
  
  **/
 
-- (IBAction)startRecognitionTask:(id)sender {
+- (IBAction)startRecognitionTask:(id)sender
+{
     
     // TODO: Check if corpus txt folder and file folder are checked.
     // Show a popup to let the user choose between corpus and folder
@@ -60,7 +61,8 @@
     // Call system program with
 }
 
-- (IBAction)openSelectFolderPanel:(id)sender {
+- (IBAction)openSelectFolderPanel:(id)sender
+{
     
     // Creating the open panel
     NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
@@ -136,7 +138,8 @@
     }
 }
 
-- (IBAction)selectCorpusOrFileClick:(id)sender{
+- (IBAction)selectCorpusOrFileClick:(id)sender
+{
     
     Boolean isOK = YES;
     
@@ -164,7 +167,8 @@
 }
 
 
-- (IBAction)openSelectFilePanel:(id)sender {
+- (IBAction)openSelectFilePanel:(id)sender
+{
     
     // Creating the open panel
     NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
@@ -241,7 +245,8 @@
 }
 
 
-- (IBAction)recogFileSelected:(id)sender {
+- (IBAction)recogFileSelected:(id)sender
+{
     
     // Showing name file into file textfield.
     NSInteger row = [sender selectedRow];

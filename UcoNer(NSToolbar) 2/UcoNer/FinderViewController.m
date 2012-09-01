@@ -54,7 +54,20 @@
  Actions
  
  **/
-- (IBAction)openSelectFolderPanel:(id)sender {
+
+
+- (IBAction)startFinderTask:(id)sender
+{
+    
+    // TODO: Check if corpus txt folder and file folder are checked.
+    // Show a popup to let the user choose between corpus and folder
+    // recognition.
+    
+    // Call system program with
+}
+
+- (IBAction)openSelectFolderPanel:(id)sender
+{
     
     // Creating the open panel
     NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
@@ -127,7 +140,8 @@
     }
 }
 
-- (IBAction)fileSelected:(id)sender {
+- (IBAction)fileSelected:(id)sender
+{
     
     // Showing name file into file textfield.
     NSInteger row = [sender selectedRow];
@@ -152,7 +166,8 @@
     [self checkFinderSteps];
 }
 
-- (IBAction)regularExpressionWritten:(id)sender{
+- (IBAction)regularExpressionWritten:(id)sender
+{
     
     if ([[regularExpressionTextField stringValue] isNotEqualTo:@""]) {
         
@@ -174,7 +189,8 @@
     
 }
 
-- (IBAction)selectCorpusOrFileClick:(id)sender{
+- (IBAction)selectCorpusOrFileClick:(id)sender
+{
     
     Boolean isOK = YES;
     
@@ -212,14 +228,6 @@
 }
 
 
-- (IBAction)startFinderTask:(id)sender {
-    
-    // TODO: Check if corpus txt folder and file folder are checked.
-    // Show a popup to let the user choose between corpus and folder
-    // recognition.
-    
-    // Call system program with
-}
 
 
 /**
