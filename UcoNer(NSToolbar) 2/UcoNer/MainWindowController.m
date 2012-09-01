@@ -14,6 +14,8 @@
 
 @implementation MainWindowController
 
+@synthesize popover;
+
 - (id)init
 {
     self = [super initWithWindowNibName:@"MainWindow"];
@@ -24,15 +26,17 @@
     return self;
 }
 
--(void)awakeFromNib{
-    
+-(void)awakeFromNib
+{
        
     [[self window] setContentSize:[recognition frame].size];
     [[[self window] contentView] addSubview:recognition];
     [[[self window] contentView] setWantsLayer:YES];
+
 }
 
-- (NSRect)newFrameForNewContentView:(NSView *)view {
+- (NSRect)newFrameForNewContentView:(NSView *)view
+{
     
     NSWindow *window = [self window];
     NSRect newFrameRect = [window frameRectForContentRect:[view frame]];
@@ -81,6 +85,20 @@
         return YES;
 }
 
+
+/**
+ 
+ Actions
+ 
+ **/
+
+- (IBAction)showPopupInfo:(id)sender
+{
+    [[self popover] showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
+}
+
+
+
 - (IBAction)switchView:(id)sender {
     
     int tag = (int) [sender tag];
@@ -102,12 +120,6 @@
     [NSAnimationContext endGrouping];
     
 }
-
-
-
-
-
-    
     
 
 @end

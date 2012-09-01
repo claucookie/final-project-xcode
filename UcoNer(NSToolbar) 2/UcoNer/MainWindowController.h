@@ -8,20 +8,24 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MainWindowController : NSWindowController {
+
+@interface MainWindowController : NSWindowController{
     
 @private
     IBOutlet NSView *recognition;
     IBOutlet NSView *evaluation;
     IBOutlet NSView *finder;
     IBOutlet NSView *synthesis;
-    
-    
     int currentViewTag;
     
 }
 
+@property (assign) IBOutlet NSPopover *popover;
+
+- (IBAction)showPopupInfo:(id)sender;
+
 - (IBAction)switchView:(id)sender;
+
 
 
 @end

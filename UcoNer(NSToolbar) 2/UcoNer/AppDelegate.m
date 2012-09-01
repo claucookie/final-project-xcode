@@ -11,8 +11,6 @@
 
 @implementation AppDelegate
 
-@synthesize window;
-
 - (void) awakeFromNib
 {
     if (!mainWindowController) {
