@@ -23,6 +23,7 @@
     IBOutlet NSButton *selectGrammarFileButton;
     IBOutlet NSTextView *evaluationResultTextView;
     
+    
     NSURL *mCorpusURL;
     NSInteger mEvaluationSteps;
     NSMutableArray *mFilesListArray;

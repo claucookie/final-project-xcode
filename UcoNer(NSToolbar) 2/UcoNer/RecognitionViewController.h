@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class PMProgressTextView;
+
 @interface RecognitionViewController : NSView{
     
     @private
@@ -27,6 +29,8 @@
     IBOutlet NSTextField *startRecognitionLabel;
     IBOutlet NSButton *corpusToggleButton;
     IBOutlet NSButton *fileToggleButton;
+    
+    IBOutlet PMProgressTextView *textView;
     
     NSMutableArray *mFilesListArray;
     NSURL *mCorpusFolderURL;

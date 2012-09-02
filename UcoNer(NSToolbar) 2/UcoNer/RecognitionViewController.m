@@ -7,6 +7,7 @@
 //
 
 #import "RecognitionViewController.h"
+#include <unistd.h>
 
 @implementation RecognitionViewController
 
@@ -54,11 +55,33 @@
 - (IBAction)startRecognitionTask:(id)sender
 {
     
-    // TODO: Check if corpus txt folder and file folder are checked.
-    // Show a popup to let the user choose between corpus and folder
-    // recognition.
     
     // Call system program with
+    NSTask *task;
+    task = [[NSTask alloc] init];
+    //[task setLaunchPath: @"/Users/claucookie/Documents/Desarrollo/MacOS/uconerTasks/recognitionTask.app/Contents/MacOS/recognitionTask"];
+    [task setLaunchPath:@"/Applications/uconerApp/uconerTasks/recognitionTask.app/Contents/MacOS/recognitionTask"];
+    
+    //NSArray *arguments;
+    //arguments = [NSArray arrayWithObjects: @"foo", @"bar.txt", nil];
+    //[task setArguments: arguments];
+    
+    NSPipe *pipe;
+    pipe = [NSPipe pipe];
+    [task setStandardOutput: pipe];
+    
+    NSFileHandle *file;
+    file = [pipe fileHandleForReading];
+    
+    [task launch];
+    
+    NSData *data;
+    data = [file readDataToEndOfFile];
+    
+    NSString *string;
+    string = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+    NSLog (@"task returned:\n%@", string);
+    
 }
 
 - (IBAction)openSelectFolderPanel:(id)sender
