@@ -74,7 +74,7 @@
     NSString *outputFileArgument = mOutputFilePathString;
     
     NSArray *arguments;
-    arguments = [NSArray arrayWithObjects: @"--iobCorpus", @"/Users/claucookie/Documents/Estudios/Uco/05quinto/PFC/desarrollo/Workspace/Etiquetado_Reconocimiento_Entidades/ckModelAp/corpus/arrendamientos_eval/iobRevisado/", @"--grammarFile", @"/Users/claucookie/Documents/Estudios/Uco/05quinto/PFC/desarrollo/Workspace/Etiquetado_Reconocimiento_Entidades/ckModelAp/rules/entRules1.0.gr", @"--outFile", @"/Users/claucookie/Documents/Estudios/Uco/05quinto/PFC/desarrollo/Workspace/Etiquetado_Reconocimiento_Entidades/ckModelAp/outFile.txt", nil];
+    arguments = [NSArray arrayWithObjects: @"--iobCorpus", inCorpusArgument, @"--grammarFile", entFileArgument, @"--outFile", outputFileArgument, nil];
     [task setArguments: arguments];
     
     NSPipe *pipe;
