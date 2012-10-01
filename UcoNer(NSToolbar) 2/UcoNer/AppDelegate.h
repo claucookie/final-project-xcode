@@ -12,6 +12,7 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     
     MainWindowController *mainWindowController;
+    
 }
 
 

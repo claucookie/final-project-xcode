@@ -38,7 +38,7 @@
 
 - (void)checkRecogSteps {
     
-    if( mRecogSteps >= 3){
+    if( mRecogSteps >= 4){
         [startRecognitionButton setEnabled:YES];
         [startRecognitionLabel setHidden:NO];
     }
@@ -54,6 +54,13 @@
 
 - (IBAction)startRecognitionTask:(id)sender
 {
+
+    [startRecognitionButton setHidden:YES];
+    
+    // Setting and showing progress indicator
+    [progressIndicator setUsesThreadedAnimation:YES];
+    [progressIndicator setHidden:NO];
+    [progressIndicator display];
     
     
     // Call system program with
@@ -62,25 +69,46 @@
     //[task setLaunchPath: @"/Users/claucookie/Documents/Desarrollo/MacOS/uconerTasks/recognitionTask.app/Contents/MacOS/recognitionTask"];
     [task setLaunchPath:@"/Applications/uconerApp/uconerTasks/recognitionTask.app/Contents/MacOS/recognitionTask"];
     
-    //NSArray *arguments;
-    //arguments = [NSArray arrayWithObjects: @"foo", @"bar.txt", nil];
-    //[task setArguments: arguments];
+    
+    NSString *tagFileArgument = mTaggerPathString ;
+    NSString *entFileArgument = mGrammarPathString;
+    NSString *inCorpusArgument = mCorpusPathString;
+    NSString *outputEntitiesFileArgument = mOutputFilePathString;
+    
+    NSArray *arguments;
+    arguments = [NSArray arrayWithObjects: @"iob", @"--inCorpus", inCorpusArgument, @"--entFile", entFileArgument, @"--tagFile", tagFileArgument , @"--entListFile", outputEntitiesFileArgument, nil];
+    [task setArguments: arguments];
     
     NSPipe *pipe;
     pipe = [NSPipe pipe];
     [task setStandardOutput: pipe];
     
+    NSString *result;
     NSFileHandle *file;
     file = [pipe fileHandleForReading];
     
-    [task launch];
     
-    NSData *data;
-    data = [file readDataToEndOfFile];
-    
-    NSString *string;
-    string = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    NSLog (@"task returned:\n%@", string);
+    @try {
+        [task launch];
+        
+        NSData *data;
+        data = [file readDataToEndOfFile];
+
+        result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+        NSLog (@"task returned:\n%@", result);
+       [recogFileContentTextField setString:result];
+	}
+	@catch (id theException) {
+		NSLog(@"%@", theException);
+       [recogFileContentTextField setString:theException];
+	}
+	@finally {
+		NSLog(@"This always happens.");
+        
+        [progressIndicator setHidden:YES];
+        [logLabel setStringValue:@"  Recognition task Result: "];
+        [startRecognitionButton setHidden:NO];
+	}
     
 }
 
@@ -118,7 +146,9 @@
             mRecogSteps++;
         }
         
-        [recogInCorpusDirTextField setStringValue:varCorpusDir];
+        mCorpusPathString = varCorpusDir;
+        
+        [recogInCorpusDirTextField setStringValue: [@"..." stringByAppendingString: [varCorpusDir substringFromIndex: varCorpusDir.length -60]]];
         
         isCorpusFolderSelected = YES;
         
@@ -198,10 +228,12 @@
     [tvarOp setCanChooseDirectories:NO];
     [tvarOp setCanChooseFiles:YES];
     
-    if( [sender tag] == 2 )
-        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"etq"]];
-    else if( [sender tag] == 1 )
+    if( [sender tag] == 1 )
         [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
+    else if( [sender tag] == 2 )
+        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"etq"]];
+    else if( [sender tag] == 3 )
+        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
     
     // Showing the panel
     
@@ -246,20 +278,34 @@
         switch ([sender tag]) {
             case 1:
                 if( [[recogGrammarFileTextField stringValue] length] == 0)                    mRecogSteps++;
-                [recogGrammarFileTextField setStringValue:varFileString];
+                
+                mGrammarPathString = varFileString;
+                
+                [recogGrammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
                 [recogCheckGrammar setState:1];
                 break;
                 
             case 2:
                 if( [[recogTaggerFileTextField stringValue] length] == 0)                    mRecogSteps++;
-                [recogTaggerFileTextField setStringValue:varFileString];
+                
+                mTaggerPathString = varFileString;
+                
+                [recogTaggerFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
                 [recogCheckTagger setState:1];
+                break;
+            
+            case 3:
+                if( [[entitiesListFileTextField stringValue] length] == 0)                    mRecogSteps++;
+                
+                mOutputFilePathString = varFileString;
+                
+                [entitiesListFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+                [recogCheckOutputFile setState:1];
                 break;
                 
             default:
                 break;
         }
-        
         
     }
     
@@ -268,7 +314,7 @@
 }
 
 
-- (IBAction)recogFileSelected:(id)sender
+- (IBAction)fileSelected:(id)sender
 {
     
     // Showing name file into file textfield.
@@ -288,7 +334,9 @@
                              initWithData:data encoding: NSISOLatin1StringEncoding];
     
     NSLog(@"%@", fileContent);
+    // Showing content
     [recogFileContentTextField setString:fileContent];
+    [logLabel setStringValue:@"  File Content:"];
     [recogCheckFile setState:1];
     
     // We switch on the file toggle button

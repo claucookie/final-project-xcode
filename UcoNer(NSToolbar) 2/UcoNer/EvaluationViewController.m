@@ -16,6 +16,7 @@
     if (self) {
         
         
+        
 
     }
     
@@ -39,7 +40,7 @@
 - (void)checkEvaluationSteps
 {
     
-    if(mEvaluationSteps == 2){
+    if(mEvaluationSteps == 3){
         [startEvaluationButton setEnabled:YES];
         [startEvaluationLabel setHidden:NO];
     }
@@ -54,7 +55,52 @@
 
 - (IBAction)startEvaluationTask:(id)sender
 {
-    // TODO:
+    [startEvaluationButton setHidden:YES];
+    
+    // Setting and showing progress indicator
+    [progressIndicator setUsesThreadedAnimation:YES];
+    [progressIndicator setHidden:NO];
+    [progressIndicator display];
+    
+    
+    // Call system program with
+    NSTask *task;
+    task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/Applications/uconerApp/uconerTasks/evaluationTask.app/Contents/MacOS/evaluationTask"];
+    
+    
+    NSString *entFileArgument = mGrammarPathString;
+    NSString *inCorpusArgument = mCorpusPathString;
+    NSString *outputFileArgument = mOutputFilePathString;
+    
+    NSArray *arguments;
+    arguments = [NSArray arrayWithObjects: @"--iobCorpus", @"/Users/claucookie/Documents/Estudios/Uco/05quinto/PFC/desarrollo/Workspace/Etiquetado_Reconocimiento_Entidades/ckModelAp/corpus/arrendamientos_eval/iobRevisado/", @"--grammarFile", @"/Users/claucookie/Documents/Estudios/Uco/05quinto/PFC/desarrollo/Workspace/Etiquetado_Reconocimiento_Entidades/ckModelAp/rules/entRules1.0.gr", @"--outFile", @"/Users/claucookie/Documents/Estudios/Uco/05quinto/PFC/desarrollo/Workspace/Etiquetado_Reconocimiento_Entidades/ckModelAp/outFile.txt", nil];
+    [task setArguments: arguments];
+    
+    NSPipe *pipe;
+    pipe = [NSPipe pipe];
+    [task setStandardOutput: pipe];
+    
+    NSFileHandle *file;
+    file = [pipe fileHandleForReading];
+    
+    // TODO: TRY CATCH  
+    
+    [task launch];
+    
+    NSData *data;
+    data = [file readDataToEndOfFile];
+    
+    NSString *result;
+    result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+    NSLog (@"task returned:\n%@", result);
+    
+    [progressIndicator setHidden:YES];
+    // TODO: READ CONTENT FROM OUTPUT FILE, BECAUSE RESULT DATA IS GETTING NULL WITH NO SENSE.
+    [evaluationResultTextView setString: @"result"];
+    NSLog(@"%@", result);
+    [logLabel setStringValue:@"  Evaluation task Result: "];
+    [startEvaluationButton setHidden:NO];
 }
 
 
@@ -80,10 +126,11 @@
         
         // Gettin url folder
         resultDirectory = [tvarOp directoryURL];
-        mCorpusURL = resultDirectory;
         
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
+        
+        mCorpusPathString = varCorpusDir;
         
         NSLog(@"%@", varCorpusDir);
         
@@ -131,61 +178,116 @@
 
 - (IBAction)openSelectFilePanel:(id)sender
 {
-    
     // Creating the open panel
     NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
     [tvarOp setCanChooseDirectories:NO];
     [tvarOp setCanChooseFiles:YES];
-    [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
     
-    // Showing the panel
-    
-    NSInteger resultNSInteger = [tvarOp runModal];
-    
-    
-    NSURL *resultFile = nil;
-    Boolean isFileSelected = NO;
-    NSString *varFileString = nil;
-    
-    // Click on OK button
-    if(resultNSInteger == NSOKButton){
+    // Grammar file
+    if( [sender tag] == 1 ){
         
-        NSLog(@"doOpen we have an OK button");
+        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
+
+        // Showing the panel
+        NSInteger resultNSInteger = [tvarOp runModal];
         
+        NSURL *resultFile = nil;
+        Boolean isFileSelected = NO;
+        NSString *varFileString = nil;
         
-        // Gettin url file
-        resultFile = [tvarOp URL];
-        
-        // URL to string, cutting "file:/localhos..."
-        varFileString= [[resultFile absoluteString] substringFromIndex:16];
-        
-        NSLog(@"%@", varFileString);
-        
-        isFileSelected = YES;
-        
-    }
-    // Click on Cancel button
-    else if(resultNSInteger == NSCancelButton){
-        
-        NSLog(@"doOpen we have a Cancel button");
-        return;
-    }
-    else {
-        
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
-        return;
-    }
-    
-    if( isFileSelected ){
-        
-        if( [[grammarFileTextField stringValue] length] == 0 )
-            mEvaluationSteps++;
+        // Click on OK button
+        if(resultNSInteger == NSOKButton){
             
-        [grammarFileTextField setStringValue:varFileString];
-        [checkGrammarStepButton setState:1];
+            NSLog(@"doOpen we have an OK button");
+            
+            // Gettin url file
+            resultFile = [tvarOp URL];
+            
+            // URL to string, cutting "file:/localhos..."
+            varFileString= [[resultFile absoluteString] substringFromIndex:16];
+            
+            mGrammarPathString = varFileString;
+            NSLog(@"%@", varFileString);
+            
+            isFileSelected = YES;
+            
+        }
+        // Click on Cancel button
+        else if(resultNSInteger == NSCancelButton){
+            
+            NSLog(@"doOpen we have a Cancel button");
+            return;
+        }
+        else {
+            
+            NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+            return;
+        }
+        
+        if( isFileSelected ){
+            
+            if( [[grammarFileTextField stringValue] length] == 0 )
+                mEvaluationSteps++;
+            
+            [grammarFileTextField setStringValue:varFileString];
+            [checkGrammarStepButton setState:1];
+            
+        }
+        [self checkEvaluationSteps];
+        
+    // Output file
+    }else if( [sender tag] == 2 ){
+        
+        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        
+        // Showing the panel
+        NSInteger resultNSInteger = [tvarOp runModal];
+        
+        NSURL *resultFile = nil;
+        Boolean isFileSelected = NO;
+        NSString *varFileString = nil;
+        
+        // Click on OK button
+        if(resultNSInteger == NSOKButton){
+            
+            NSLog(@"doOpen we have an OK button");
+            
+            // Gettin url file
+            resultFile = [tvarOp URL];
+            
+            // URL to string, cutting "file:/localhos..."
+            varFileString= [[resultFile absoluteString] substringFromIndex:16];
+            
+            mOutputFilePathString = varFileString;
+            NSLog(@"%@", varFileString);
+            
+            isFileSelected = YES;
+            
+        }
+        // Click on Cancel button
+        else if(resultNSInteger == NSCancelButton){
+            
+            NSLog(@"doOpen we have a Cancel button");
+            return;
+        }
+        else {
+            
+            NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+            return;
+        }
+        
+        if( isFileSelected ){
+            
+            if( [[outputFileTextField stringValue] length] == 0 )
+                mEvaluationSteps++;
+            
+            [outputFileTextField setStringValue:varFileString];
+            [checkOutputFileStepButton setState:1];
+            
+        }
+        [self checkEvaluationSteps];
         
     }
-    [self checkEvaluationSteps];
     
 }
 

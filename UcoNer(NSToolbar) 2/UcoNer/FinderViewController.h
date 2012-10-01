@@ -13,17 +13,18 @@
     @private
     // Interface items
     IBOutlet NSTextField *corpusFolderTextField;
-    IBOutlet NSTextField *selectedFileTextField;
     IBOutlet NSTableView *filesListTableView;
-    IBOutlet NSButton *corpusToggleButton;
     IBOutlet NSTextField *regularExpressionTextField;
-    IBOutlet NSButton *fileToggleButton;
     IBOutlet NSButton *checkCorpusStepButton;
     IBOutlet NSButton *checkFileStepButton;
     IBOutlet NSButton *checkRegExpStepButton;
-    IBOutlet NSButton *checkCorpusOrFileStepButton;
     IBOutlet NSButton *startSearchButton;
     IBOutlet NSTextField *startSearchLabel;
+    IBOutlet NSTextField *outputFileTextField;
+    IBOutlet NSTextView *logPanelTextView;
+    IBOutlet NSTextField *logLabel;
+    
+    IBOutlet NSProgressIndicator *progressIndicator;
     
     // Global use variables
     NSMutableArray *mFilesListArray;
@@ -32,6 +33,10 @@
     NSInteger mFinderSteps;
     Boolean mCorpusOrFileToggleButtonWasClickedYet;
     Boolean mRegularExpresionWasWrittenYet;
+    
+    NSString *mOutputFilePathString;
+    NSString *mInCorpusPathString;
+    NSString *mRegexpString;
 
 }
 

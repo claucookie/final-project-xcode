@@ -54,7 +54,7 @@
 
 - (IBAction)startSynthesisTask:(id)sender
 {
-    // TODO:
+    // TODO: fill this method
 }
 
 - (IBAction)openSelectFolderPanel:(id)sender
