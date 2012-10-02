@@ -47,6 +47,16 @@
     NSLog(@"%ld", mEvaluationSteps);
 }
 
+- (NSString *)readFile:(NSString*) filepath
+{
+    // TODO: CHECK FILE EXISTS
+    NSString *filecontent;
+    //Get file into string
+    filecontent = [NSString stringWithContentsOfFile:filepath encoding: NSUTF8StringEncoding error:NULL];
+    
+    return filecontent; //Returns the first line captured to Run Log
+}
+
 /**
  
  Actions
@@ -92,12 +102,12 @@
     data = [file readDataToEndOfFile];
     
     NSString *result;
-    result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    NSLog (@"task returned:\n%@", result);
+    result = [self readFile:outputFileArgument];
+    //result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+    //NSLog (@"task returned:\n%@", result);
     
     [progressIndicator setHidden:YES];
-    // TODO: READ CONTENT FROM OUTPUT FILE, BECAUSE RESULT DATA IS GETTING NULL WITH NO SENSE.
-    [evaluationResultTextView setString: @"result"];
+    [evaluationResultTextView setString: result];
     NSLog(@"%@", result);
     [logLabel setStringValue:@"  Evaluation task Result: "];
     [startEvaluationButton setHidden:NO];
