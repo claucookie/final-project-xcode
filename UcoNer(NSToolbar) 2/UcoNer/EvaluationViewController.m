@@ -150,7 +150,7 @@
             mEvaluationSteps++;
         }
         
-        [corpusFolderTextField setStringValue:varCorpusDir];
+        [corpusFolderTextField setStringValue: [@"..." stringByAppendingString: [varCorpusDir substringFromIndex: varCorpusDir.length -60]]];
         isCorpusFolderSelected = YES;
         
     }
@@ -239,7 +239,8 @@
             if( [[grammarFileTextField stringValue] length] == 0 )
                 mEvaluationSteps++;
             
-            [grammarFileTextField setStringValue:varFileString];
+            [grammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+            
             [checkGrammarStepButton setState:1];
             
         }
@@ -291,7 +292,8 @@
             if( [[outputFileTextField stringValue] length] == 0 )
                 mEvaluationSteps++;
             
-            [outputFileTextField setStringValue:varFileString];
+            [outputFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+            
             [checkOutputFileStepButton setState:1];
             
         }

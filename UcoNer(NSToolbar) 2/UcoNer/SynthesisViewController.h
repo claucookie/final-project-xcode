@@ -22,10 +22,15 @@
     IBOutlet NSButton *grammarFileButton;
     IBOutlet NSTableView *filesListTableView;
     IBOutlet NSTextView *synthesisResultTextView;
+    IBOutlet NSTextField *logLabel;
+    
+    IBOutlet NSProgressIndicator *progressIndicator;
     
     NSMutableArray *mFilesListArray;
     NSInteger mSynthesisSteps;
     NSURL *mCorpusURL;
+    NSString *mCorpusPathString;
+    NSString *mTexFilePathString;
 }
 
 @end

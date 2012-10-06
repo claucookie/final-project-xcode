@@ -54,7 +54,51 @@
 
 - (IBAction)startSynthesisTask:(id)sender
 {
-    // TODO: fill this method
+    [startSynthesisButton setHidden:YES];
+    
+    // Setting and showing progress indicator
+    [progressIndicator setUsesThreadedAnimation:YES];
+    [progressIndicator setHidden:NO];
+    [progressIndicator display];
+    
+    
+    // Call system program with
+    NSTask *task;
+    task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/Applications/uconerApp/uconerTasks/synthesisTask.app/Contents/MacOS/synthesisTask"];
+    
+    
+    NSString *inCorpusArgument = mCorpusPathString;
+    NSString *texFileArgument = mTexFilePathString;
+    
+    NSArray *arguments;
+    arguments = [NSArray arrayWithObjects: @"--iobCorpus", inCorpusArgument, @"--outLatexFile", texFileArgument, nil];
+    [task setArguments: arguments];
+    
+    NSPipe *pipe;
+    pipe = [NSPipe pipe];
+    [task setStandardOutput: pipe];
+    
+    NSFileHandle *file;
+    file = [pipe fileHandleForReading];
+    
+    // TODO: TRY CATCH
+    
+    [task launch];
+    
+    NSData *data;
+    data = [file readDataToEndOfFile];
+    
+    NSString *result;
+    //result = [self readFile:texFileArgument];
+    result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+    //NSLog (@"task returned:\n%@", result);
+    
+    [progressIndicator setHidden:YES];
+    [synthesisResultTextView setString: result];
+    NSLog(@"%@", result);
+    [logLabel setStringValue:@" Synthesis task Result: "];
+    [startSynthesisButton setHidden:NO];
 }
 
 - (IBAction)openSelectFolderPanel:(id)sender
@@ -83,6 +127,7 @@
         
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
+        mCorpusPathString = varCorpusDir;
         
         NSLog(@"%@", varCorpusDir);
         
@@ -92,7 +137,7 @@
             mSynthesisSteps++;
         }
         
-        [corpusFolderTextField setStringValue:varCorpusDir];
+
         isCorpusFolderSelected = YES;
         
     }
@@ -109,6 +154,10 @@
     }
     
     if( isCorpusFolderSelected ){
+        
+        // We short the string
+        [corpusFolderTextField setStringValue: [@"..." stringByAppendingString: [varCorpusDir substringFromIndex: varCorpusDir.length -60]]];
+
         
         // LOADING files list array into Table view
         NSArray *filesArray = [[NSArray alloc] init];
@@ -135,7 +184,7 @@
     NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
     [tvarOp setCanChooseDirectories:NO];
     [tvarOp setCanChooseFiles:YES];
-    [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
+    [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
     
     // Showing the panel
     
@@ -157,6 +206,7 @@
         
         // URL to string, cutting "file:/localhos..."
         varFileString= [[resultFile absoluteString] substringFromIndex:16];
+        mTexFilePathString = varFileString;
         
         NSLog(@"%@", varFileString);
         
@@ -180,7 +230,9 @@
         if( [[grammarFileTextField stringValue] length] == 0 )
             mSynthesisSteps++;
         
-        [grammarFileTextField setStringValue:varFileString];
+        // We short the string
+        [grammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+        
         [checkGrammarStepButton setState:1];
         
     }
