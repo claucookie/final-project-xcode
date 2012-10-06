@@ -34,6 +34,7 @@
     Boolean mCorpusOrFileToggleButtonWasClickedYet;
     Boolean mRegularExpresionWasWrittenYet;
     
+    
     NSString *mOutputFilePathString;
     NSString *mInCorpusPathString;
     NSString *mRegexpString;
