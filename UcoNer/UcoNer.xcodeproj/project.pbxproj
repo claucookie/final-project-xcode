@@ -11,6 +11,7 @@
 		0E5A82B815F2141E00CB5621 /* SynthesisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */; };
 		0E8A682B15DFEDB400412A75 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E8A682A15DFEDB400412A75 /* MainWindow.xib */; };
 		0E8A683315DFF61400412A75 /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A683215DFF61400412A75 /* MainWindowController.m */; };
+		0EBA40A116222D1200181F10 /* ucologo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0EBA40A016222D1200181F10 /* ucologo.jpg */; };
 		0EC1A97615DFEA6B000E0900 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC1A97515DFEA6B000E0900 /* Cocoa.framework */; };
 		0EC1A98015DFEA6B000E0900 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EC1A97E15DFEA6B000E0900 /* InfoPlist.strings */; };
 		0EC1A98215DFEA6B000E0900 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC1A98115DFEA6B000E0900 /* main.m */; };
@@ -43,6 +44,7 @@
 		0E8A682A15DFEDB400412A75 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		0E8A683115DFF61400412A75 /* MainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
 		0E8A683215DFF61400412A75 /* MainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
+		0EBA40A016222D1200181F10 /* ucologo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ucologo.jpg; sourceTree = "<group>"; };
 		0EC1A97115DFEA6B000E0900 /* UcoNer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UcoNer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EC1A97515DFEA6B000E0900 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0EC1A97815DFEA6B000E0900 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -104,6 +106,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		0EBA409F16222D0300181F10 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				0EBA40A016222D1200181F10 /* ucologo.jpg */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		0EC1A96615DFEA6B000E0900 = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +156,7 @@
 		0EC1A97B15DFEA6B000E0900 /* UcoNer */ = {
 			isa = PBXGroup;
 			children = (
+				0EBA409F16222D0300181F10 /* Images */,
 				0EBA409C1622233C00181F10 /* Controllers */,
 				0EC1A98715DFEA6B000E0900 /* AppDelegate.h */,
 				0EC1A98815DFEA6B000E0900 /* AppDelegate.m */,
@@ -264,6 +275,7 @@
 				0EC1A98615DFEA6B000E0900 /* Credits.rtf in Resources */,
 				0EC1A98C15DFEA6B000E0900 /* MainMenu.xib in Resources */,
 				0E8A682B15DFEDB400412A75 /* MainWindow.xib in Resources */,
+				0EBA40A116222D1200181F10 /* ucologo.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
