@@ -36,6 +36,7 @@
     
     IBOutlet NSProgressIndicator *progressIndicator;
     
+    
     NSMutableArray *mFilesListArray;
     NSURL *mCorpusFolderURL;
     NSURL *mFileURL;
