@@ -89,17 +89,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0E19F05E1620A4C100E78306 /* Controllers */ = {
+		0EBA409C1622233C00181F10 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				0EFF4CBE15EE897200688790 /* FinderViewController.h */,
-				0EFF4CBF15EE897200688790 /* FinderViewController.m */,
 				0EE8F15E15EFDA990098057A /* RecognitionViewController.h */,
 				0EE8F15F15EFDA990098057A /* RecognitionViewController.m */,
 				0E45D74215F11D100059DB0A /* EvaluationViewController.h */,
 				0E45D74315F11D100059DB0A /* EvaluationViewController.m */,
 				0E5A82B615F2141E00CB5621 /* SynthesisViewController.h */,
 				0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */,
+				0EFF4CBF15EE897200688790 /* FinderViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -146,7 +146,7 @@
 		0EC1A97B15DFEA6B000E0900 /* UcoNer */ = {
 			isa = PBXGroup;
 			children = (
-				0E19F05E1620A4C100E78306 /* Controllers */,
+				0EBA409C1622233C00181F10 /* Controllers */,
 				0EC1A98715DFEA6B000E0900 /* AppDelegate.h */,
 				0EC1A98815DFEA6B000E0900 /* AppDelegate.m */,
 				0EC1A98A15DFEA6B000E0900 /* MainMenu.xib */,
