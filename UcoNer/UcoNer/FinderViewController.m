@@ -149,9 +149,10 @@
             resultFile = [tvarOp URL];
             
             // URL to string, cutting "file:/localhos..."
-            varFileString= [[resultFile absoluteString] substringFromIndex:16];
+            varFileString = [[resultFile absoluteString] substringFromIndex:16];
+            varFileString = [varFileString stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
             
-            mOutputFilePathString = varFileString;
+            mOutputFilePathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
             NSLog(@"%@", varFileString);
             
             isFileSelected = YES;
@@ -213,7 +214,10 @@
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
         
-        NSLog(@"%@", varCorpusDir);
+        // Replacing white spaces
+        varCorpusDir = [varCorpusDir stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
+        mInCorpusPathString = [varCorpusDir stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+        NSLog(@"%@", mInCorpusPathString);
         
         // We add +1 to recognition steps if is the first time to use the field
         if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){

@@ -140,9 +140,10 @@
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
         
-        mCorpusPathString = varCorpusDir;
-        
-        NSLog(@"%@", varCorpusDir);
+        // Replacing white spaces
+        varCorpusDir = [varCorpusDir stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
+        mCorpusPathString = [varCorpusDir stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+        NSLog(@"%@", mCorpusPathString);
         
         // We add +1 to recognition steps if is the first time to use the field
         if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){
@@ -189,117 +190,93 @@
 - (IBAction)openSelectFilePanel:(id)sender
 {
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:NO];
-    [tvarOp setCanChooseFiles:YES];
+    NSOpenPanel *tvarOp2 = [NSOpenPanel openPanel];
+    [tvarOp2 setCanChooseDirectories:NO];
+    [tvarOp2 setCanChooseFiles:YES];
     
-    // Grammar file
-    if( [sender tag] == 1 ){
+    if( [sender tag] == 1 )
+        [tvarOp2 setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
+    else if( [sender tag] == 2 )
+        [tvarOp2 setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+    
+    // Showing the panel
+    NSInteger resultNSInteger = [tvarOp2 runModal];
+    
+    NSURL *resultFile = nil;
+    Boolean isFileSelected = NO;
+    NSString *varFileString = nil;
+    
+    // Click on OK button
+    if(resultNSInteger == NSOKButton){
         
-        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
+        NSLog(@"doOpen we have an OK button");
+        
+        
+        // Gettin url file
+        resultFile = [tvarOp2 URL];
+        
+        // URL to string, cutting "file:/localhos..."
+        varFileString = [[resultFile absoluteString] substringFromIndex:16];
+        
+        // Replacing white spaces
+        varFileString = [varFileString stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
 
-        // Showing the panel
-        NSInteger resultNSInteger = [tvarOp runModal];
         
-        NSURL *resultFile = nil;
-        Boolean isFileSelected = NO;
-        NSString *varFileString = nil;
+        NSLog(@"%@", varFileString);
         
-        // Click on OK button
-        if(resultNSInteger == NSOKButton){
-            
-            NSLog(@"doOpen we have an OK button");
-            
-            // Gettin url file
-            resultFile = [tvarOp URL];
-            
-            // URL to string, cutting "file:/localhos..."
-            varFileString= [[resultFile absoluteString] substringFromIndex:16];
-            
-            mGrammarPathString = varFileString;
-            NSLog(@"%@", varFileString);
-            
-            isFileSelected = YES;
-            
-        }
-        // Click on Cancel button
-        else if(resultNSInteger == NSCancelButton){
-            
-            NSLog(@"doOpen we have a Cancel button");
-            return;
-        }
-        else {
-            
-            NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
-            return;
-        }
-        
-        if( isFileSelected ){
-            
-            if( [[grammarFileTextField stringValue] length] == 0 )
-                mEvaluationSteps++;
-            
-            [grammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
-            
-            [checkGrammarStepButton setState:1];
-            
-        }
-        [self checkEvaluationSteps];
-        
-    // Output file
-    }else if( [sender tag] == 2 ){
-        
-        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
-        
-        // Showing the panel
-        NSInteger resultNSInteger = [tvarOp runModal];
-        
-        NSURL *resultFile = nil;
-        Boolean isFileSelected = NO;
-        NSString *varFileString = nil;
-        
-        // Click on OK button
-        if(resultNSInteger == NSOKButton){
-            
-            NSLog(@"doOpen we have an OK button");
-            
-            // Gettin url file
-            resultFile = [tvarOp URL];
-            
-            // URL to string, cutting "file:/localhos..."
-            varFileString= [[resultFile absoluteString] substringFromIndex:16];
-            
-            mOutputFilePathString = varFileString;
-            NSLog(@"%@", varFileString);
-            
-            isFileSelected = YES;
-            
-        }
-        // Click on Cancel button
-        else if(resultNSInteger == NSCancelButton){
-            
-            NSLog(@"doOpen we have a Cancel button");
-            return;
-        }
-        else {
-            
-            NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
-            return;
-        }
-        
-        if( isFileSelected ){
-            
-            if( [[outputFileTextField stringValue] length] == 0 )
-                mEvaluationSteps++;
-            
-            [outputFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
-            
-            [checkOutputFileStepButton setState:1];
-            
-        }
-        [self checkEvaluationSteps];
+        isFileSelected = YES;
         
     }
+    // Click on Cancel button
+    else if(resultNSInteger == NSCancelButton){
+        
+        NSLog(@"doOpen we have a Cancel button");
+        return;
+    }
+    else {
+        
+        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        return;
+    }
+    
+    
+    if( isFileSelected ){
+        
+        switch ([sender tag]) {
+            case 1:
+                // Check if it's the first time the field is used
+                if( [[grammarFileTextField stringValue] length] == 0 )
+                    mEvaluationSteps++;
+                
+                mGrammarPathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+                
+                [grammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+                
+                [checkGrammarStepButton setState:1];
+                break;
+                
+            case 2:
+                if( isFileSelected ){
+                    // Check if it's the first time the field is used
+                    if( [[outputFileTextField stringValue] length] == 0 )
+                        mEvaluationSteps++;
+                    
+                    mOutputFilePathString =  [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+                    
+                    [outputFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+                    
+                    [checkOutputFileStepButton setState:1];
+                    
+                }
+                break;
+                
+            default:
+                break;
+        }
+        
+    }
+    
+    [self checkEvaluationSteps];
     
 }
 

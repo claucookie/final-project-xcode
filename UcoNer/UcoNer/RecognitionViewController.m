@@ -138,8 +138,11 @@
         
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
-        
-        NSLog(@"%@", varCorpusDir);
+
+        // Replacing white spaces
+        varCorpusDir = [varCorpusDir stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
+        mCorpusPathString = [varCorpusDir stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+        NSLog(@"%@", mCorpusPathString);
         
         // We add +1 to recognition steps if is the first time to use the field
         if( [[recogInCorpusDirTextField stringValue] length] == 0){
@@ -236,7 +239,6 @@
         [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
     
     // Showing the panel
-    
     NSInteger resultNSInteger = [tvarOp runModal];
     
     
@@ -256,6 +258,8 @@
         // URL to string, cutting "file:/localhos..."
         varFileString= [[resultFile absoluteString] substringFromIndex:16];
         
+        // Replacing white spaces
+        varFileString = [varFileString stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
         NSLog(@"%@", varFileString);
         
         isFileSelected = YES;
@@ -279,7 +283,7 @@
             case 1:
                 if( [[recogGrammarFileTextField stringValue] length] == 0)                    mRecogSteps++;
                 
-                mGrammarPathString = varFileString;
+                mGrammarPathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
                 
                 [recogGrammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
                 [recogCheckGrammar setState:1];
@@ -288,7 +292,7 @@
             case 2:
                 if( [[recogTaggerFileTextField stringValue] length] == 0)                    mRecogSteps++;
                 
-                mTaggerPathString = varFileString;
+                mTaggerPathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
                 
                 [recogTaggerFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
                 [recogCheckTagger setState:1];
@@ -297,7 +301,7 @@
             case 3:
                 if( [[entitiesListFileTextField stringValue] length] == 0)                    mRecogSteps++;
                 
-                mOutputFilePathString = varFileString;
+                mOutputFilePathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
                 
                 [entitiesListFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
                 [recogCheckOutputFile setState:1];

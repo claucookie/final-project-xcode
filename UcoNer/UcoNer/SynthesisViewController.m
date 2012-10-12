@@ -127,9 +127,11 @@
         
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
-        mCorpusPathString = varCorpusDir;
-        
-        NSLog(@"%@", varCorpusDir);
+
+        // Replacing white spaces
+        varCorpusDir = [varCorpusDir stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
+        mCorpusPathString = [varCorpusDir stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+        NSLog(@"%@", mCorpusPathString);
         
         // We add +1 to recognition steps if is the first time to use the field
         if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){
@@ -206,9 +208,12 @@
         
         // URL to string, cutting "file:/localhos..."
         varFileString= [[resultFile absoluteString] substringFromIndex:16];
-        mTexFilePathString = varFileString;
         
-        NSLog(@"%@", varFileString);
+        // Replacing white spaces
+        varFileString = [varFileString stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
+        mTexFilePathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+        
+        NSLog(@"%@", mTexFilePathString);
         
         isFileSelected = YES;
         

@@ -583,7 +583,7 @@
 										<string key="NSFrameSize">{490, 107}</string>
 										<reference key="NSSuperview" ref="761291551"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="942713288"/>
+										<reference key="NSNextKeyView" ref="421787476"/>
 										<string key="NSReuseIdentifierKey">_NS:13</string>
 										<object class="NSTextContainer" key="NSTextContainer" id="3436231">
 											<object class="NSLayoutManager" key="NSLayoutManager">
@@ -811,6 +811,7 @@ wGw</bytes>
 								<string key="NSFrame">{{474, 0}, {16, 107}}</string>
 								<reference key="NSSuperview" ref="65589128"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:83</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="65589128"/>
@@ -838,7 +839,7 @@ wGw</bytes>
 						<string key="NSFrame">{{216, 20}, {490, 107}}</string>
 						<reference key="NSSuperview" ref="177901733"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="761291551"/>
+						<reference key="NSNextKeyView" ref="942713288"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<int key="NSsFlags">133136</int>
 						<reference key="NSVScroller" ref="421787476"/>
@@ -1909,7 +1910,7 @@ wGw</bytes>
 										<string key="NSFrameSize">{475, 175}</string>
 										<reference key="NSSuperview" ref="181974912"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="855136059"/>
+										<reference key="NSNextKeyView" ref="824296204"/>
 										<string key="NSReuseIdentifierKey">_NS:13</string>
 										<object class="NSTextContainer" key="NSTextContainer" id="715637397">
 											<object class="NSLayoutManager" key="NSLayoutManager">
@@ -2118,6 +2119,7 @@ wGw</bytes>
 								<string key="NSFrame">{{474, 0}, {16, 175}}</string>
 								<reference key="NSSuperview" ref="778834533"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:83</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="778834533"/>
@@ -2145,7 +2147,7 @@ wGw</bytes>
 						<string key="NSFrame">{{216, 20}, {490, 175}}</string>
 						<reference key="NSSuperview" ref="372020534"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="181974912"/>
+						<reference key="NSNextKeyView" ref="855136059"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<int key="NSsFlags">133136</int>
 						<reference key="NSVScroller" ref="824296204"/>
@@ -3017,7 +3019,7 @@ wGw</bytes>
 										<string key="NSFrameSize">{490, 139}</string>
 										<reference key="NSSuperview" ref="43087223"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="835589195"/>
+										<reference key="NSNextKeyView" ref="709950499"/>
 										<string key="NSReuseIdentifierKey">_NS:13</string>
 										<object class="NSTextContainer" key="NSTextContainer" id="365055188">
 											<object class="NSLayoutManager" key="NSLayoutManager">
@@ -3226,6 +3228,7 @@ wGw</bytes>
 								<string key="NSFrame">{{474, 0}, {16, 139}}</string>
 								<reference key="NSSuperview" ref="344371551"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:83</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="344371551"/>
@@ -3253,7 +3256,7 @@ wGw</bytes>
 						<string key="NSFrame">{{216, 21}, {490, 139}}</string>
 						<reference key="NSSuperview" ref="309913194"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="43087223"/>
+						<reference key="NSNextKeyView" ref="835589195"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<int key="NSsFlags">133136</int>
 						<reference key="NSVScroller" ref="709950499"/>
@@ -3814,7 +3817,7 @@ wGw</bytes>
 										<string key="NSFrameSize">{490, 210}</string>
 										<reference key="NSSuperview" ref="610737430"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="360502137"/>
+										<reference key="NSNextKeyView" ref="88262116"/>
 										<string key="NSReuseIdentifierKey">_NS:13</string>
 										<object class="NSTextContainer" key="NSTextContainer" id="1043010481">
 											<object class="NSLayoutManager" key="NSLayoutManager">
@@ -4023,6 +4026,7 @@ wGw</bytes>
 								<string key="NSFrame">{{474, 0}, {16, 210}}</string>
 								<reference key="NSSuperview" ref="864369524"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:83</string>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<reference key="NSTarget" ref="864369524"/>
@@ -4050,7 +4054,7 @@ wGw</bytes>
 						<string key="NSFrame">{{216, 20}, {490, 210}}</string>
 						<reference key="NSSuperview" ref="505563987"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="610737430"/>
+						<reference key="NSNextKeyView" ref="360502137"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<int key="NSsFlags">133136</int>
 						<reference key="NSVScroller" ref="88262116"/>
@@ -4703,6 +4707,7 @@ wGw</bytes>
 						<string key="NSFrame">{{8, 4}, {242, 17}}</string>
 						<reference key="NSSuperview" ref="388062850"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:1535</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="845100313">
@@ -5123,14 +5128,6 @@ wGw</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">entitesListFileButton</string>
-						<reference key="source" ref="177901733"/>
-						<reference key="destination" ref="286920453"/>
-					</object>
-					<int key="connectionID">4144</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">recogCheckOutputFile</string>
 						<reference key="source" ref="177901733"/>
 						<reference key="destination" ref="231237578"/>
@@ -5200,22 +5197,6 @@ wGw</bytes>
 						<reference key="destination" ref="28643111"/>
 					</object>
 					<int key="connectionID">3594</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">selectCorpusFolderButton</string>
-						<reference key="source" ref="372020534"/>
-						<reference key="destination" ref="303430132"/>
-					</object>
-					<int key="connectionID">3596</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">selectGrammarFileButton</string>
-						<reference key="source" ref="372020534"/>
-						<reference key="destination" ref="1045730635"/>
-					</object>
-					<int key="connectionID">3597</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -5296,14 +5277,6 @@ wGw</bytes>
 						<reference key="destination" ref="501870967"/>
 					</object>
 					<int key="connectionID">5081</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">selectOutputFileButton</string>
-						<reference key="source" ref="372020534"/>
-						<reference key="destination" ref="142462159"/>
-					</object>
-					<int key="connectionID">5083</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -16578,7 +16551,7 @@ wGw</bytes>
 				</object>
 				<boolean value="NO" key="401.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="401.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="401.userInterfaceItemIdentifier">recogSelectGrammarFileButton</string>
+				<string key="401.userInterfaceItemIdentifier">recogGrammarFileButton</string>
 				<string key="4020.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4029.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="403.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -16752,7 +16725,7 @@ wGw</bytes>
 				</object>
 				<boolean value="NO" key="468.IBNSViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="468.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="468.userInterfaceItemIdentifier">recogSelectTaggerFileButton</string>
+				<string key="468.userInterfaceItemIdentifier">recogTaggerFileButton</string>
 				<string key="4687.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="469.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="471.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -17054,6 +17027,25 @@ wGw</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">EvaluationViewController</string>
 					<string key="superclassName">NSView</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="openSelectFilePanel:">id</string>
+						<string key="openSelectFolderPanel:">id</string>
+						<string key="startEvaluationTask:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="openSelectFilePanel:">
+							<string key="name">openSelectFilePanel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="openSelectFolderPanel:">
+							<string key="name">openSelectFolderPanel:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="startEvaluationTask:">
+							<string key="name">startEvaluationTask:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="checkCorpusStepButton">NSButton</string>
 						<string key="checkGrammarStepButton">NSButton</string>
@@ -17272,35 +17264,6 @@ wGw</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">RecognitionViewController</string>
 					<string key="superclassName">NSView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="fileSelected:">id</string>
-						<string key="openSelectFilePanel:">id</string>
-						<string key="openSelectFolderPanel:">id</string>
-						<string key="selectCorpusOrFileClick:">id</string>
-						<string key="startRecognitionTask:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="fileSelected:">
-							<string key="name">fileSelected:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openSelectFilePanel:">
-							<string key="name">openSelectFilePanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openSelectFolderPanel:">
-							<string key="name">openSelectFolderPanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="selectCorpusOrFileClick:">
-							<string key="name">selectCorpusOrFileClick:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="startRecognitionTask:">
-							<string key="name">startRecognitionTask:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="corpusToggleButton">NSButton</string>
 						<string key="entitesListFileButton">NSButton</string>
