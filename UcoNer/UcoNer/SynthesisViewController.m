@@ -183,14 +183,14 @@
 {
     
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:NO];
-    [tvarOp setCanChooseFiles:YES];
-    [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
+    NSOpenPanel *tvarOp2 = [NSOpenPanel openPanel];
+    [tvarOp2 setCanChooseDirectories:NO];
+    [tvarOp2 setCanChooseFiles:YES];
+    [tvarOp2 setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
     
     // Showing the panel
     
-    NSInteger resultNSInteger = [tvarOp runModal];
+    NSInteger resultNSInteger = [tvarOp2 runModal];
     
     
     NSURL *resultFile = nil;
@@ -204,7 +204,7 @@
         
         
         // Gettin url file
-        resultFile = [tvarOp URL];
+        resultFile = [tvarOp2 URL];
         
         // URL to string, cutting "file:/localhos..."
         varFileString= [[resultFile absoluteString] substringFromIndex:16];
@@ -243,6 +243,11 @@
     }
     [self checkSynthesisSteps];
     
+}
+
+- (IBAction)clearConsoleWhenClickOn:(id) sender
+{
+    [synthesisResultTextView setString:@" "];
 }
 
 

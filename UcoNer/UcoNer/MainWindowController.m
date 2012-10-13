@@ -100,7 +100,8 @@
 
 
 
-- (IBAction)switchView:(id)sender {
+- (IBAction)switchView:(id)sender
+{
     
     int tag = (int) [sender tag];
     NSView *view = [self viewForTag:tag];

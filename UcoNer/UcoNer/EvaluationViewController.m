@@ -281,6 +281,11 @@
 }
 
 
+- (IBAction)clearConsoleWhenClickOn:(id) sender
+{
+    [evaluationResultTextView setString:@" "];
+}
+
 
 /**
  

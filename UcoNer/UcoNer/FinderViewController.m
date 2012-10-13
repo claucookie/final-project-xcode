@@ -290,6 +290,11 @@
     
 }
 
+- (IBAction)clearConsoleWhenClickOn:(id) sender
+{
+    [logPanelTextView setString:@" "];
+}
+
 
 /**
  

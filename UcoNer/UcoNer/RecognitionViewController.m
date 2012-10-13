@@ -349,6 +349,11 @@
     
 }
 
+- (IBAction)clearConsoleWhenClickOn:(id) sender
+{
+    [recogFileContentTextField setString:@" "];
+}
+
 
 // ==========================================================
 // table view data source methods
