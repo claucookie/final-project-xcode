@@ -10,6 +10,12 @@
 
 @implementation Util
 
+int FolderTypeTAG = 1;
+int EntityRulesFileTypeTAG = 2;
+int TaggerRulesFileTypeTAG = 3;
+int TxtFileTypeTAG = 4;
+int TexFileTypeTAG = 5;
+
 + (NSString *)removeBadWhiteSpaces:(NSString *)pathString
 {
     return [pathString stringByReplacingOccurrencesOfString:@"%20"

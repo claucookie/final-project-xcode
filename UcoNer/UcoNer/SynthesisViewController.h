@@ -25,12 +25,16 @@
     IBOutlet NSTextField *logLabel;
     
     IBOutlet NSProgressIndicator *progressIndicator;
+    IBOutlet NSView *openPanelExtraButtonsView;
+    IBOutlet NSTextField *newFilenameTextField;
     
     NSMutableArray *mFilesListArray;
     NSInteger mSynthesisSteps;
     NSURL *mCorpusURL;
     NSString *mCorpusPathString;
     NSString *mTexFilePathString;
+    NSOpenPanel *mSelectFileOpenPanel;
+    NSOpenPanel *mSelectFolderOpenPanel;
 }
 
 @end

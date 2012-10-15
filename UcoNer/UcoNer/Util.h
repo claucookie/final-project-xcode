@@ -11,11 +11,11 @@
 @interface Util : NSClassDescription
 
 // Constans
-FOUNDATION_EXPORT int *const FolderTypeTag;
-FOUNDATION_EXPORT int *const EntityRulesFileTypeTag;
-FOUNDATION_EXPORT int *const TaggerRulesFileTypeTag;
-FOUNDATION_EXPORT int *const TxtFileTypeTag;
-FOUNDATION_EXPORT int *const TexFileTypeTag;
+FOUNDATION_EXPORT int FolderTypeTAG;
+FOUNDATION_EXPORT int EntityRulesFileTypeTAG;
+FOUNDATION_EXPORT int TaggerRulesFileTypeTAG;
+FOUNDATION_EXPORT int TxtFileTypeTAG;
+FOUNDATION_EXPORT int TexFileTypeTAG;
 
 + (NSString *)removeBadWhiteSpaces:(NSString *)pathString;
 

@@ -25,6 +25,8 @@
     IBOutlet NSTextField *logLabel;
     
     IBOutlet NSProgressIndicator *progressIndicator;
+    IBOutlet NSView *openPanelExtraButtonsView;
+    IBOutlet NSTextField *newFilenameTextField;
     
     // Global use variables
     NSMutableArray *mFilesListArray;
@@ -33,6 +35,8 @@
     NSInteger mFinderSteps;
     Boolean mCorpusOrFileToggleButtonWasClickedYet;
     Boolean mRegularExpresionWasWrittenYet;
+    NSOpenPanel *mSelectFileOpenPanel;
+    NSOpenPanel *mSelectFolderOpenPanel;
     
     // 
     NSString *mOutputFilePathString;

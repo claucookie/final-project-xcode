@@ -126,18 +126,18 @@
 - (IBAction)openSelectFilePanel:(id)sender
 {
     // Creating the open panel
-    NSOpenPanel *tvarOp2 = [NSOpenPanel openPanel];
-    [tvarOp2 setCanChooseDirectories:NO];
-    [tvarOp2 setCanChooseFiles:YES];
-    [tvarOp2 setCanCreateDirectories:YES];
+    mSelectFileOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFileOpenPanel setCanChooseDirectories:YES];
+    [mSelectFileOpenPanel setCanChooseFiles:YES];
+    [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
     if( [sender tag] == 1 ){
         
-        [tvarOp2 setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
         
         // Showing the panel
-        NSInteger resultNSInteger = [tvarOp2 runModal];
-        
+        NSInteger resultNSInteger = [mSelectFileOpenPanel runModal];
         NSURL *resultFile = nil;
         Boolean isFileSelected = NO;
         NSString *varFileString = nil;
@@ -148,7 +148,7 @@
             NSLog(@"doOpen we have an OK button");
             
             // Gettin url file
-            resultFile = [tvarOp2 URL];
+            resultFile = [mSelectFileOpenPanel URL];
             
             // URL to string, cutting "file:/localhos..."
             varFileString = [[resultFile absoluteString] substringFromIndex:16];
@@ -193,13 +193,13 @@
 {
     
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:YES];
-    [tvarOp setCanChooseFiles:NO];
-    [tvarOp setCanCreateDirectories:YES];
+    NSOpenPanel *mSelectFolderOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFolderOpenPanel setCanChooseDirectories:YES];
+    [mSelectFolderOpenPanel setCanChooseFiles:NO];
+    [mSelectFolderOpenPanel setCanCreateDirectories:YES];
     
     // Showing the panel
-    NSInteger resultNSInteger = [tvarOp runModal];
+    NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
     
     NSURL *resultDirectory = nil;
     Boolean isCorpusFolderSelected = NO;
@@ -211,7 +211,7 @@
         NSLog(@"doOpen we have an OK button");
         
         // Gettin url folder
-        resultDirectory = [tvarOp directoryURL];
+        resultDirectory = [mSelectFolderOpenPanel directoryURL];
         mCorpusURL = resultDirectory;
         
         // URL to string, cutting "file:/localhos..."
@@ -243,7 +243,6 @@
     }
     
     if( isCorpusFolderSelected ){
-        
         
         mInCorpusPathString = varCorpusDir;
         // We short the string
@@ -295,6 +294,26 @@
 - (IBAction)clearConsoleWhenClickOn:(id) sender
 {
     [logPanelTextView setString:@" "];
+}
+
+- (IBAction)createNewTxtFile:(id)sender
+{
+    // Create file manager
+    //NSFileManager *fileMgr = mFileManager;
+    
+    // Point to Document directory
+    NSString *folderPath = [[[mSelectFileOpenPanel directoryURL] absoluteString] substringFromIndex:16];
+    
+    NSString *filePath = [folderPath
+                          stringByAppendingPathComponent: [newFilenameTextField stringValue]];
+    NSLog(@"%@", filePath);
+    
+    // String to write
+    NSString *str = @"";
+    
+    // Write the file
+    [str writeToFile:filePath atomically:YES
+            encoding:NSUTF8StringEncoding error:nil];
 }
 
 
