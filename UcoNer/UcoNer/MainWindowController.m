@@ -6,7 +6,8 @@
 //  Copyright (c) 2012 Claudia María Luque Fernández. All rights reserved.
 //
 
-#import "RecognitionViewController.h";
+
+#import "MainWindowController.h"
 
 @interface MainWindowController ()
 

@@ -8,7 +8,6 @@
 
 #import "RecognitionViewController.h"
 #include <unistd.h>
-#import "Util.h"
 
 @implementation RecognitionViewController
 
@@ -228,15 +227,15 @@
     [mSelectFileOpenPanel setCanChooseFiles:YES];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
-    if( [sender tag] == 1 ){
+    if( [sender tag] == GRAMMAR_RULES_FILE_TAG){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
         [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: (*.gr) "];
     }
-    else if( [sender tag] == 2 ){
+    else if( [sender tag] == TAGGER_RULES_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"etq"]];
         [mSelectFileOpenPanel setTitle:@"Select Tag Rules file: (*.etq) "];
     }
-    else if( [sender tag] == 3 ){
+    else if( [sender tag] == TEXT_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Text Output file: (*.txt) "];
@@ -279,7 +278,7 @@
     if( isFileSelected ){
         
         switch ([sender tag]) {
-            case 1:
+            case GRAMMAR_RULES_FILE_TAG:
                 if( [[recogGrammarFileTextField stringValue] length] == 0)                    mRecogSteps++;
                 
                 mGrammarPathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
@@ -288,7 +287,7 @@
                 [recogCheckGrammar setState:1];
                 break;
                 
-            case 2:
+            case TAGGER_RULES_FILE_TAG:
                 if( [[recogTaggerFileTextField stringValue] length] == 0)                    mRecogSteps++;
                 
                 mTaggerPathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
@@ -297,7 +296,7 @@
                 [recogCheckTagger setState:1];
                 break;
             
-            case 3:
+            case TEXT_FILE_TAG:
                 if( [[entitiesListFileTextField stringValue] length] == 0)                    mRecogSteps++;
                 
                 mOutputFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];

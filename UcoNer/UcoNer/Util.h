@@ -8,14 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Util : NSClassDescription
+static const int FOLDER_TAG = 1;
+static const int GRAMMAR_RULES_FILE_TAG = 2;
+static const int TAGGER_RULES_FILE_TAG = 3;
+static const int TEXT_FILE_TAG = 4;
+static const int LATEX_FILE_TAG = 5;
 
-// Constans
-FOUNDATION_EXPORT int FolderTypeTAG;
-FOUNDATION_EXPORT int EntityRulesFileTypeTAG;
-FOUNDATION_EXPORT int TaggerRulesFileTypeTAG;
-FOUNDATION_EXPORT int TxtFileTypeTAG;
-FOUNDATION_EXPORT int TexFileTypeTAG;
+@interface Util : NSClassDescription
 
 + (NSString *)removeBadWhiteSpaces:(NSString *)pathString;
 

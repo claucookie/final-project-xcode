@@ -7,7 +7,6 @@
 //
 
 #import "EvaluationViewController.h"
-#import "Util.h"
 
 @implementation EvaluationViewController
 
@@ -194,11 +193,11 @@
     [mSelectFileOpenPanel setCanChooseFiles:YES];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
-    if( [sender tag] == 1 ){
+    if( [sender tag] == GRAMMAR_RULES_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
         [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: (*.gr) "];
     }
-    else if( [sender tag] == 2 ){
+    else if( [sender tag] == TAGGER_RULES_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         [mSelectFileOpenPanel setTitle:@"Select Tagger Rules file: (*.etq) "];
         [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
@@ -248,7 +247,7 @@
     if( isFileSelected ){
         
         switch ([sender tag]) {
-            case 1:
+            case GRAMMAR_RULES_FILE_TAG:
                 // Check if it's the first time the field is used
                 if( [[grammarFileTextField stringValue] length] == 0 )
                     mEvaluationSteps++;
@@ -260,7 +259,7 @@
                 [checkGrammarStepButton setState:1];
                 break;
                 
-            case 2:
+            case TAGGER_RULES_FILE_TAG:
                 if( isFileSelected ){
                     // Check if it's the first time the field is used
                     if( [[outputFileTextField stringValue] length] == 0 )

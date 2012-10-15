@@ -7,7 +7,6 @@
 //
 
 #import "SynthesisViewController.h"
-#import "Util.h"
 
 @implementation SynthesisViewController
 

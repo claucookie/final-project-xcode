@@ -7,7 +7,6 @@
 //
 
 #import "FinderViewController.h"
-#import "Util.h"
 
 @implementation FinderViewController
 
@@ -131,7 +130,7 @@
     [mSelectFileOpenPanel setCanChooseFiles:YES];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
-    if( [sender tag] == 1 ){
+    if( [sender tag] == TEXT_FILE_TAG ){
         
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         [mSelectFileOpenPanel setTitle:@"Select output Text file: (*.txt) "];
