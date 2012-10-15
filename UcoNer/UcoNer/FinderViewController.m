@@ -125,17 +125,19 @@
 - (IBAction)openSelectFilePanel:(id)sender
 {
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:NO];
-    [tvarOp setCanChooseFiles:YES];
+    mSelectFileOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFileOpenPanel setCanChooseDirectories:YES];
+    [mSelectFileOpenPanel setCanChooseFiles:YES];
+    [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
-    if( [sender tag] == 1 ){
+    if( [sender tag] == TEXT_FILE_TAG ){
         
-        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        [mSelectFileOpenPanel setTitle:@"Select output Text file: (*.txt) "];
+        [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
         
         // Showing the panel
-        NSInteger resultNSInteger = [tvarOp runModal];
-        
+        NSInteger resultNSInteger = [mSelectFileOpenPanel runModal];
         NSURL *resultFile = nil;
         Boolean isFileSelected = NO;
         NSString *varFileString = nil;
@@ -146,12 +148,13 @@
             NSLog(@"doOpen we have an OK button");
             
             // Gettin url file
-            resultFile = [tvarOp URL];
+            resultFile = [mSelectFileOpenPanel URL];
             
             // URL to string, cutting "file:/localhos..."
-            varFileString= [[resultFile absoluteString] substringFromIndex:16];
+            varFileString = [[resultFile absoluteString] substringFromIndex:16];
+            varFileString = [Util removeBadWhiteSpaces:varFileString];
             
-            mOutputFilePathString = varFileString;
+            mOutputFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
             NSLog(@"%@", varFileString);
             
             isFileSelected = YES;
@@ -190,12 +193,14 @@
 {
     
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:YES];
-    [tvarOp setCanChooseFiles:FALSE];
+    mSelectFolderOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFolderOpenPanel setCanChooseDirectories:YES];
+    [mSelectFolderOpenPanel setCanChooseFiles:NO];
+    [mSelectFolderOpenPanel setCanCreateDirectories:YES];
+    [mSelectFolderOpenPanel setTitle:@"Select text Corpus folder: "];
     
     // Showing the panel
-    NSInteger resultNSInteger = [tvarOp runModal];
+    NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
     
     NSURL *resultDirectory = nil;
     Boolean isCorpusFolderSelected = NO;
@@ -207,13 +212,15 @@
         NSLog(@"doOpen we have an OK button");
         
         // Gettin url folder
-        resultDirectory = [tvarOp directoryURL];
+        resultDirectory = [mSelectFolderOpenPanel directoryURL];
         mCorpusURL = resultDirectory;
         
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
         
-        NSLog(@"%@", varCorpusDir);
+        // Replacing white spaces
+        varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        mInCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         
         // We add +1 to recognition steps if is the first time to use the field
         if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){
@@ -237,7 +244,6 @@
     }
     
     if( isCorpusFolderSelected ){
-        
         
         mInCorpusPathString = varCorpusDir;
         // We short the string
@@ -284,6 +290,31 @@
     
     [self checkFinderSteps];
     
+}
+
+- (IBAction)clearConsoleWhenClickOn:(id) sender
+{
+    [logPanelTextView setString:@" "];
+}
+
+- (IBAction)createNewTxtFile:(id)sender
+{
+    // Create file manager
+    //NSFileManager *fileMgr = mFileManager;
+    
+    // Point to Document directory
+    NSString *folderPath = [[[mSelectFileOpenPanel directoryURL] absoluteString] substringFromIndex:16];
+    
+    NSString *filePath = [folderPath
+                          stringByAppendingPathComponent: [newFilenameTextField stringValue]];
+    NSLog(@"%@", filePath);
+    
+    // String to write
+    NSString *str = @"";
+    
+    // Write the file
+    [str writeToFile:filePath atomically:YES
+            encoding:NSUTF8StringEncoding error:nil];
 }
 
 

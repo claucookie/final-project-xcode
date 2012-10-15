@@ -16,15 +16,21 @@
     IBOutlet NSView *evaluation;
     IBOutlet NSView *finder;
     IBOutlet NSView *synthesis;
-    int currentViewTag;
-    
+    int currentViewTag;    
+
 }
 
 @property (assign) IBOutlet NSPopover *popover;
+@property (assign) IBOutlet NSPopover *popoverPath;
+
+
+- (NSOpenPanel *)selectFileOpenPanel;
 
 - (IBAction)showPopupInfo:(id)sender;
 
 - (IBAction)switchView:(id)sender;
+
+- (IBAction)createNewTxtFile:(id)sender;
 
 
 

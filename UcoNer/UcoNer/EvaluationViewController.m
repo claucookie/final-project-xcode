@@ -15,9 +15,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        
-        
-
     }
     
     return self;
@@ -118,12 +115,14 @@
 {
     
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:YES];
-    [tvarOp setCanChooseFiles:FALSE];
+    mSelectFolderOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFolderOpenPanel setCanChooseDirectories:YES];
+    [mSelectFolderOpenPanel setCanChooseFiles:NO];
+    [mSelectFolderOpenPanel setCanCreateDirectories:YES];
+    [mSelectFolderOpenPanel setTitle:@"Select IOB Revised Corpus Folder: "];
     
     // Showing the panel
-    NSInteger resultNSInteger = [tvarOp runModal];
+    NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
     
     NSURL *resultDirectory = nil;
     Boolean isCorpusFolderSelected = NO;
@@ -135,14 +134,14 @@
         NSLog(@"doOpen we have an OK button");
         
         // Gettin url folder
-        resultDirectory = [tvarOp directoryURL];
+        resultDirectory = [mSelectFolderOpenPanel directoryURL];
         
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
         
-        mCorpusPathString = varCorpusDir;
-        
-        NSLog(@"%@", varCorpusDir);
+        // Replacing white spaces
+        varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        mCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         
         // We add +1 to recognition steps if is the first time to use the field
         if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){
@@ -189,120 +188,127 @@
 - (IBAction)openSelectFilePanel:(id)sender
 {
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:NO];
-    [tvarOp setCanChooseFiles:YES];
+    mSelectFileOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFileOpenPanel setCanChooseDirectories:YES];
+    [mSelectFileOpenPanel setCanChooseFiles:YES];
+    [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
-    // Grammar file
-    if( [sender tag] == 1 ){
+    if( [sender tag] == GRAMMAR_RULES_FILE_TAG ){
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
+        [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: (*.gr) "];
+    }
+    else if( [sender tag] == TAGGER_RULES_FILE_TAG ){
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        [mSelectFileOpenPanel setTitle:@"Select Tagger Rules file: (*.etq) "];
+        [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+    }
+    
+    // Showing the panel
+    NSInteger resultNSInteger = [mSelectFileOpenPanel runModal];
+    
+    NSURL *resultFile = nil;
+    Boolean isFileSelected = NO;
+    NSString *varFileString = nil;
+    
+    // Click on OK button
+    if(resultNSInteger == NSOKButton){
         
-        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
+        NSLog(@"doOpen we have an OK button");
+        
+        
+        // Gettin url file
+        resultFile = [mSelectFileOpenPanel URL];
+        
+        // URL to string, cutting "file:/localhos..."
+        varFileString = [[resultFile absoluteString] substringFromIndex:16];
+        
+        // Replacing white spaces
+        varFileString = [Util removeBadWhiteSpaces:varFileString];
 
-        // Showing the panel
-        NSInteger resultNSInteger = [tvarOp runModal];
         
-        NSURL *resultFile = nil;
-        Boolean isFileSelected = NO;
-        NSString *varFileString = nil;
+        NSLog(@"%@", varFileString);
         
-        // Click on OK button
-        if(resultNSInteger == NSOKButton){
-            
-            NSLog(@"doOpen we have an OK button");
-            
-            // Gettin url file
-            resultFile = [tvarOp URL];
-            
-            // URL to string, cutting "file:/localhos..."
-            varFileString= [[resultFile absoluteString] substringFromIndex:16];
-            
-            mGrammarPathString = varFileString;
-            NSLog(@"%@", varFileString);
-            
-            isFileSelected = YES;
-            
+        isFileSelected = YES;
+        
+    }
+    // Click on Cancel button
+    else if(resultNSInteger == NSCancelButton){
+        
+        NSLog(@"doOpen we have a Cancel button");
+        return;
+    }
+    else {
+        
+        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        return;
+    }
+    
+    
+    if( isFileSelected ){
+        
+        switch ([sender tag]) {
+            case GRAMMAR_RULES_FILE_TAG:
+                // Check if it's the first time the field is used
+                if( [[grammarFileTextField stringValue] length] == 0 )
+                    mEvaluationSteps++;
+                
+                mGrammarPathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
+                
+                [grammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+                
+                [checkGrammarStepButton setState:1];
+                break;
+                
+            case TAGGER_RULES_FILE_TAG:
+                if( isFileSelected ){
+                    // Check if it's the first time the field is used
+                    if( [[outputFileTextField stringValue] length] == 0 )
+                        mEvaluationSteps++;
+                    
+                    mOutputFilePathString =  [Util replaceWhiteSpacesByScapeChar:varFileString];
+                    
+                    [outputFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+                    
+                    [checkOutputFileStepButton setState:1];
+                    
+                }
+                break;
+                
+            default:
+                break;
         }
-        // Click on Cancel button
-        else if(resultNSInteger == NSCancelButton){
-            
-            NSLog(@"doOpen we have a Cancel button");
-            return;
-        }
-        else {
-            
-            NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
-            return;
-        }
-        
-        if( isFileSelected ){
-            
-            if( [[grammarFileTextField stringValue] length] == 0 )
-                mEvaluationSteps++;
-            
-            [grammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
-            
-            [checkGrammarStepButton setState:1];
-            
-        }
-        [self checkEvaluationSteps];
-        
-    // Output file
-    }else if( [sender tag] == 2 ){
-        
-        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
-        
-        // Showing the panel
-        NSInteger resultNSInteger = [tvarOp runModal];
-        
-        NSURL *resultFile = nil;
-        Boolean isFileSelected = NO;
-        NSString *varFileString = nil;
-        
-        // Click on OK button
-        if(resultNSInteger == NSOKButton){
-            
-            NSLog(@"doOpen we have an OK button");
-            
-            // Gettin url file
-            resultFile = [tvarOp URL];
-            
-            // URL to string, cutting "file:/localhos..."
-            varFileString= [[resultFile absoluteString] substringFromIndex:16];
-            
-            mOutputFilePathString = varFileString;
-            NSLog(@"%@", varFileString);
-            
-            isFileSelected = YES;
-            
-        }
-        // Click on Cancel button
-        else if(resultNSInteger == NSCancelButton){
-            
-            NSLog(@"doOpen we have a Cancel button");
-            return;
-        }
-        else {
-            
-            NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
-            return;
-        }
-        
-        if( isFileSelected ){
-            
-            if( [[outputFileTextField stringValue] length] == 0 )
-                mEvaluationSteps++;
-            
-            [outputFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
-            
-            [checkOutputFileStepButton setState:1];
-            
-        }
-        [self checkEvaluationSteps];
         
     }
     
+    [self checkEvaluationSteps];
+    
 }
 
+
+- (IBAction)clearConsoleWhenClickOn:(id) sender
+{
+    [evaluationResultTextView setString:@" "];
+}
+
+- (IBAction)createNewTxtFile:(id)sender
+{
+    // Create file manager
+    //NSFileManager *fileMgr = mFileManager;
+    
+    // Point to Document directory
+    NSString *folderPath = [[[mSelectFileOpenPanel directoryURL] absoluteString] substringFromIndex:16];
+    
+    NSString *filePath = [folderPath
+                          stringByAppendingPathComponent: [newFilenameTextField stringValue]];
+    NSLog(@"%@", filePath);
+    
+    // String to write
+    NSString *str = @"";
+    
+    // Write the file
+    [str writeToFile:filePath atomically:YES
+            encoding:NSUTF8StringEncoding error:nil];
+}
 
 
 /**
