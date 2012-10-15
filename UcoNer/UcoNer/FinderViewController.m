@@ -134,6 +134,7 @@
     if( [sender tag] == 1 ){
         
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        [mSelectFileOpenPanel setTitle:@"Select output Text file: (*.txt) "];
         [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
         
         // Showing the panel
@@ -193,10 +194,11 @@
 {
     
     // Creating the open panel
-    NSOpenPanel *mSelectFolderOpenPanel = [NSOpenPanel openPanel];
+    mSelectFolderOpenPanel = [NSOpenPanel openPanel];
     [mSelectFolderOpenPanel setCanChooseDirectories:YES];
     [mSelectFolderOpenPanel setCanChooseFiles:NO];
     [mSelectFolderOpenPanel setCanCreateDirectories:YES];
+    [mSelectFolderOpenPanel setTitle:@"Select text Corpus folder: "];
     
     // Showing the panel
     NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];

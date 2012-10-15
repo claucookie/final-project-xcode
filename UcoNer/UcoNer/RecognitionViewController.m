@@ -118,7 +118,7 @@
     [mSelectFolderOpenPanel setCanChooseDirectories:YES];
     [mSelectFolderOpenPanel setCanChooseFiles:NO];
     [mSelectFolderOpenPanel setCanCreateDirectories:YES];
-    [mSelectFolderOpenPanel setTitle:@"Select TXT Corpus folder"];
+    [mSelectFolderOpenPanel setTitle:@"Select Text Corpus folder: "];
     
     // Showing the panel
     NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
@@ -230,16 +230,16 @@
     
     if( [sender tag] == 1 ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
-        [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: "];
+        [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: (*.gr) "];
     }
     else if( [sender tag] == 2 ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"etq"]];
-        [mSelectFileOpenPanel setTitle:@"Select Tag Rules file: "];
+        [mSelectFileOpenPanel setTitle:@"Select Tag Rules file: (*.etq) "];
     }
     else if( [sender tag] == 3 ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
-        [mSelectFileOpenPanel setTitle:@"Select Text Output file: "];
+        [mSelectFileOpenPanel setTitle:@"Select Text Output file: (*.txt) "];
         [mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
     }
     

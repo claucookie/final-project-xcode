@@ -109,6 +109,7 @@
     [mSelectFolderOpenPanel setCanChooseDirectories:YES];
     [mSelectFolderOpenPanel setCanChooseFiles:NO];
     [mSelectFolderOpenPanel setCanCreateDirectories:YES];
+    [mSelectFolderOpenPanel setTitle:@"Select IOB Corpus folder: "];
     
     // Showing the panel
     NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
@@ -187,6 +188,7 @@
     [mSelectFileOpenPanel setCanChooseFiles:YES];
     [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
+    [mSelectFileOpenPanel setTitle:@"Select Output Latex file: (*.tex) "];
     [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
     
     // Showing the panel

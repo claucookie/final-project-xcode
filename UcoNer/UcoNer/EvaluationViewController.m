@@ -120,6 +120,7 @@
     [mSelectFolderOpenPanel setCanChooseDirectories:YES];
     [mSelectFolderOpenPanel setCanChooseFiles:NO];
     [mSelectFolderOpenPanel setCanCreateDirectories:YES];
+    [mSelectFolderOpenPanel setTitle:@"Select IOB Revised Corpus Folder: "];
     
     // Showing the panel
     NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
@@ -193,10 +194,13 @@
     [mSelectFileOpenPanel setCanChooseFiles:YES];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
-    if( [sender tag] == 1 )
+    if( [sender tag] == 1 ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
+        [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: (*.gr) "];
+    }
     else if( [sender tag] == 2 ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        [mSelectFileOpenPanel setTitle:@"Select Tagger Rules file: (*.etq) "];
         [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
     }
     
