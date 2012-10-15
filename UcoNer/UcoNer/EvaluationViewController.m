@@ -197,7 +197,7 @@
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
         [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: (*.gr) "];
     }
-    else if( [sender tag] == TAGGER_RULES_FILE_TAG ){
+    else if( [sender tag] == TEXT_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         [mSelectFileOpenPanel setTitle:@"Select Tagger Rules file: (*.etq) "];
         [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
@@ -259,7 +259,7 @@
                 [checkGrammarStepButton setState:1];
                 break;
                 
-            case TAGGER_RULES_FILE_TAG:
+            case TEXT_FILE_TAG:
                 if( isFileSelected ){
                     // Check if it's the first time the field is used
                     if( [[outputFileTextField stringValue] length] == 0 )
