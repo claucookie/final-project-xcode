@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E45D74415F11D100059DB0A /* EvaluationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E45D74315F11D100059DB0A /* EvaluationViewController.m */; };
 		0E5A82B815F2141E00CB5621 /* SynthesisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */; };
+		0E7D762A1629695F00A18838 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7D76291629695F00A18838 /* Util.m */; };
 		0E8A682B15DFEDB400412A75 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E8A682A15DFEDB400412A75 /* MainWindow.xib */; };
 		0E8A683315DFF61400412A75 /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A683215DFF61400412A75 /* MainWindowController.m */; };
 		0EBA40A116222D1200181F10 /* ucologo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0EBA40A016222D1200181F10 /* ucologo.jpg */; };
@@ -41,6 +42,9 @@
 		0E45D74315F11D100059DB0A /* EvaluationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EvaluationViewController.m; path = ../EvaluationViewController.m; sourceTree = "<group>"; };
 		0E5A82B615F2141E00CB5621 /* SynthesisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesisViewController.h; path = ../SynthesisViewController.h; sourceTree = "<group>"; };
 		0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SynthesisViewController.m; path = ../SynthesisViewController.m; sourceTree = "<group>"; };
+		0E7D76261629648400A18838 /* UcoNer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = UcoNer.entitlements; sourceTree = "<group>"; };
+		0E7D76281629695F00A18838 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		0E7D76291629695F00A18838 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		0E8A682A15DFEDB400412A75 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		0E8A683115DFF61400412A75 /* MainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
 		0E8A683215DFF61400412A75 /* MainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWindowController.m; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 		0EC1A97B15DFEA6B000E0900 /* UcoNer */ = {
 			isa = PBXGroup;
 			children = (
+				0E7D76261629648400A18838 /* UcoNer.entitlements */,
 				0EBA409F16222D0300181F10 /* Images */,
 				0EBA409C1622233C00181F10 /* Controllers */,
 				0EC1A98715DFEA6B000E0900 /* AppDelegate.h */,
@@ -165,6 +170,8 @@
 				0EC1A97C15DFEA6B000E0900 /* Supporting Files */,
 				0E8A683115DFF61400412A75 /* MainWindowController.h */,
 				0E8A683215DFF61400412A75 /* MainWindowController.m */,
+				0E7D76281629695F00A18838 /* Util.h */,
+				0E7D76291629695F00A18838 /* Util.m */,
 			);
 			path = UcoNer;
 			sourceTree = "<group>";
@@ -317,6 +324,7 @@
 				0EE8F16015EFDA9A0098057A /* RecognitionViewController.m in Sources */,
 				0E45D74415F11D100059DB0A /* EvaluationViewController.m in Sources */,
 				0E5A82B815F2141E00CB5621 /* SynthesisViewController.m in Sources */,
+				0E7D762A1629695F00A18838 /* Util.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +434,8 @@
 		0EC1A9A415DFEA6B000E0900 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = UcoNer/UcoNer.entitlements;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UcoNer/UcoNer-Prefix.pch";
@@ -439,6 +449,8 @@
 		0EC1A9A515DFEA6B000E0900 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = UcoNer/UcoNer.entitlements;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UcoNer/UcoNer-Prefix.pch";

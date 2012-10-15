@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Claudia María Luque Fernández. All rights reserved.
 //
 
+
 #import "MainWindowController.h"
 
 @interface MainWindowController ()
@@ -15,6 +16,7 @@
 @implementation MainWindowController
 
 @synthesize popover;
+@synthesize popoverPath;
 
 - (id)init
 {
@@ -86,11 +88,16 @@
 }
 
 
+
+
 /**
  
  Actions
  
  **/
+
+
+
 
 - (IBAction)showPopupInfo:(id)sender
 {
@@ -99,8 +106,8 @@
 }
 
 
-
-- (IBAction)switchView:(id)sender {
+- (IBAction)switchView:(id)sender
+{
     
     int tag = (int) [sender tag];
     NSView *view = [self viewForTag:tag];

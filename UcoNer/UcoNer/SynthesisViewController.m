@@ -27,7 +27,6 @@
     
     // Steps counter = 0
     mSynthesisSteps = 0;
-
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -105,12 +104,14 @@
 {
     
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:YES];
-    [tvarOp setCanChooseFiles:FALSE];
+    mSelectFolderOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFolderOpenPanel setCanChooseDirectories:YES];
+    [mSelectFolderOpenPanel setCanChooseFiles:NO];
+    [mSelectFolderOpenPanel setCanCreateDirectories:YES];
+    [mSelectFolderOpenPanel setTitle:@"Select IOB Corpus folder: "];
     
     // Showing the panel
-    NSInteger resultNSInteger = [tvarOp runModal];
+    NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
     
     NSURL *resultDirectory = nil;
     Boolean isCorpusFolderSelected = NO;
@@ -122,14 +123,15 @@
         NSLog(@"doOpen we have an OK button");
         
         // Gettin url folder
-        resultDirectory = [tvarOp directoryURL];
+        resultDirectory = [mSelectFolderOpenPanel directoryURL];
         mCorpusURL = resultDirectory;
         
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
-        mCorpusPathString = varCorpusDir;
-        
-        NSLog(@"%@", varCorpusDir);
+
+        // Replacing white spaces
+        varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        mCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         
         // We add +1 to recognition steps if is the first time to use the field
         if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){
@@ -137,7 +139,6 @@
             mSynthesisSteps++;
         }
         
-
         isCorpusFolderSelected = YES;
         
     }
@@ -181,14 +182,17 @@
 {
     
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:NO];
-    [tvarOp setCanChooseFiles:YES];
-    [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
+    mSelectFileOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFileOpenPanel setCanChooseDirectories:YES];
+    [mSelectFileOpenPanel setCanChooseFiles:YES];
+    [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
+    [mSelectFileOpenPanel setCanCreateDirectories:YES];
+    [mSelectFileOpenPanel setTitle:@"Select Output Latex file: (*.tex) "];
+    [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
     
     // Showing the panel
     
-    NSInteger resultNSInteger = [tvarOp runModal];
+    NSInteger resultNSInteger = [mSelectFileOpenPanel runModal];
     
     
     NSURL *resultFile = nil;
@@ -202,13 +206,14 @@
         
         
         // Gettin url file
-        resultFile = [tvarOp URL];
+        resultFile = [mSelectFileOpenPanel URL];
         
         // URL to string, cutting "file:/localhos..."
         varFileString= [[resultFile absoluteString] substringFromIndex:16];
-        mTexFilePathString = varFileString;
         
-        NSLog(@"%@", varFileString);
+        // Replacing white spaces
+        varFileString = [Util removeBadWhiteSpaces:varFileString];
+        mTexFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
         
         isFileSelected = YES;
         
@@ -240,10 +245,35 @@
     
 }
 
+- (IBAction)clearConsoleWhenClickOn:(id) sender
+{
+    [synthesisResultTextView setString:@" "];
+}
+
+- (IBAction)createNewTxtFile:(id)sender
+{
+    // Create file manager
+    //NSFileManager *fileMgr = mFileManager;
+    
+    // Point to Document directory
+    NSString *folderPath = [[[mSelectFileOpenPanel directoryURL] absoluteString] substringFromIndex:16];
+    
+    NSString *filePath = [folderPath
+                          stringByAppendingPathComponent: [newFilenameTextField stringValue]];
+    NSLog(@"%@", filePath);
+    
+    // String to write
+    NSString *str = @"";
+    
+    // Write the file
+    [str writeToFile:filePath atomically:YES
+            encoding:NSUTF8StringEncoding error:nil];
+}
+
 
 /**
  
- TableView DataSoruce methods !!
+ TableView DataSoruce methods !!!
  
  **/
 
@@ -252,8 +282,7 @@
     return (int) [mFilesListArray count];
 }
 
-- (id)tableView:(NSTableView *)tableView
-objectValueForTableColumn:(NSTableColumn *)tableColumn
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn
             row:(int)row
 {
     return (NSString *) [mFilesListArray objectAtIndex:row];
