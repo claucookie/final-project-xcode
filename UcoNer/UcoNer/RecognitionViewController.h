@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MainWindowController.h"
 
 @class PMProgressTextView;
 
@@ -32,11 +33,13 @@
     IBOutlet NSTextField *startRecognitionLabel;
     IBOutlet NSButton *corpusToggleButton;
     IBOutlet NSButton *fileToggleButton;
-    IBOutlet NSButton *entitesListFileButton;
     
     IBOutlet NSProgressIndicator *progressIndicator;
+    IBOutlet NSView *openPanelExtraButtonsView;
+    IBOutlet NSTextField *newFilenameTextField;
     
-    
+    NSOpenPanel *mSelectFolderOpenPanel;
+    NSOpenPanel *mSelectFileOpenPanel;
     NSMutableArray *mFilesListArray;
     NSURL *mCorpusFolderURL;
     NSURL *mFileURL;
@@ -48,6 +51,9 @@
     NSString *mGrammarPathString;
     NSString *mTaggerPathString;
     NSString *mOutputFilePathString;
+    
+    
+    
 
     
 }

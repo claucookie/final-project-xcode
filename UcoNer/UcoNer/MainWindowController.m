@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Claudia María Luque Fernández. All rights reserved.
 //
 
-#import "MainWindowController.h"
+#import "RecognitionViewController.h";
 
 @interface MainWindowController ()
 
@@ -15,6 +15,7 @@
 @implementation MainWindowController
 
 @synthesize popover;
+@synthesize popoverPath;
 
 - (id)init
 {
@@ -86,18 +87,22 @@
 }
 
 
+
+
 /**
  
  Actions
  
  **/
 
+
+
+
 - (IBAction)showPopupInfo:(id)sender
 {
     [[self popover] showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
     NSLog(@"%@", @"Info clicked");
 }
-
 
 
 - (IBAction)switchView:(id)sender

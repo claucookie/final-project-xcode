@@ -20,24 +20,27 @@
     IBOutlet NSButton *startEvaluationButton;
     IBOutlet NSTextField *corpusFolderTextField;
     IBOutlet NSTextField *grammarFileTextField;
-    IBOutlet NSButton *selectCorpusFolderButton;
-    IBOutlet NSButton *selectGrammarFileButton;
-    IBOutlet NSButton *selectOutputFileButton;
     IBOutlet NSTextView *evaluationResultTextView;
     IBOutlet NSTextField *logLabel;
     IBOutlet NSTextField *outputFileTextField;
     
     IBOutlet NSProgressIndicator *progressIndicator;
+    IBOutlet NSView *openPanelExtraButtonsView;
+    IBOutlet NSTextField *newFilenameTextField;
+
     
     
     NSURL *mCorpusURL;
     NSInteger mEvaluationSteps;
     NSMutableArray *mFilesListArray;
+    NSOpenPanel *mSelectFileOpenPanel;
+    NSOpenPanel *mSelectFolderOpenPanel;
     
     // Variables to be used as arguments
     NSString *mCorpusPathString;
     NSString *mGrammarPathString;
     NSString *mOutputFilePathString;
+    
     
     
 }

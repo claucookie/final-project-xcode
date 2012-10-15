@@ -10,6 +10,15 @@
 
 @interface Util : NSClassDescription
 
-- (Boolean)filesExtensionIsCorrect:(NSString*)extension inArray:(NSArray*)array;
+// Constans
+FOUNDATION_EXPORT int *const FolderTypeTag;
+FOUNDATION_EXPORT int *const EntityRulesFileTypeTag;
+FOUNDATION_EXPORT int *const TaggerRulesFileTypeTag;
+FOUNDATION_EXPORT int *const TxtFileTypeTag;
+FOUNDATION_EXPORT int *const TexFileTypeTag;
+
++ (NSString *)removeBadWhiteSpaces:(NSString *)pathString;
+
++ (NSString *)replaceWhiteSpacesByScapeChar:(NSString *)pathString;
 
 @end

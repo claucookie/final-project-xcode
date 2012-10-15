@@ -7,6 +7,7 @@
 //
 
 #import "SynthesisViewController.h"
+#import "Util.h"
 
 @implementation SynthesisViewController
 
@@ -27,7 +28,6 @@
     
     // Steps counter = 0
     mSynthesisSteps = 0;
-
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -107,7 +107,8 @@
     // Creating the open panel
     NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
     [tvarOp setCanChooseDirectories:YES];
-    [tvarOp setCanChooseFiles:FALSE];
+    [tvarOp setCanChooseFiles:NO];
+    [tvarOp setCanCreateDirectories:YES];
     
     // Showing the panel
     NSInteger resultNSInteger = [tvarOp runModal];
@@ -129,9 +130,8 @@
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
 
         // Replacing white spaces
-        varCorpusDir = [varCorpusDir stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
-        mCorpusPathString = [varCorpusDir stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
-        NSLog(@"%@", mCorpusPathString);
+        varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        mCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         
         // We add +1 to recognition steps if is the first time to use the field
         if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){
@@ -139,7 +139,6 @@
             mSynthesisSteps++;
         }
         
-
         isCorpusFolderSelected = YES;
         
     }
@@ -187,6 +186,7 @@
     [tvarOp2 setCanChooseDirectories:NO];
     [tvarOp2 setCanChooseFiles:YES];
     [tvarOp2 setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
+    [tvarOp2 setCanCreateDirectories:YES];
     
     // Showing the panel
     
@@ -210,10 +210,8 @@
         varFileString= [[resultFile absoluteString] substringFromIndex:16];
         
         // Replacing white spaces
-        varFileString = [varFileString stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
-        mTexFilePathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
-        
-        NSLog(@"%@", mTexFilePathString);
+        varFileString = [Util removeBadWhiteSpaces:varFileString];
+        mTexFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
         
         isFileSelected = YES;
         
@@ -253,7 +251,7 @@
 
 /**
  
- TableView DataSoruce methods !!
+ TableView DataSoruce methods !!!
  
  **/
 
@@ -262,8 +260,7 @@
     return (int) [mFilesListArray count];
 }
 
-- (id)tableView:(NSTableView *)tableView
-objectValueForTableColumn:(NSTableColumn *)tableColumn
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn
             row:(int)row
 {
     return (NSString *) [mFilesListArray objectAtIndex:row];

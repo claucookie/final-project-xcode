@@ -10,17 +10,14 @@
 
 @implementation Util
 
-- (Boolean)filesExtensionIsCorrect:(NSString*)extension inArray:(NSArray*)array
++ (NSString *)removeBadWhiteSpaces:(NSString *)pathString
 {
-    NSString * item;
-    Boolean isCorrect = YES;
-    
-    for (item in array) {
-        
-        // TODO: Get the extension of the file
-        // If any of them is not equals to "extension",
-        // we se isCorrect = NO
-    }
+    return [pathString stringByReplacingOccurrencesOfString:@"%20"
+                                            withString:@"\ "];
 }
 
++ (NSString *)replaceWhiteSpacesByScapeChar:(NSString *)pathString
+{
+    return [pathString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+}
 @end

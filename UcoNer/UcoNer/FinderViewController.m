@@ -7,6 +7,7 @@
 //
 
 #import "FinderViewController.h"
+#import "Util.h"
 
 @implementation FinderViewController
 
@@ -125,16 +126,17 @@
 - (IBAction)openSelectFilePanel:(id)sender
 {
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:NO];
-    [tvarOp setCanChooseFiles:YES];
+    NSOpenPanel *tvarOp2 = [NSOpenPanel openPanel];
+    [tvarOp2 setCanChooseDirectories:NO];
+    [tvarOp2 setCanChooseFiles:YES];
+    [tvarOp2 setCanCreateDirectories:YES];
     
     if( [sender tag] == 1 ){
         
-        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        [tvarOp2 setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         
         // Showing the panel
-        NSInteger resultNSInteger = [tvarOp runModal];
+        NSInteger resultNSInteger = [tvarOp2 runModal];
         
         NSURL *resultFile = nil;
         Boolean isFileSelected = NO;
@@ -146,13 +148,13 @@
             NSLog(@"doOpen we have an OK button");
             
             // Gettin url file
-            resultFile = [tvarOp URL];
+            resultFile = [tvarOp2 URL];
             
             // URL to string, cutting "file:/localhos..."
             varFileString = [[resultFile absoluteString] substringFromIndex:16];
-            varFileString = [varFileString stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
+            varFileString = [Util removeBadWhiteSpaces:varFileString];
             
-            mOutputFilePathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+            mOutputFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
             NSLog(@"%@", varFileString);
             
             isFileSelected = YES;
@@ -193,7 +195,8 @@
     // Creating the open panel
     NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
     [tvarOp setCanChooseDirectories:YES];
-    [tvarOp setCanChooseFiles:FALSE];
+    [tvarOp setCanChooseFiles:NO];
+    [tvarOp setCanCreateDirectories:YES];
     
     // Showing the panel
     NSInteger resultNSInteger = [tvarOp runModal];
@@ -215,9 +218,8 @@
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
         
         // Replacing white spaces
-        varCorpusDir = [varCorpusDir stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
-        mInCorpusPathString = [varCorpusDir stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
-        NSLog(@"%@", mInCorpusPathString);
+        varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        mInCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         
         // We add +1 to recognition steps if is the first time to use the field
         if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){

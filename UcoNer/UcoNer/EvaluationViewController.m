@@ -7,6 +7,7 @@
 //
 
 #import "EvaluationViewController.h"
+#import "Util.h"
 
 @implementation EvaluationViewController
 
@@ -15,9 +16,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        
-        
-
     }
     
     return self;
@@ -118,12 +116,13 @@
 {
     
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:YES];
-    [tvarOp setCanChooseFiles:FALSE];
+    mSelectFolderOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFolderOpenPanel setCanChooseDirectories:YES];
+    [mSelectFolderOpenPanel setCanChooseFiles:NO];
+    [mSelectFolderOpenPanel setCanCreateDirectories:YES];
     
     // Showing the panel
-    NSInteger resultNSInteger = [tvarOp runModal];
+    NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
     
     NSURL *resultDirectory = nil;
     Boolean isCorpusFolderSelected = NO;
@@ -135,15 +134,14 @@
         NSLog(@"doOpen we have an OK button");
         
         // Gettin url folder
-        resultDirectory = [tvarOp directoryURL];
+        resultDirectory = [mSelectFolderOpenPanel directoryURL];
         
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
         
         // Replacing white spaces
-        varCorpusDir = [varCorpusDir stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
-        mCorpusPathString = [varCorpusDir stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
-        NSLog(@"%@", mCorpusPathString);
+        varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        mCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         
         // We add +1 to recognition steps if is the first time to use the field
         if( [[corpusFolderTextField stringValue] isEqualToString:@""] ){
@@ -190,17 +188,20 @@
 - (IBAction)openSelectFilePanel:(id)sender
 {
     // Creating the open panel
-    NSOpenPanel *tvarOp2 = [NSOpenPanel openPanel];
-    [tvarOp2 setCanChooseDirectories:NO];
-    [tvarOp2 setCanChooseFiles:YES];
+    mSelectFileOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFileOpenPanel setCanChooseDirectories:YES];
+    [mSelectFileOpenPanel setCanChooseFiles:YES];
+    [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
     if( [sender tag] == 1 )
-        [tvarOp2 setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
-    else if( [sender tag] == 2 )
-        [tvarOp2 setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
+    else if( [sender tag] == 2 ){
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+    }
     
     // Showing the panel
-    NSInteger resultNSInteger = [tvarOp2 runModal];
+    NSInteger resultNSInteger = [mSelectFileOpenPanel runModal];
     
     NSURL *resultFile = nil;
     Boolean isFileSelected = NO;
@@ -213,13 +214,13 @@
         
         
         // Gettin url file
-        resultFile = [tvarOp2 URL];
+        resultFile = [mSelectFileOpenPanel URL];
         
         // URL to string, cutting "file:/localhos..."
         varFileString = [[resultFile absoluteString] substringFromIndex:16];
         
         // Replacing white spaces
-        varFileString = [varFileString stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
+        varFileString = [Util removeBadWhiteSpaces:varFileString];
 
         
         NSLog(@"%@", varFileString);
@@ -248,7 +249,7 @@
                 if( [[grammarFileTextField stringValue] length] == 0 )
                     mEvaluationSteps++;
                 
-                mGrammarPathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+                mGrammarPathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
                 
                 [grammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
                 
@@ -261,7 +262,7 @@
                     if( [[outputFileTextField stringValue] length] == 0 )
                         mEvaluationSteps++;
                     
-                    mOutputFilePathString =  [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+                    mOutputFilePathString =  [Util replaceWhiteSpacesByScapeChar:varFileString];
                     
                     [outputFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
                     
@@ -284,6 +285,26 @@
 - (IBAction)clearConsoleWhenClickOn:(id) sender
 {
     [evaluationResultTextView setString:@" "];
+}
+
+- (IBAction)createNewTxtFile:(id)sender
+{
+    // Create file manager
+    //NSFileManager *fileMgr = mFileManager;
+    
+    // Point to Document directory
+    NSString *folderPath = [[[mSelectFileOpenPanel directoryURL] absoluteString] substringFromIndex:16];
+    
+    NSString *filePath = [folderPath
+                          stringByAppendingPathComponent: [newFilenameTextField stringValue]];
+    NSLog(@"%@", filePath);
+    
+    // String to write
+    NSString *str = @"";
+    
+    // Write the file
+    [str writeToFile:filePath atomically:YES
+            encoding:NSUTF8StringEncoding error:nil];
 }
 
 

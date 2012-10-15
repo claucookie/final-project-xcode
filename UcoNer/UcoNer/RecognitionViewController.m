@@ -8,6 +8,7 @@
 
 #import "RecognitionViewController.h"
 #include <unistd.h>
+#import "Util.h"
 
 @implementation RecognitionViewController
 
@@ -33,7 +34,6 @@
 {
     // Drawing code here.
 }
-
 
 
 - (void)checkRecogSteps {
@@ -93,21 +93,19 @@
         
         NSData *data;
         data = [file readDataToEndOfFile];
-
         result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+        [recogFileContentTextField setString:result];
         NSLog (@"task returned:\n%@", result);
-       [recogFileContentTextField setString:result];
 	}
 	@catch (id theException) {
-		NSLog(@"%@", theException);
-       [recogFileContentTextField setString:theException];
+        [recogFileContentTextField setString:theException];
+        NSLog(@"%@", theException);
 	}
 	@finally {
-		NSLog(@"This always happens.");
-        
         [progressIndicator setHidden:YES];
         [logLabel setStringValue:@"  Recognition task Result: "];
         [startRecognitionButton setHidden:NO];
+        NSLog(@"This always happens.");
 	}
     
 }
@@ -116,13 +114,14 @@
 {
     
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:YES];
-    [tvarOp setCanChooseFiles:FALSE];
+    mSelectFolderOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFolderOpenPanel setCanChooseDirectories:YES];
+    [mSelectFolderOpenPanel setCanChooseFiles:NO];
+    [mSelectFolderOpenPanel setCanCreateDirectories:YES];
+    [mSelectFolderOpenPanel setTitle:@"Select TXT Corpus folder"];
     
     // Showing the panel
-    NSInteger resultNSInteger = [tvarOp runModal];
-    
+    NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
     NSURL *resultDirectory = nil;
     Boolean isCorpusFolderSelected = NO;
     NSString *varCorpusDir = nil;
@@ -133,24 +132,22 @@
         NSLog(@"doOpen we have an OK button");
         
         // Gettin url folder
-        resultDirectory = [tvarOp directoryURL];
+        resultDirectory = [mSelectFolderOpenPanel directoryURL];
         mCorpusFolderURL = resultDirectory;
         
         // URL to string, cutting "file:/localhos..."
         varCorpusDir= [[resultDirectory absoluteString] substringFromIndex:16];
 
         // Replacing white spaces
-        varCorpusDir = [varCorpusDir stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
-        mCorpusPathString = [varCorpusDir stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
-        NSLog(@"%@", mCorpusPathString);
-        
+        varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        mCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         // We add +1 to recognition steps if is the first time to use the field
         if( [[recogInCorpusDirTextField stringValue] length] == 0){
             mRecogSteps++;
         }
         
         mCorpusPathString = varCorpusDir;
-        
+        // Showing path inside UI textfield
         [recogInCorpusDirTextField setStringValue: [@"..." stringByAppendingString: [varCorpusDir substringFromIndex: varCorpusDir.length -60]]];
         
         isCorpusFolderSelected = YES;
@@ -170,10 +167,9 @@
     
     if( isCorpusFolderSelected ){
         
-        
         NSArray *filesArray = [[NSArray alloc] init];
-        filesArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:varCorpusDir error:nil];
-        
+        filesArray = [[NSFileManager defaultManager]
+                      contentsOfDirectoryAtPath:varCorpusDir error:nil];
         mFilesListArray = [[NSMutableArray alloc] init];
         [mFilesListArray addObjectsFromArray:filesArray];
         
@@ -185,7 +181,6 @@
         [recogCheckCorpus setState:1];
         // We activate the tableview
         [recogFilesListTableView setEnabled:YES];
-        
         // We switch on the corpus toggle button
         [self selectCorpusOrFileClick:corpusToggleButton];
         
@@ -227,21 +222,29 @@
 {
     
     // Creating the open panel
-    NSOpenPanel *tvarOp = [NSOpenPanel openPanel];
-    [tvarOp setCanChooseDirectories:NO];
-    [tvarOp setCanChooseFiles:YES];
+
+    mSelectFileOpenPanel = [NSOpenPanel openPanel];
+    [mSelectFileOpenPanel setCanChooseDirectories:YES];
+    [mSelectFileOpenPanel setCanChooseFiles:YES];
+    [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
-    if( [sender tag] == 1 )
-        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
-    else if( [sender tag] == 2 )
-        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"etq"]];
-    else if( [sender tag] == 3 )
-        [tvarOp setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+    if( [sender tag] == 1 ){
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
+        [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: "];
+    }
+    else if( [sender tag] == 2 ){
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"etq"]];
+        [mSelectFileOpenPanel setTitle:@"Select Tag Rules file: "];
+    }
+    else if( [sender tag] == 3 ){
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+        //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
+        [mSelectFileOpenPanel setTitle:@"Select Text Output file: "];
+        [mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
+    }
     
     // Showing the panel
-    NSInteger resultNSInteger = [tvarOp runModal];
-    
-    
+    NSInteger resultNSInteger = [mSelectFileOpenPanel runModal];    
     NSURL *resultFile = nil;
     Boolean isFileSelected = NO;
     NSString *varFileString = nil;
@@ -251,16 +254,12 @@
         
         NSLog(@"doOpen we have an OK button");
         
-        
         // Gettin url file
-        resultFile = [tvarOp URL];
-        
+        resultFile = [mSelectFileOpenPanel URL];
         // URL to string, cutting "file:/localhos..."
         varFileString= [[resultFile absoluteString] substringFromIndex:16];
-        
         // Replacing white spaces
-        varFileString = [varFileString stringByReplacingOccurrencesOfString:@"%20" withString:@"\ "];
-        NSLog(@"%@", varFileString);
+        varFileString = [Util removeBadWhiteSpaces:varFileString];
         
         isFileSelected = YES;
         
@@ -283,7 +282,7 @@
             case 1:
                 if( [[recogGrammarFileTextField stringValue] length] == 0)                    mRecogSteps++;
                 
-                mGrammarPathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+                mGrammarPathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
                 
                 [recogGrammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
                 [recogCheckGrammar setState:1];
@@ -292,7 +291,7 @@
             case 2:
                 if( [[recogTaggerFileTextField stringValue] length] == 0)                    mRecogSteps++;
                 
-                mTaggerPathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+                mTaggerPathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
                 
                 [recogTaggerFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
                 [recogCheckTagger setState:1];
@@ -301,7 +300,7 @@
             case 3:
                 if( [[entitiesListFileTextField stringValue] length] == 0)                    mRecogSteps++;
                 
-                mOutputFilePathString = [varFileString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
+                mOutputFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
                 
                 [entitiesListFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
                 [recogCheckOutputFile setState:1];
@@ -353,6 +352,27 @@
 {
     [recogFileContentTextField setString:@" "];
 }
+
+- (IBAction)createNewTxtFile:(id)sender
+{
+    // Create file manager
+    //NSFileManager *fileMgr = mFileManager;
+    
+    // Point to Document directory
+    NSString *folderPath = [[[mSelectFileOpenPanel directoryURL] absoluteString] substringFromIndex:16];
+    
+    NSString *filePath = [folderPath
+                          stringByAppendingPathComponent: [newFilenameTextField stringValue]];
+    NSLog(@"%@", filePath);
+    
+    // String to write
+    NSString *str = @"";
+    
+    // Write the file
+    [str writeToFile:filePath atomically:YES
+            encoding:NSUTF8StringEncoding error:nil];
+}
+
 
 
 // ==========================================================
