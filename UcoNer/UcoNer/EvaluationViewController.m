@@ -208,7 +208,7 @@
     }
     else if( [sender tag] == TEXT_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
-        [mSelectFileOpenPanel setTitle:@"Select Text file: (*.etq) "];
+        [mSelectFileOpenPanel setTitle:@"Select Text file: (*.txt) "];
         [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
         
         // Customizing path will be open
