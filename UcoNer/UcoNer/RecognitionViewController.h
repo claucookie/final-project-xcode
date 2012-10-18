@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "MainWindowController.h"
 #import "Util.h"
+#import "PreferencesViewController.h"
 
 @class PMProgressTextView;
 

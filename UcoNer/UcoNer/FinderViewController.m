@@ -7,6 +7,7 @@
 //
 
 #import "FinderViewController.h"
+#import "PreferencesViewController.h"
 
 @implementation FinderViewController
 
@@ -90,7 +91,7 @@
     NSString *regularExpressionArgument = mRegexpString ;
     NSString *inCorpusArgument = mInCorpusPathString;
     NSString *outputFileArgument = mOutputFilePathString;
-     
+    
     NSArray *arguments;
     arguments = [NSArray arrayWithObjects: @"--inCorpus", inCorpusArgument, @"--findPattern", regularExpressionArgument, @"--outFile", outputFileArgument , nil];
     [task setArguments: arguments];
@@ -119,7 +120,7 @@
     [logLabel setStringValue:@"  Finder task Result: "];
     
     [self deactivateStartButton];
-     
+    
 }
 
 - (IBAction)openSelectFilePanel:(id)sender
@@ -129,63 +130,64 @@
     [mSelectFileOpenPanel setCanChooseDirectories:YES];
     [mSelectFileOpenPanel setCanChooseFiles:YES];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
+    [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
+    [mSelectFileOpenPanel setTitle:@"Select output Text file: (*.txt) "];
+    [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
     
-    if( [sender tag] == TEXT_FILE_TAG ){
+    // Customizing path will be open
+    NSString *favoritePath = [PreferencesViewController getStringForKey:TEXT_FILE_PREFERENCE];
+    [mSelectFileOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
+    
+    // Showing the panel
+    NSInteger resultNSInteger = [mSelectFileOpenPanel runModal];
+    NSURL *resultFile = nil;
+    Boolean isFileSelected = NO;
+    NSString *varFileString = nil;
+    
+    // Click on OK button
+    if(resultNSInteger == NSOKButton){
         
-        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
-        [mSelectFileOpenPanel setTitle:@"Select output Text file: (*.txt) "];
-        [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+        NSLog(@"doOpen we have an OK button");
         
-        // Showing the panel
-        NSInteger resultNSInteger = [mSelectFileOpenPanel runModal];
-        NSURL *resultFile = nil;
-        Boolean isFileSelected = NO;
-        NSString *varFileString = nil;
+        // Gettin url file
+        resultFile = [mSelectFileOpenPanel URL];
         
-        // Click on OK button
-        if(resultNSInteger == NSOKButton){
-            
-            NSLog(@"doOpen we have an OK button");
-            
-            // Gettin url file
-            resultFile = [mSelectFileOpenPanel URL];
-            
-            // URL to string, cutting "file:/localhos..."
-            varFileString = [[resultFile absoluteString] substringFromIndex:16];
-            varFileString = [Util removeBadWhiteSpaces:varFileString];
-            
-            mOutputFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
-            NSLog(@"%@", varFileString);
-            
-            isFileSelected = YES;
-            
-        }
-        // Click on Cancel button
-        else if(resultNSInteger == NSCancelButton){
-            
-            NSLog(@"doOpen we have a Cancel button");
-            return;
-        }
-        else {
-            
-            NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
-            return;
-        }
+        // URL to string, cutting "file:/localhos..."
+        varFileString = [[resultFile absoluteString] substringFromIndex:16];
+        varFileString = [Util removeBadWhiteSpaces:varFileString];
         
-        if( isFileSelected ){
-            
-            if( [[outputFileTextField stringValue] length] == 0 )
-                mFinderSteps++;
-
-            mOutputFilePathString = varFileString;
-            // We short the string
-            [outputFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -48]]];
-            [checkFileStepButton setState:1];
-            
-        }
-        [self checkFinderSteps];
+        mOutputFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
+        NSLog(@"%@", varFileString);
+        
+        isFileSelected = YES;
         
     }
+    // Click on Cancel button
+    else if(resultNSInteger == NSCancelButton){
+        
+        NSLog(@"doOpen we have a Cancel button");
+        return;
+    }
+    else {
+        
+        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        return;
+    }
+    
+    if( isFileSelected ){
+        
+        if( [[outputFileTextField stringValue] length] == 0 )
+            mFinderSteps++;
+        
+        mOutputFilePathString = varFileString;
+        // We short the string
+        [outputFileTextField setStringValue: varFileString];
+        [checkFileStepButton setState:1];
+        
+    }
+    [self checkFinderSteps];
+    
+    
     
 }
 
@@ -198,6 +200,10 @@
     [mSelectFolderOpenPanel setCanChooseFiles:NO];
     [mSelectFolderOpenPanel setCanCreateDirectories:YES];
     [mSelectFolderOpenPanel setTitle:@"Select text Corpus folder: "];
+    
+    // Customizing path will be open
+    NSString *favoritePath = [PreferencesViewController getStringForKey:TEXT_CORPUS_PREFERENCE];
+    [mSelectFolderOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
     
     // Showing the panel
     NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
@@ -247,7 +253,7 @@
         
         mInCorpusPathString = varCorpusDir;
         // We short the string
-        [corpusFolderTextField setStringValue: [@"..." stringByAppendingString: [varCorpusDir substringFromIndex: varCorpusDir.length -60]]];
+        [corpusFolderTextField setStringValue: varCorpusDir];
         
         // LOADING files list array into Table view
         NSArray *filesArray = [[NSArray alloc] init];
