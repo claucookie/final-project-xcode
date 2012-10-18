@@ -7,6 +7,7 @@
 //
 
 #import "SynthesisViewController.h"
+#import "PreferencesViewController.h"
 
 @implementation SynthesisViewController
 
@@ -110,6 +111,10 @@
     [mSelectFolderOpenPanel setCanCreateDirectories:YES];
     [mSelectFolderOpenPanel setTitle:@"Select IOB Corpus folder: "];
     
+    // Customizing path will be open
+    NSString *favoritePath = [PreferencesViewController getStringForKey:IOB_CORPUS_PREFERENCE];
+    [mSelectFolderOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
+    
     // Showing the panel
     NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
     
@@ -157,7 +162,7 @@
     if( isCorpusFolderSelected ){
         
         // We short the string
-        [corpusFolderTextField setStringValue: [@"..." stringByAppendingString: [varCorpusDir substringFromIndex: varCorpusDir.length -60]]];
+        [corpusFolderTextField setStringValue: varCorpusDir];
 
         
         // LOADING files list array into Table view
@@ -189,6 +194,10 @@
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     [mSelectFileOpenPanel setTitle:@"Select Output Latex file: (*.tex) "];
     [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+    
+    // Customizing path will be open
+    NSString *favoritePath = [PreferencesViewController getStringForKey:LATEX_FILE_PREFERENCE];
+    [mSelectFileOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
     
     // Showing the panel
     
@@ -236,7 +245,7 @@
             mSynthesisSteps++;
         
         // We short the string
-        [grammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+        [grammarFileTextField setStringValue: varFileString];
         
         [checkGrammarStepButton setState:1];
         

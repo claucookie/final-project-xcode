@@ -119,6 +119,10 @@
     [mSelectFolderOpenPanel setCanCreateDirectories:YES];
     [mSelectFolderOpenPanel setTitle:@"Select Text Corpus folder: "];
     
+    // Customizing path will be open
+    NSString *favoritePath = [PreferencesViewController getStringForKey:TEXT_CORPUS_PREFERENCE];
+    [mSelectFolderOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
+    
     // Showing the panel
     NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
     NSURL *resultDirectory = nil;
@@ -147,7 +151,7 @@
         
         mCorpusPathString = varCorpusDir;
         // Showing path inside UI textfield
-        [recogInCorpusDirTextField setStringValue: [@"..." stringByAppendingString: [varCorpusDir substringFromIndex: varCorpusDir.length -60]]];
+        [recogInCorpusDirTextField setStringValue: varCorpusDir];
         
         isCorpusFolderSelected = YES;
         
@@ -230,16 +234,28 @@
     if( [sender tag] == GRAMMAR_RULES_FILE_TAG){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
         [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: (*.gr) "];
+        
+        // Customizing path will be open
+        NSString *favoritePath = [PreferencesViewController getStringForKey:GRAMMAR_FILE_PREFERENCE];
+        [mSelectFileOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
     }
     else if( [sender tag] == TAGGER_RULES_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"etq"]];
         [mSelectFileOpenPanel setTitle:@"Select Tag Rules file: (*.etq) "];
+        
+        // Customizing path will be open
+        NSString *favoritePath = [PreferencesViewController getStringForKey:TAGGER_FILE_PREFERENCE];
+        [mSelectFileOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
     }
     else if( [sender tag] == TEXT_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Text Output file: (*.txt) "];
         [mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
+        
+        // Customizing path will be open
+        NSString *favoritePath = [PreferencesViewController getStringForKey:TEXT_FILE_PREFERENCE];
+        [mSelectFileOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
     }
     
     // Showing the panel
@@ -283,7 +299,7 @@
                 
                 mGrammarPathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
                 
-                [recogGrammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+                [recogGrammarFileTextField setStringValue: varFileString];
                 [recogCheckGrammar setState:1];
                 break;
                 
@@ -292,7 +308,7 @@
                 
                 mTaggerPathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
                 
-                [recogTaggerFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+                [recogTaggerFileTextField setStringValue: varFileString];
                 [recogCheckTagger setState:1];
                 break;
             
@@ -301,7 +317,7 @@
                 
                 mOutputFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
                 
-                [entitiesListFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
+                [entitiesListFileTextField setStringValue: varFileString];
                 [recogCheckOutputFile setState:1];
                 break;
                 
