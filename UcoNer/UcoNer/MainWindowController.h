@@ -16,8 +16,10 @@
     IBOutlet NSView *evaluation;
     IBOutlet NSView *finder;
     IBOutlet NSView *synthesis;
-    int currentViewTag;    
-
+    
+    IBOutlet NSView *preferences;
+    int currentViewTag;
+    
 }
 
 @property (assign) IBOutlet NSPopover *popover;
@@ -29,8 +31,6 @@
 - (IBAction)showPopupInfo:(id)sender;
 
 - (IBAction)switchView:(id)sender;
-
-- (IBAction)createNewTxtFile:(id)sender;
 
 
 

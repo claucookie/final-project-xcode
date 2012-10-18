@@ -70,8 +70,12 @@
             view = finder;
             break;
             
-        case 3: default:
+        case 3:
             view = synthesis;
+            break;
+        
+        case 4: default:
+            view = preferences;
             break;
     }
     
@@ -92,11 +96,9 @@
 
 /**
  
- Actions
+ A c t i o n s
  
  **/
-
-
 
 
 - (IBAction)showPopupInfo:(id)sender

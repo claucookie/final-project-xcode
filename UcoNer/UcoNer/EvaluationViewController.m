@@ -7,6 +7,7 @@
 //
 
 #import "EvaluationViewController.h"
+#import "PreferencesViewController.h"
 
 @implementation EvaluationViewController
 
@@ -30,7 +31,6 @@
     // Initalize fileListTableView
     [filesListTableView setDataSource:self];
     
-    // Steps counter = 0
     mEvaluationSteps = 0;
 }
 
@@ -121,6 +121,10 @@
     [mSelectFolderOpenPanel setCanCreateDirectories:YES];
     [mSelectFolderOpenPanel setTitle:@"Select IOB Revised Corpus Folder: "];
     
+    // Customizing path will be open
+    NSString *favoritePath = [PreferencesViewController getStringForKey:IOB_REVISED_CORPUS_PREFERENCE];
+    [mSelectFolderOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
+    
     // Showing the panel
     NSInteger resultNSInteger = [mSelectFolderOpenPanel runModal];
     
@@ -149,7 +153,7 @@
             mEvaluationSteps++;
         }
         
-        [corpusFolderTextField setStringValue: [@"..." stringByAppendingString: [varCorpusDir substringFromIndex: varCorpusDir.length -60]]];
+        [corpusFolderTextField setStringValue: varCorpusDir];
         isCorpusFolderSelected = YES;
         
     }
@@ -196,11 +200,21 @@
     if( [sender tag] == GRAMMAR_RULES_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
         [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: (*.gr) "];
+        
+        // Customizing path will be open
+        NSString *favoritePath = [PreferencesViewController
+                                  getStringForKey:GRAMMAR_FILE_PREFERENCE];
+        [mSelectFileOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
     }
     else if( [sender tag] == TEXT_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
-        [mSelectFileOpenPanel setTitle:@"Select Tagger Rules file: (*.etq) "];
+        [mSelectFileOpenPanel setTitle:@"Select Text file: (*.etq) "];
         [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+        
+        // Customizing path will be open
+        NSString *favoritePath = [PreferencesViewController
+                                  getStringForKey:TEXT_FILE_PREFERENCE];
+        [mSelectFileOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
     }
     
     // Showing the panel
@@ -248,15 +262,16 @@
         
         switch ([sender tag]) {
             case GRAMMAR_RULES_FILE_TAG:
-                // Check if it's the first time the field is used
-                if( [[grammarFileTextField stringValue] length] == 0 )
-                    mEvaluationSteps++;
-                
-                mGrammarPathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
-                
-                [grammarFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
-                
-                [checkGrammarStepButton setState:1];
+                if( isFileSelected ){
+                    
+                    // Check if it's the first time the field is used
+                    if( [[grammarFileTextField stringValue] length] == 0 )
+                        mEvaluationSteps++;
+                    
+                    mGrammarPathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
+                    [grammarFileTextField setStringValue: varFileString];
+                    [checkGrammarStepButton setState:1];
+                }
                 break;
                 
             case TEXT_FILE_TAG:
@@ -266,11 +281,8 @@
                         mEvaluationSteps++;
                     
                     mOutputFilePathString =  [Util replaceWhiteSpacesByScapeChar:varFileString];
-                    
-                    [outputFileTextField setStringValue: [@"..." stringByAppendingString: [varFileString substringFromIndex: varFileString.length -40]]];
-                    
+                    [outputFileTextField setStringValue: varFileString];
                     [checkOutputFileStepButton setState:1];
-                    
                 }
                 break;
                 

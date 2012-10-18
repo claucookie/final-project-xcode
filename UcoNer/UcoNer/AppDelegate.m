@@ -17,11 +17,8 @@
         mainWindowController = [[MainWindowController alloc] init];
     }
     
+    
     [mainWindowController showWindow:nil];
 }
-
-
-
-
 
 @end
