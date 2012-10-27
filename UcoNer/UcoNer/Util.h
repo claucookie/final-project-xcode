@@ -34,4 +34,6 @@ static NSString *LATEX_FILE_PREFERENCE = @"latexFilePathPref";
 
 + (NSString *)replaceWhiteSpacesByScapeChar:(NSString *)pathString;
 
++ (NSString *)fixAccentInPathString:(NSString *)pathString;
+
 @end

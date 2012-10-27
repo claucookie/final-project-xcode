@@ -22,6 +22,9 @@
     // Initialize flags
     mCorpusOrFileToggleButtonWasClickedYet = NO;
     mRegularExpresionWasWrittenYet = NO;
+    
+    // Customizing title label
+    [finderTitleLabel setBackgroundColor:[NSColor colorWithPatternImage:[NSImage imageNamed:@"background_label"]]];
 }
 
 - (id)initWithFrame:(NSRect)frame
@@ -132,7 +135,7 @@
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
     [mSelectFileOpenPanel setTitle:@"Select output Text file: (*.txt) "];
-    [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+    //[mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
     
     // Customizing path will be open
     NSString *favoritePath = [PreferencesViewController getStringForKey:TEXT_FILE_PREFERENCE];
@@ -155,6 +158,7 @@
         // URL to string, cutting "file:/localhos..."
         varFileString = [[resultFile absoluteString] substringFromIndex:16];
         varFileString = [Util removeBadWhiteSpaces:varFileString];
+        varFileString = [Util fixAccentInPathString:varFileString];
         
         mOutputFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
         NSLog(@"%@", varFileString);
@@ -226,6 +230,7 @@
         
         // Replacing white spaces
         varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        varCorpusDir = [Util fixAccentInPathString:varCorpusDir];
         mInCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         
         // We add +1 to recognition steps if is the first time to use the field

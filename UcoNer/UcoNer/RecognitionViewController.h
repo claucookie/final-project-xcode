@@ -17,6 +17,9 @@
     
     @private
     
+    // title
+    IBOutlet NSTextField *recognitionTitleLabel;
+    
     // Recognition View : fields and buttons
     IBOutlet NSTextField *recogInCorpusDirTextField;
     IBOutlet NSTableView *recogFilesListTableView;

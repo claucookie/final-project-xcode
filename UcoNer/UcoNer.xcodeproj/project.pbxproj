@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0E45D74415F11D100059DB0A /* EvaluationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E45D74315F11D100059DB0A /* EvaluationViewController.m */; };
 		0E5A82B815F2141E00CB5621 /* SynthesisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */; };
+		0E7041FD163C088900C2FE01 /* billie_holiday.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E7041FC163C088900C2FE01 /* billie_holiday.png */; };
+		0E704205163C179200C2FE01 /* background_label.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E704204163C179200C2FE01 /* background_label.png */; };
 		0E7D762A1629695F00A18838 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7D76291629695F00A18838 /* Util.m */; };
 		0E8A682B15DFEDB400412A75 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E8A682A15DFEDB400412A75 /* MainWindow.xib */; };
 		0E8A683315DFF61400412A75 /* MainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A683215DFF61400412A75 /* MainWindowController.m */; };
@@ -43,6 +45,8 @@
 		0E45D74315F11D100059DB0A /* EvaluationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EvaluationViewController.m; path = ../EvaluationViewController.m; sourceTree = "<group>"; };
 		0E5A82B615F2141E00CB5621 /* SynthesisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesisViewController.h; path = ../SynthesisViewController.h; sourceTree = "<group>"; };
 		0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SynthesisViewController.m; path = ../SynthesisViewController.m; sourceTree = "<group>"; };
+		0E7041FC163C088900C2FE01 /* billie_holiday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = billie_holiday.png; sourceTree = "<group>"; };
+		0E704204163C179200C2FE01 /* background_label.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background_label.png; sourceTree = "<group>"; };
 		0E7D76261629648400A18838 /* UcoNer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = UcoNer.entitlements; sourceTree = "<group>"; };
 		0E7D76281629695F00A18838 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		0E7D76291629695F00A18838 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
@@ -118,6 +122,8 @@
 		0EBA409F16222D0300181F10 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0E7041FC163C088900C2FE01 /* billie_holiday.png */,
+				0E704204163C179200C2FE01 /* background_label.png */,
 				0EBA40A016222D1200181F10 /* ucologo.jpg */,
 			);
 			path = Images;
@@ -257,7 +263,7 @@
 		0EC1A96815DFEA6B000E0900 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Claudia María Luque Fernández";
 			};
 			buildConfigurationList = 0EC1A96B15DFEA6B000E0900 /* Build configuration list for PBXProject "UcoNer" */;
@@ -288,6 +294,8 @@
 				0EC1A98C15DFEA6B000E0900 /* MainMenu.xib in Resources */,
 				0E8A682B15DFEDB400412A75 /* MainWindow.xib in Resources */,
 				0EBA40A116222D1200181F10 /* ucologo.jpg in Resources */,
+				0E7041FD163C088900C2FE01 /* billie_holiday.png in Resources */,
+				0E704205163C179200C2FE01 /* background_label.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,7 +400,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -410,9 +418,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -420,7 +428,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -432,8 +440,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};

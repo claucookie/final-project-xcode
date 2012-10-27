@@ -13,6 +13,8 @@
     
     @private
     
+    IBOutlet NSTextField *synthesisTitleLabel;
+    
     IBOutlet NSButton *checkCorpusStepButton;
     IBOutlet NSButton *checkGrammarStepButton;
     IBOutlet NSTextField *startSynthesisLabel;

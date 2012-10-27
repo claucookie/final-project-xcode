@@ -146,6 +146,7 @@
         }
     }
     else if( [sender tag] == GRAMMAR_RULES_FILE_TAG){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
         [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: (*.gr) "];
         
@@ -155,6 +156,7 @@
         }
     }
     else if( [sender tag] == TAGGER_RULES_FILE_TAG ){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"etq"]];
         [mSelectFileOpenPanel setTitle:@"Select Tag Rules file: (*.etq) "];
         
@@ -164,10 +166,11 @@
         }
     }
     else if( [sender tag] == TEXT_FILE_TAG ){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Text Output file: (*.txt) "];
-        [mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
+        //[mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
         
         // Open the saved path
         if( ![[textFilePathTextField stringValue] isEqualTo:@""]){
@@ -175,10 +178,11 @@
         }
     }
     else if( [sender tag] == LATEX_FILE_TAG ){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
         //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Latex Output file: (*.tex) "];
-        [mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
+        //[mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
         
         // Open the saved path
         if( ![[latexFilePathTextField stringValue] isEqualTo:@""]){
@@ -224,6 +228,9 @@
     if( isFileSelected ){
         
         varFileString = [Util replaceWhiteSpacesByScapeChar:varFileString];
+        varFileString = [Util fixAccentInPathString:varFileString];
+        //NSLog(@"hola %@", varFileString);
+
         
         switch ([sender tag]) {
             

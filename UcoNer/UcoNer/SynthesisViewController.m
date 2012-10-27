@@ -28,6 +28,9 @@
     
     // Steps counter = 0
     mSynthesisSteps = 0;
+    
+    // Customizing title label
+    [synthesisTitleLabel setBackgroundColor:[NSColor colorWithPatternImage:[NSImage imageNamed:@"background_label"]]];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -136,6 +139,7 @@
 
         // Replacing white spaces
         varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        varCorpusDir = [Util fixAccentInPathString:varCorpusDir];
         mCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         
         // We add +1 to recognition steps if is the first time to use the field
@@ -193,7 +197,7 @@
     [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     [mSelectFileOpenPanel setTitle:@"Select Output Latex file: (*.tex) "];
-    [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+    //[mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
     
     // Customizing path will be open
     NSString *favoritePath = [PreferencesViewController getStringForKey:LATEX_FILE_PREFERENCE];
@@ -222,6 +226,7 @@
         
         // Replacing white spaces
         varFileString = [Util removeBadWhiteSpaces:varFileString];
+        varFileString = [Util fixAccentInPathString:varFileString];
         mTexFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
         
         isFileSelected = YES;

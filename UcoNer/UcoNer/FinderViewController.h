@@ -12,6 +12,9 @@
 @interface FinderViewController : NSView{
     
     @private
+    
+    IBOutlet NSTextField *finderTitleLabel;
+    
     // Interface items
     IBOutlet NSTextField *corpusFolderTextField;
     IBOutlet NSTableView *filesListTableView;

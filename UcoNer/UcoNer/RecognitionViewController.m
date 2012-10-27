@@ -25,8 +25,13 @@
     
     // Initalize fileListTableView
     [recogFilesListTableView setDataSource:self];
+    
     mRecogSteps = 0;
     mCorpusOrFileToggleButtonWasClickedYet = NO;
+    
+    // Customizing title label
+    [recognitionTitleLabel setBackgroundColor:[NSColor colorWithPatternImage:[NSImage imageNamed:@"background_label"]]];
+    
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -143,6 +148,7 @@
 
         // Replacing white spaces
         varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        varCorpusDir = [Util fixAccentInPathString:varCorpusDir];
         mCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         // We add +1 to recognition steps if is the first time to use the field
         if( [[recogInCorpusDirTextField stringValue] length] == 0){
@@ -251,7 +257,7 @@
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Text Output file: (*.txt) "];
-        [mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
+        //[mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
         
         // Customizing path will be open
         NSString *favoritePath = [PreferencesViewController getStringForKey:TEXT_FILE_PREFERENCE];
@@ -275,6 +281,7 @@
         varFileString= [[resultFile absoluteString] substringFromIndex:16];
         // Replacing white spaces
         varFileString = [Util removeBadWhiteSpaces:varFileString];
+        varFileString = [Util fixAccentInPathString:varFileString];
         
         isFileSelected = YES;
         

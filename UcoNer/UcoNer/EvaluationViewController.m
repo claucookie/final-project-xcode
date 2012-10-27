@@ -32,6 +32,9 @@
     [filesListTableView setDataSource:self];
     
     mEvaluationSteps = 0;
+    
+    // Customizing title label
+    [evaluationTitleLabel setBackgroundColor:[NSColor colorWithPatternImage:[NSImage imageNamed:@"background_label"]]];
 }
 
 - (void)checkEvaluationSteps
@@ -145,6 +148,7 @@
         
         // Replacing white spaces
         varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        varCorpusDir = [Util fixAccentInPathString:varCorpusDir];
         mCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         
         // We add +1 to recognition steps if is the first time to use the field
@@ -209,7 +213,7 @@
     else if( [sender tag] == TEXT_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         [mSelectFileOpenPanel setTitle:@"Select Text file: (*.txt) "];
-        [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+        //[mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
         
         // Customizing path will be open
         NSString *favoritePath = [PreferencesViewController
@@ -238,6 +242,7 @@
         
         // Replacing white spaces
         varFileString = [Util removeBadWhiteSpaces:varFileString];
+        varFileString = [Util fixAccentInPathString:varFileString];
 
         
         NSLog(@"%@", varFileString);
