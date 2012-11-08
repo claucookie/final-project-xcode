@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0E45D74415F11D100059DB0A /* EvaluationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E45D74315F11D100059DB0A /* EvaluationViewController.m */; };
 		0E5A82B815F2141E00CB5621 /* SynthesisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */; };
+		0E63074D164C576A00500CAB /* uconer_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E63074C164C576A00500CAB /* uconer_logo.png */; };
+		0E630756164C742F00500CAB /* uconer_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0E630755164C742F00500CAB /* uconer_icon.icns */; };
 		0E7041FD163C088900C2FE01 /* billie_holiday.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E7041FC163C088900C2FE01 /* billie_holiday.png */; };
 		0E704205163C179200C2FE01 /* background_label.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E704204163C179200C2FE01 /* background_label.png */; };
 		0E7D762A1629695F00A18838 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E7D76291629695F00A18838 /* Util.m */; };
@@ -25,6 +27,12 @@
 		0EC1A99515DFEA6B000E0900 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC1A97515DFEA6B000E0900 /* Cocoa.framework */; };
 		0EC1A99D15DFEA6B000E0900 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0EC1A99B15DFEA6B000E0900 /* InfoPlist.strings */; };
 		0EC1A9A015DFEA6B000E0900 /* UcoNerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EC1A99F15DFEA6B000E0900 /* UcoNerTests.m */; };
+		0EE6E291164C4052001EF3B8 /* evaluation_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE6E28D164C4052001EF3B8 /* evaluation_icon.png */; };
+		0EE6E292164C4052001EF3B8 /* finder_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE6E28E164C4052001EF3B8 /* finder_icon.png */; };
+		0EE6E294164C4052001EF3B8 /* synthesis_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE6E290164C4052001EF3B8 /* synthesis_icon.png */; };
+		0EE6E298164C44D5001EF3B8 /* settings_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE6E297164C44D5001EF3B8 /* settings_icon.png */; };
+		0EE6E29A164C453B001EF3B8 /* info_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE6E299164C453B001EF3B8 /* info_icon.png */; };
+		0EE6E29C164C47A5001EF3B8 /* recognition_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE6E29B164C47A5001EF3B8 /* recognition_icon.png */; };
 		0EE8F16015EFDA9A0098057A /* RecognitionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EE8F15F15EFDA990098057A /* RecognitionViewController.m */; };
 		0EEB6425162DFE6100C1A62F /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEB6424162DFE6100C1A62F /* PreferencesViewController.m */; };
 		0EFF4CC015EE897200688790 /* FinderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EFF4CBF15EE897200688790 /* FinderViewController.m */; };
@@ -45,6 +53,8 @@
 		0E45D74315F11D100059DB0A /* EvaluationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EvaluationViewController.m; path = ../EvaluationViewController.m; sourceTree = "<group>"; };
 		0E5A82B615F2141E00CB5621 /* SynthesisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesisViewController.h; path = ../SynthesisViewController.h; sourceTree = "<group>"; };
 		0E5A82B715F2141E00CB5621 /* SynthesisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SynthesisViewController.m; path = ../SynthesisViewController.m; sourceTree = "<group>"; };
+		0E63074C164C576A00500CAB /* uconer_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uconer_logo.png; sourceTree = "<group>"; };
+		0E630755164C742F00500CAB /* uconer_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = uconer_icon.icns; sourceTree = "<group>"; };
 		0E7041FC163C088900C2FE01 /* billie_holiday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = billie_holiday.png; sourceTree = "<group>"; };
 		0E704204163C179200C2FE01 /* background_label.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background_label.png; sourceTree = "<group>"; };
 		0E7D76261629648400A18838 /* UcoNer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = UcoNer.entitlements; sourceTree = "<group>"; };
@@ -73,6 +83,12 @@
 		0EC1A99C15DFEA6B000E0900 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0EC1A99E15DFEA6B000E0900 /* UcoNerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UcoNerTests.h; sourceTree = "<group>"; };
 		0EC1A99F15DFEA6B000E0900 /* UcoNerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UcoNerTests.m; sourceTree = "<group>"; };
+		0EE6E28D164C4052001EF3B8 /* evaluation_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evaluation_icon.png; sourceTree = "<group>"; };
+		0EE6E28E164C4052001EF3B8 /* finder_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = finder_icon.png; sourceTree = "<group>"; };
+		0EE6E290164C4052001EF3B8 /* synthesis_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = synthesis_icon.png; sourceTree = "<group>"; };
+		0EE6E297164C44D5001EF3B8 /* settings_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_icon.png; sourceTree = "<group>"; };
+		0EE6E299164C453B001EF3B8 /* info_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info_icon.png; sourceTree = "<group>"; };
+		0EE6E29B164C47A5001EF3B8 /* recognition_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recognition_icon.png; sourceTree = "<group>"; };
 		0EE8F15E15EFDA990098057A /* RecognitionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecognitionViewController.h; path = ../RecognitionViewController.h; sourceTree = "<group>"; };
 		0EE8F15F15EFDA990098057A /* RecognitionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecognitionViewController.m; path = ../RecognitionViewController.m; sourceTree = "<group>"; };
 		0EEB6423162DFE6100C1A62F /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesViewController.h; sourceTree = "<group>"; };
@@ -124,6 +140,13 @@
 			children = (
 				0E7041FC163C088900C2FE01 /* billie_holiday.png */,
 				0E704204163C179200C2FE01 /* background_label.png */,
+				0EE6E28D164C4052001EF3B8 /* evaluation_icon.png */,
+				0EE6E29B164C47A5001EF3B8 /* recognition_icon.png */,
+				0EE6E28E164C4052001EF3B8 /* finder_icon.png */,
+				0EE6E299164C453B001EF3B8 /* info_icon.png */,
+				0EE6E297164C44D5001EF3B8 /* settings_icon.png */,
+				0EE6E290164C4052001EF3B8 /* synthesis_icon.png */,
+				0E63074C164C576A00500CAB /* uconer_logo.png */,
 				0EBA40A016222D1200181F10 /* ucologo.jpg */,
 			);
 			path = Images;
@@ -132,6 +155,7 @@
 		0EC1A96615DFEA6B000E0900 = {
 			isa = PBXGroup;
 			children = (
+				0E630755164C742F00500CAB /* uconer_icon.icns */,
 				0EC1A97B15DFEA6B000E0900 /* UcoNer */,
 				0EC1A99815DFEA6B000E0900 /* UcoNerTests */,
 				0EC1A97415DFEA6B000E0900 /* Frameworks */,
@@ -296,6 +320,14 @@
 				0EBA40A116222D1200181F10 /* ucologo.jpg in Resources */,
 				0E7041FD163C088900C2FE01 /* billie_holiday.png in Resources */,
 				0E704205163C179200C2FE01 /* background_label.png in Resources */,
+				0EE6E291164C4052001EF3B8 /* evaluation_icon.png in Resources */,
+				0EE6E292164C4052001EF3B8 /* finder_icon.png in Resources */,
+				0EE6E294164C4052001EF3B8 /* synthesis_icon.png in Resources */,
+				0EE6E298164C44D5001EF3B8 /* settings_icon.png in Resources */,
+				0EE6E29A164C453B001EF3B8 /* info_icon.png in Resources */,
+				0EE6E29C164C47A5001EF3B8 /* recognition_icon.png in Resources */,
+				0E63074D164C576A00500CAB /* uconer_logo.png in Resources */,
+				0E630756164C742F00500CAB /* uconer_icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

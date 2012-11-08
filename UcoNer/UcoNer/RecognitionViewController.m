@@ -62,10 +62,14 @@
     [startRecognitionButton setHidden:YES];
     
     // Setting and showing progress indicator
-    [progressIndicator setUsesThreadedAnimation:YES];
-    [progressIndicator setHidden:NO];
-    [progressIndicator display];
-    
+    //[progressIndicator setUsesThreadedAnimation:YES];
+    //[progressIndicator usesThreadedAnimation];
+    //[progressIndicator setIndeterminate:YES];
+    //[progressIndicator setHidden:NO];
+    //[progressIndicator display];
+    [progressIndicator startAnimation:self];
+    [progressIndicator displayIfNeeded];
+
     
     // Call system program with
     NSTask *task;
@@ -106,6 +110,7 @@
         NSLog(@"%@", theException);
 	}
 	@finally {
+        [progressIndicator stopAnimation:self];
         [progressIndicator setHidden:YES];
         [logLabel setStringValue:@"  Recognition task Result: "];
         [startRecognitionButton setHidden:NO];
