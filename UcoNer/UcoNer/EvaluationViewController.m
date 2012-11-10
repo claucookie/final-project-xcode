@@ -44,7 +44,7 @@
         [startEvaluationButton setEnabled:YES];
         [startEvaluationLabel setHidden:NO];
     }
-    NSLog(@"%ld", mEvaluationSteps);
+    //NSLog(@"%ld", mEvaluationSteps);
 }
 
 - (NSString *)readFile:(NSString*) filepath
@@ -57,6 +57,26 @@
     return filecontent; //Returns the first line captured to Run Log
 }
 
+- (Boolean)resultIsOk:(NSString*)result
+{
+    // Look for success message and return true or false
+    NSRange aRange = [result rangeOfString:@"ChunkParse score"];
+
+    if (aRange.location ==NSNotFound) {
+
+        //NSLog(@"string not found");
+        return NO;
+
+    } else {
+
+        //NSLog(@"string was found");
+        return YES;
+
+    }
+    
+}
+
+
 /**
  
  Actions
@@ -65,6 +85,14 @@
 
 - (IBAction)startEvaluationTask:(id)sender
 {
+    // Clear log panel, remove open button
+    [evaluationResultTextView setString:@" "];
+    [openResultButton setHidden:YES];
+    // Clear output file
+    [@"" writeToFile:mOutputFilePathString
+           atomically:YES
+             encoding:NSISOLatin1StringEncoding error:NULL];
+
     [startEvaluationButton setHidden:YES];
     
     // Setting and showing progress indicator
@@ -86,31 +114,63 @@
     NSArray *arguments;
     arguments = [NSArray arrayWithObjects: @"--iobCorpus", inCorpusArgument, @"--grammarFile", entFileArgument, @"--outFile", outputFileArgument, nil];
     [task setArguments: arguments];
-    
+
     NSPipe *pipe;
     pipe = [NSPipe pipe];
     [task setStandardOutput: pipe];
-    
+
+    NSString *result;
     NSFileHandle *file;
     file = [pipe fileHandleForReading];
+
+
+
+    @try {
+        [task launch];
+
+        NSData *data;
+        data = [file readDataToEndOfFile];
+        result = [self readFile:outputFileArgument];
+        //NSLog (@"task returned:\n%@", result);
+        
+	}
+	@catch (id theException) {
+        [evaluationResultTextView setString:theException];
+        NSLog(@"%@", theException);
+	}
+	@finally {
+        [progressIndicator stopAnimation:self];
+        [progressIndicator setHidden:YES];
+        [startEvaluationButton setHidden:NO];
+
+        [evaluationResultTextView setString:result];
+        [logLabel setStringValue:@"  Evaluation task Result: "];
+
+        if( [self resultIsOk:result] ){
+
+            [openResultButton setHidden:NO];
+        }
+
+        //NSLog(@"This always happens.");
+	}
+}
+
+
+- (IBAction)openResultFile:(id)sender
+{
+    // Get the favorite app
+    NSString *favoriteApp = [PreferencesViewController getStringForKey:TEXT_APP_PREFERENCE];
+
+    // Open result file with preferences app.
+    // If is not specified, use default one.
+    if ( ![favoriteApp isEqualToString:@""] ) {
+        [[NSWorkspace sharedWorkspace] openFile:mOutputFilePathString
+                                withApplication:favoriteApp];
+    } else {
+        [[NSWorkspace sharedWorkspace] openFile:mOutputFilePathString];
+    }
+
     
-    // TODO: TRY CATCH  
-    
-    [task launch];
-    
-    NSData *data;
-    data = [file readDataToEndOfFile];
-    
-    NSString *result;
-    result = [self readFile:outputFileArgument];
-    //result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    //NSLog (@"task returned:\n%@", result);
-    
-    [progressIndicator setHidden:YES];
-    [evaluationResultTextView setString: result];
-    NSLog(@"%@", result);
-    [logLabel setStringValue:@"  Evaluation task Result: "];
-    [startEvaluationButton setHidden:NO];
 }
 
 
@@ -138,7 +198,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
         
-        NSLog(@"doOpen we have an OK button");
+        //NSLog(@"doOpen we have an OK button");
         
         // Gettin url folder
         resultDirectory = [mSelectFolderOpenPanel directoryURL];
@@ -164,12 +224,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
         
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
         
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
     
@@ -231,7 +291,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
         
-        NSLog(@"doOpen we have an OK button");
+        //NSLog(@"doOpen we have an OK button");
         
         
         // Gettin url file
@@ -245,7 +305,7 @@
         varFileString = [Util fixAccentInPathString:varFileString];
 
         
-        NSLog(@"%@", varFileString);
+        //NSLog(@"%@", varFileString);
         
         isFileSelected = YES;
         
@@ -253,12 +313,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
         
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
         
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
     
@@ -317,7 +377,7 @@
     
     NSString *filePath = [folderPath
                           stringByAppendingPathComponent: [newFilenameTextField stringValue]];
-    NSLog(@"%@", filePath);
+    //NSLog(@"%@", filePath);
     
     // String to write
     NSString *str = @"";

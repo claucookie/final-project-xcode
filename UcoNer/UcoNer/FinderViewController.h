@@ -25,8 +25,9 @@
     IBOutlet NSButton *startSearchButton;
     IBOutlet NSTextField *startSearchLabel;
     IBOutlet NSTextField *outputFileTextField;
-    IBOutlet NSTextView *logPanelTextView;
+    IBOutlet NSTextView *finderResultTextView;
     IBOutlet NSTextField *logLabel;
+    IBOutlet NSButton *openResultButton;
     
     IBOutlet NSProgressIndicator *progressIndicator;
     IBOutlet NSView *openPanelExtraButtonsView;

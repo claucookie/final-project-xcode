@@ -26,7 +26,7 @@
     IBOutlet NSTextField *selectedFileTextField;
     IBOutlet NSTextField *recogGrammarFileTextField;
     IBOutlet NSTextField *recogTaggerFileTextField;
-    IBOutlet NSTextView *recogFileContentTextField;
+    IBOutlet NSTextView *recognitionResultTextField;
     IBOutlet NSTextField *entitiesListFileTextField;
     IBOutlet NSTextField *logLabel;
     IBOutlet NSButton *recogCheckCorpus;
@@ -38,6 +38,7 @@
     IBOutlet NSTextField *startRecognitionLabel;
     IBOutlet NSButton *corpusToggleButton;
     IBOutlet NSButton *fileToggleButton;
+    IBOutlet NSButton *openResultButton;
     
     IBOutlet NSProgressIndicator *progressIndicator;
     IBOutlet NSView *openPanelExtraButtonsView;

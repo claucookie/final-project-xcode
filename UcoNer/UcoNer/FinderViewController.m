@@ -66,6 +66,24 @@
     [startSearchLabel setHidden:YES];
 }
 
+- (Boolean)resultIsOk:(NSString*)result
+{
+    // Look for success message and return true or false
+    NSRange aRange = [result rangeOfString:@"matched paragraphs"];
+
+    if (aRange.location ==NSNotFound) {
+
+        //NSLog(@"string not found");
+        return NO;
+
+    } else {
+
+        //NSLog(@"string was found");
+        return YES;
+
+    }
+    
+}
 
 /**
 
@@ -76,8 +94,15 @@
 
 - (IBAction)startFinderTask:(id)sender
 {
+    // Clear log panel
+    [finderResultTextView setString:@" "];
+    [openResultButton setHidden:YES];
+    // Clear output file
+    [@"" writeToFile:mOutputFilePathString
+          atomically:YES
+            encoding:NSISOLatin1StringEncoding error:NULL];
 
-    // We hide the button
+    // We hide the start button
     [startSearchButton setHidden:YES];
 
     // Setting and showing progress indicator
@@ -103,28 +128,61 @@
     pipe = [NSPipe pipe];
     [task setStandardOutput: pipe];
 
+    NSString *result;
     NSFileHandle *file;
     file = [pipe fileHandleForReading];
 
-    [task launch];
 
-    NSData *data;
-    data = [file readDataToEndOfFile];
+    @try {
+        [task launch];
 
-    NSString *result;
-    result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    NSLog (@"task returned:\n%@", result);
+        NSData *data;
+        data = [file readDataToEndOfFile];
+        result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+        //NSLog (@"task returned:\n%@", result);
+	}
+	@catch (id theException) {
+        [finderResultTextView setString:theException];
+        NSLog(@"%@", theException);
+	}
+	@finally {
+        [progressIndicator stopAnimation:self];
+        [progressIndicator setHidden:YES];
+        [startSearchButton setHidden:NO];
 
+        [finderResultTextView setString:result];
+        [logLabel setStringValue:@"  Finder task Result: "];
 
-    [progressIndicator setHidden:YES];
-    [startSearchButton setHidden:NO];
+        if( [self resultIsOk:result] ){
 
-    [logPanelTextView setString:result];
-    [logLabel setStringValue:@"  Finder task Result: "];
+            [openResultButton setHidden:NO];
+        }
+
+        //NSLog(@"This always happens.");
+	}
 
     [self deactivateStartButton];
 
 }
+
+- (IBAction)openResultFile:(id)sender
+{
+    // Get the favorite app
+    NSString *favoriteApp = [PreferencesViewController
+                             getStringForKey:TEXT_APP_PREFERENCE];
+
+    // Open result file with preferences app.
+    // If is not specified, use default one.
+    if ( ![favoriteApp isEqualToString:@""] ) {
+        [[NSWorkspace sharedWorkspace] openFile:mOutputFilePathString
+                                withApplication:favoriteApp];
+    } else {
+        [[NSWorkspace sharedWorkspace] openFile:mOutputFilePathString];
+    }
+
+    
+}
+
 
 - (IBAction)openSelectFilePanel:(id)sender
 {
@@ -305,7 +363,7 @@
 
 - (IBAction)clearConsoleWhenClickOn:(id) sender
 {
-    [logPanelTextView setString:@" "];
+    [finderResultTextView setString:@" "];
 }
 
 - (IBAction)createNewTxtFile:(id)sender

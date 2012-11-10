@@ -21,6 +21,8 @@
 @synthesize taggerFilePathTextField;
 @synthesize textFilePathTextField;
 @synthesize latexFilePathTextField;
+@synthesize pdfAppPathTextField;
+@synthesize textAppPathTextField;
 
 
 - (id)initWithFrame:(NSRect)frame
@@ -99,6 +101,12 @@
     
     value = [self getStringForKey:LATEX_FILE_PREFERENCE];
     [latexFilePathTextField setStringValue: value];
+
+    value = [self getStringForKey:PDF_APP_PREFERENCE];
+    [pdfAppPathTextField setStringValue: value];
+
+    value = [self getStringForKey:TEXT_APP_PREFERENCE];
+    [textAppPathTextField setStringValue: value];
     
 }
 
@@ -189,6 +197,28 @@
             customDirString = [latexFilePathTextField stringValue];
         }
     }
+    else if( [sender tag] == PDF_APP_TAG ){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
+        [mSelectFileOpenPanel setCanChooseDirectories:NO];
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"app"]];
+        [mSelectFileOpenPanel setTitle:@"Select an app to Open .pdf files"];
+
+        // Open the saved path
+        if( ![[pdfAppPathTextField stringValue] isEqualTo:@""]){
+            customDirString = [pdfAppPathTextField stringValue];
+        }
+    }
+    else if( [sender tag] == TEXT_APP_TAG ){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
+        [mSelectFileOpenPanel setCanChooseDirectories:NO];
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"app"]];
+        [mSelectFileOpenPanel setTitle:@"Select an app to Open .txt files"];
+
+        // Open the saved path
+        if( ![[textAppPathTextField stringValue] isEqualTo:@""]){
+            customDirString = [textAppPathTextField stringValue];
+        }
+    }
     
     // Customizing the path to open "select file/folder" window
     [mSelectFileOpenPanel setDirectoryURL:[NSURL fileURLWithPath:customDirString]];
@@ -267,6 +297,16 @@
             case LATEX_FILE_TAG:
                 [latexFilePathTextField setStringValue: varFileString];
                 [self setStringForKey:varFileString :LATEX_FILE_PREFERENCE ];
+                break;
+
+            case PDF_APP_TAG:
+                [pdfAppPathTextField setStringValue: varFileString];
+                [self setStringForKey:varFileString :PDF_APP_PREFERENCE ];
+                break;
+
+            case TEXT_APP_TAG:
+                [textAppPathTextField setStringValue: varFileString];
+                [self setStringForKey:varFileString :TEXT_APP_PREFERENCE ];
                 break;
             
             default:

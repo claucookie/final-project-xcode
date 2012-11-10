@@ -57,6 +57,9 @@
 
 - (IBAction)startSynthesisTask:(id)sender
 {
+    // Clear log panel
+    [synthesisResultTextView setString:@" "];
+
     [startSynthesisButton setHidden:YES];
     
     // Setting and showing progress indicator
