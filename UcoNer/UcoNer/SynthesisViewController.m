@@ -45,8 +45,27 @@
         [startSynthesisButton setEnabled:YES];
         [startSynthesisLabel setHidden:NO];
     }
-    NSLog(@"%ld", mSynthesisSteps);
+    //NSLog(@"%ld", mSynthesisSteps);
 }
+
+- (Boolean)resultIsOk:(NSString*)result
+{
+    // Look for success message and return true or false
+    NSRange aRange = [result rangeOfString:@"matched paragraphs"];
+
+    if (aRange.location == NSNotFound) {
+
+        //NSLog(@"string not found");
+        return NO;
+
+    } else {
+
+        //NSLog(@"string was found");
+        return YES;
+        
+    }
+}
+
 
 
 /**
@@ -59,6 +78,11 @@
 {
     // Clear log panel
     [synthesisResultTextView setString:@" "];
+    [openResultButton setHidden:YES];
+    // Clear output file
+    [@"" writeToFile:mTexFilePathString
+          atomically:YES
+            encoding:NSISOLatin1StringEncoding error:NULL];
 
     [startSynthesisButton setHidden:YES];
     
@@ -87,24 +111,51 @@
     
     NSFileHandle *file;
     file = [pipe fileHandleForReading];
-    
-    // TODO: TRY CATCH
-    
-    [task launch];
-    
-    NSData *data;
-    data = [file readDataToEndOfFile];
-    
     NSString *result;
-    //result = [self readFile:texFileArgument];
-    result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    //NSLog (@"task returned:\n%@", result);
     
-    [progressIndicator setHidden:YES];
-    [synthesisResultTextView setString: result];
-    NSLog(@"%@", result);
-    [logLabel setStringValue:@" Synthesis task Result: "];
-    [startSynthesisButton setHidden:NO];
+    @try {
+        [task launch];
+
+        NSData *data;
+        data = [file readDataToEndOfFile];
+        result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+        //NSLog (@"task returned:\n%@", result);
+        [synthesisResultTextView setString:result];
+	}
+	@catch (id theException) {
+        [synthesisResultTextView setString:theException];
+        NSLog(@"%@", theException);
+	}
+	@finally {
+        [progressIndicator stopAnimation:self];
+        [progressIndicator setHidden:YES];
+        [startSynthesisButton setHidden:NO];
+        [logLabel setStringValue:@"  Synthesis task Result: "];
+        
+        // Showing the open file button
+        [openResultButton setHidden:NO];
+        //NSLog(@"This always happens.");
+	}
+    
+        
+}
+
+- (IBAction)openResultFile:(id)sender
+{
+    // Get the favorite app
+    NSString *favoriteApp = [PreferencesViewController
+                             getStringForKey:LATEX_APP_PREFERENCE];
+
+    // Open result file with preferences app.
+    // If is not specified, use default one.
+    if ( ![favoriteApp isEqualToString:@""] ) {
+        [[NSWorkspace sharedWorkspace] openFile:mTexFilePathString
+                                withApplication:favoriteApp];
+    } else {
+        [[NSWorkspace sharedWorkspace] openFile:mTexFilePathString];
+    }
+
+    
 }
 
 - (IBAction)openSelectFolderPanel:(id)sender
@@ -131,7 +182,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
         
-        NSLog(@"doOpen we have an OK button");
+        //NSLog(@"doOpen we have an OK button");
         
         // Gettin url folder
         resultDirectory = [mSelectFolderOpenPanel directoryURL];
@@ -157,12 +208,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
         
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
         
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
     
@@ -207,9 +258,7 @@
     [mSelectFileOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
     
     // Showing the panel
-    
     NSInteger resultNSInteger = [mSelectFileOpenPanel runModal];
-    
     
     NSURL *resultFile = nil;
     Boolean isFileSelected = NO;
@@ -218,8 +267,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
         
-        NSLog(@"doOpen we have an OK button");
-        
+        //NSLog(@"doOpen we have an OK button");
         
         // Gettin url file
         resultFile = [mSelectFileOpenPanel URL];
@@ -238,12 +286,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
         
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
         
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
     
@@ -277,7 +325,7 @@
     
     NSString *filePath = [folderPath
                           stringByAppendingPathComponent: [newFilenameTextField stringValue]];
-    NSLog(@"%@", filePath);
+    //NSLog(@"%@", filePath);
     
     // String to write
     NSString *str = @"";

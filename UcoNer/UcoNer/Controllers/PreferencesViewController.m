@@ -21,7 +21,7 @@
 @synthesize taggerFilePathTextField;
 @synthesize textFilePathTextField;
 @synthesize latexFilePathTextField;
-@synthesize pdfAppPathTextField;
+@synthesize latexAppPathTextField;
 @synthesize textAppPathTextField;
 
 
@@ -102,8 +102,8 @@
     value = [self getStringForKey:LATEX_FILE_PREFERENCE];
     [latexFilePathTextField setStringValue: value];
 
-    value = [self getStringForKey:PDF_APP_PREFERENCE];
-    [pdfAppPathTextField setStringValue: value];
+    value = [self getStringForKey:LATEX_APP_PREFERENCE];
+    [latexAppPathTextField setStringValue: value];
 
     value = [self getStringForKey:TEXT_APP_PREFERENCE];
     [textAppPathTextField setStringValue: value];
@@ -197,15 +197,15 @@
             customDirString = [latexFilePathTextField stringValue];
         }
     }
-    else if( [sender tag] == PDF_APP_TAG ){
+    else if( [sender tag] == LATEX_APP_TAG ){
         [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setCanChooseDirectories:NO];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"app"]];
         [mSelectFileOpenPanel setTitle:@"Select an app to Open .pdf files"];
 
         // Open the saved path
-        if( ![[pdfAppPathTextField stringValue] isEqualTo:@""]){
-            customDirString = [pdfAppPathTextField stringValue];
+        if( ![[latexAppPathTextField stringValue] isEqualTo:@""]){
+            customDirString = [latexAppPathTextField stringValue];
         }
     }
     else if( [sender tag] == TEXT_APP_TAG ){
@@ -299,9 +299,9 @@
                 [self setStringForKey:varFileString :LATEX_FILE_PREFERENCE ];
                 break;
 
-            case PDF_APP_TAG:
-                [pdfAppPathTextField setStringValue: varFileString];
-                [self setStringForKey:varFileString :PDF_APP_PREFERENCE ];
+            case LATEX_APP_TAG:
+                [latexAppPathTextField setStringValue: varFileString];
+                [self setStringForKey:varFileString :LATEX_APP_PREFERENCE ];
                 break;
 
             case TEXT_APP_TAG:

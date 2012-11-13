@@ -26,6 +26,8 @@
     IBOutlet NSTableView *filesListTableView;
     IBOutlet NSTextView *synthesisResultTextView;
     IBOutlet NSTextField *logLabel;
+    IBOutlet NSButton *openResultButton;
+
     
     IBOutlet NSProgressIndicator *progressIndicator;
     IBOutlet NSView *openPanelExtraButtonsView;

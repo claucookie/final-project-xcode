@@ -17,7 +17,7 @@ static const int LATEX_FILE_TAG = 5;
 static const int TEXT_CORPUS_FOLDER_TAG = 6;
 static const int IOB_CORPUS_FOLDER_TAG = 7;
 static const int IOB_REVISED_CORPUS_FOLDER_TAG = 8;
-static const int PDF_APP_TAG = 9;
+static const int LATEX_APP_TAG = 9;
 static const int TEXT_APP_TAG = 10;
 
 // USER DEFAULT PREFERENCES
@@ -28,7 +28,7 @@ static NSString *GRAMMAR_FILE_PREFERENCE = @"grammarFilePathPref";
 static NSString *TAGGER_FILE_PREFERENCE = @"taggerFilePathPref";
 static NSString *TEXT_FILE_PREFERENCE = @"textFilePathPref";
 static NSString *LATEX_FILE_PREFERENCE = @"latexFilePathPref";
-static NSString *PDF_APP_PREFERENCE = @"pdfAppPathPref";
+static NSString *LATEX_APP_PREFERENCE = @"pdfAppPathPref";
 static NSString *TEXT_APP_PREFERENCE = @"textAppPathPref";
 
 
