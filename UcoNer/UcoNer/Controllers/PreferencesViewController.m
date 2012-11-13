@@ -21,6 +21,8 @@
 @synthesize taggerFilePathTextField;
 @synthesize textFilePathTextField;
 @synthesize latexFilePathTextField;
+@synthesize latexAppPathTextField;
+@synthesize textAppPathTextField;
 
 
 - (id)initWithFrame:(NSRect)frame
@@ -99,6 +101,12 @@
     
     value = [self getStringForKey:LATEX_FILE_PREFERENCE];
     [latexFilePathTextField setStringValue: value];
+
+    value = [self getStringForKey:LATEX_APP_PREFERENCE];
+    [latexAppPathTextField setStringValue: value];
+
+    value = [self getStringForKey:TEXT_APP_PREFERENCE];
+    [textAppPathTextField setStringValue: value];
     
 }
 
@@ -146,6 +154,7 @@
         }
     }
     else if( [sender tag] == GRAMMAR_RULES_FILE_TAG){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"gr"]];
         [mSelectFileOpenPanel setTitle:@"Select Entities Rules file: (*.gr) "];
         
@@ -155,6 +164,7 @@
         }
     }
     else if( [sender tag] == TAGGER_RULES_FILE_TAG ){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"etq"]];
         [mSelectFileOpenPanel setTitle:@"Select Tag Rules file: (*.etq) "];
         
@@ -164,10 +174,11 @@
         }
     }
     else if( [sender tag] == TEXT_FILE_TAG ){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Text Output file: (*.txt) "];
-        [mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
+        //[mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
         
         // Open the saved path
         if( ![[textFilePathTextField stringValue] isEqualTo:@""]){
@@ -175,14 +186,37 @@
         }
     }
     else if( [sender tag] == LATEX_FILE_TAG ){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
         //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Latex Output file: (*.tex) "];
-        [mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
+        //[mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
         
         // Open the saved path
         if( ![[latexFilePathTextField stringValue] isEqualTo:@""]){
             customDirString = [latexFilePathTextField stringValue];
+        }
+    }
+    else if( [sender tag] == LATEX_APP_TAG ){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
+        [mSelectFileOpenPanel setCanChooseDirectories:NO];
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"app"]];
+        [mSelectFileOpenPanel setTitle:@"Select an app to Open .pdf files"];
+
+        // Open the saved path
+        if( ![[latexAppPathTextField stringValue] isEqualTo:@""]){
+            customDirString = [latexAppPathTextField stringValue];
+        }
+    }
+    else if( [sender tag] == TEXT_APP_TAG ){
+        [mSelectFileOpenPanel setCanChooseFiles:YES];
+        [mSelectFileOpenPanel setCanChooseDirectories:NO];
+        [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"app"]];
+        [mSelectFileOpenPanel setTitle:@"Select an app to Open .txt files"];
+
+        // Open the saved path
+        if( ![[textAppPathTextField stringValue] isEqualTo:@""]){
+            customDirString = [textAppPathTextField stringValue];
         }
     }
     
@@ -224,6 +258,9 @@
     if( isFileSelected ){
         
         varFileString = [Util replaceWhiteSpacesByScapeChar:varFileString];
+        varFileString = [Util fixAccentInPathString:varFileString];
+        //NSLog(@"hola %@", varFileString);
+
         
         switch ([sender tag]) {
             
@@ -260,6 +297,16 @@
             case LATEX_FILE_TAG:
                 [latexFilePathTextField setStringValue: varFileString];
                 [self setStringForKey:varFileString :LATEX_FILE_PREFERENCE ];
+                break;
+
+            case LATEX_APP_TAG:
+                [latexAppPathTextField setStringValue: varFileString];
+                [self setStringForKey:varFileString :LATEX_APP_PREFERENCE ];
+                break;
+
+            case TEXT_APP_TAG:
+                [textAppPathTextField setStringValue: varFileString];
+                [self setStringForKey:varFileString :TEXT_APP_PREFERENCE ];
                 break;
             
             default:

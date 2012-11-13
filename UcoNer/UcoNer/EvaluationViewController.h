@@ -13,6 +13,8 @@
     
     @private
     
+    IBOutlet NSTextField *evaluationTitleLabel;
+    
     IBOutlet NSTableView *filesListTableView;
     IBOutlet NSButton *checkCorpusStepButton;
     IBOutlet NSButton *checkGrammarStepButton;
@@ -24,6 +26,7 @@
     IBOutlet NSTextView *evaluationResultTextView;
     IBOutlet NSTextField *logLabel;
     IBOutlet NSTextField *outputFileTextField;
+    IBOutlet NSButton *openResultButton;
     
     IBOutlet NSProgressIndicator *progressIndicator;
     IBOutlet NSView *openPanelExtraButtonsView;

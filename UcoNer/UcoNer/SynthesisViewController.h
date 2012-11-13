@@ -13,6 +13,8 @@
     
     @private
     
+    IBOutlet NSTextField *synthesisTitleLabel;
+    
     IBOutlet NSButton *checkCorpusStepButton;
     IBOutlet NSButton *checkGrammarStepButton;
     IBOutlet NSTextField *startSynthesisLabel;
@@ -24,6 +26,8 @@
     IBOutlet NSTableView *filesListTableView;
     IBOutlet NSTextView *synthesisResultTextView;
     IBOutlet NSTextField *logLabel;
+    IBOutlet NSButton *openResultButton;
+
     
     IBOutlet NSProgressIndicator *progressIndicator;
     IBOutlet NSView *openPanelExtraButtonsView;

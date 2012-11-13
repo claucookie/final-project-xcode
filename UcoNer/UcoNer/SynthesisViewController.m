@@ -28,6 +28,9 @@
     
     // Steps counter = 0
     mSynthesisSteps = 0;
+    
+    // Customizing title label
+    [synthesisTitleLabel setBackgroundColor:[NSColor colorWithPatternImage:[NSImage imageNamed:@"background_label"]]];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -42,8 +45,27 @@
         [startSynthesisButton setEnabled:YES];
         [startSynthesisLabel setHidden:NO];
     }
-    NSLog(@"%ld", mSynthesisSteps);
+    //NSLog(@"%ld", mSynthesisSteps);
 }
+
+- (Boolean)resultIsOk:(NSString*)result
+{
+    // Look for success message and return true or false
+    NSRange aRange = [result rangeOfString:@"matched paragraphs"];
+
+    if (aRange.location == NSNotFound) {
+
+        //NSLog(@"string not found");
+        return NO;
+
+    } else {
+
+        //NSLog(@"string was found");
+        return YES;
+        
+    }
+}
+
 
 
 /**
@@ -54,6 +76,14 @@
 
 - (IBAction)startSynthesisTask:(id)sender
 {
+    // Clear log panel
+    [synthesisResultTextView setString:@" "];
+    [openResultButton setHidden:YES];
+    // Clear output file
+    [@"" writeToFile:mTexFilePathString
+          atomically:YES
+            encoding:NSISOLatin1StringEncoding error:NULL];
+
     [startSynthesisButton setHidden:YES];
     
     // Setting and showing progress indicator
@@ -81,24 +111,51 @@
     
     NSFileHandle *file;
     file = [pipe fileHandleForReading];
-    
-    // TODO: TRY CATCH
-    
-    [task launch];
-    
-    NSData *data;
-    data = [file readDataToEndOfFile];
-    
     NSString *result;
-    //result = [self readFile:texFileArgument];
-    result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-    //NSLog (@"task returned:\n%@", result);
     
-    [progressIndicator setHidden:YES];
-    [synthesisResultTextView setString: result];
-    NSLog(@"%@", result);
-    [logLabel setStringValue:@" Synthesis task Result: "];
-    [startSynthesisButton setHidden:NO];
+    @try {
+        [task launch];
+
+        NSData *data;
+        data = [file readDataToEndOfFile];
+        result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+        //NSLog (@"task returned:\n%@", result);
+        [synthesisResultTextView setString:result];
+	}
+	@catch (id theException) {
+        [synthesisResultTextView setString:theException];
+        NSLog(@"%@", theException);
+	}
+	@finally {
+        [progressIndicator stopAnimation:self];
+        [progressIndicator setHidden:YES];
+        [startSynthesisButton setHidden:NO];
+        [logLabel setStringValue:@"  Synthesis task Result: "];
+        
+        // Showing the open file button
+        [openResultButton setHidden:NO];
+        //NSLog(@"This always happens.");
+	}
+    
+        
+}
+
+- (IBAction)openResultFile:(id)sender
+{
+    // Get the favorite app
+    NSString *favoriteApp = [PreferencesViewController
+                             getStringForKey:LATEX_APP_PREFERENCE];
+
+    // Open result file with preferences app.
+    // If is not specified, use default one.
+    if ( ![favoriteApp isEqualToString:@""] ) {
+        [[NSWorkspace sharedWorkspace] openFile:mTexFilePathString
+                                withApplication:favoriteApp];
+    } else {
+        [[NSWorkspace sharedWorkspace] openFile:mTexFilePathString];
+    }
+
+    
 }
 
 - (IBAction)openSelectFolderPanel:(id)sender
@@ -125,7 +182,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
         
-        NSLog(@"doOpen we have an OK button");
+        //NSLog(@"doOpen we have an OK button");
         
         // Gettin url folder
         resultDirectory = [mSelectFolderOpenPanel directoryURL];
@@ -136,6 +193,7 @@
 
         // Replacing white spaces
         varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        varCorpusDir = [Util fixAccentInPathString:varCorpusDir];
         mCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         
         // We add +1 to recognition steps if is the first time to use the field
@@ -150,12 +208,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
         
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
         
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
     
@@ -193,16 +251,14 @@
     [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     [mSelectFileOpenPanel setTitle:@"Select Output Latex file: (*.tex) "];
-    [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+    //[mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
     
     // Customizing path will be open
     NSString *favoritePath = [PreferencesViewController getStringForKey:LATEX_FILE_PREFERENCE];
     [mSelectFileOpenPanel setDirectoryURL:[NSURL fileURLWithPath:favoritePath]];
     
     // Showing the panel
-    
     NSInteger resultNSInteger = [mSelectFileOpenPanel runModal];
-    
     
     NSURL *resultFile = nil;
     Boolean isFileSelected = NO;
@@ -211,8 +267,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
         
-        NSLog(@"doOpen we have an OK button");
-        
+        //NSLog(@"doOpen we have an OK button");
         
         // Gettin url file
         resultFile = [mSelectFileOpenPanel URL];
@@ -222,6 +277,7 @@
         
         // Replacing white spaces
         varFileString = [Util removeBadWhiteSpaces:varFileString];
+        varFileString = [Util fixAccentInPathString:varFileString];
         mTexFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
         
         isFileSelected = YES;
@@ -230,12 +286,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
         
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
         
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
     
@@ -269,7 +325,7 @@
     
     NSString *filePath = [folderPath
                           stringByAppendingPathComponent: [newFilenameTextField stringValue]];
-    NSLog(@"%@", filePath);
+    //NSLog(@"%@", filePath);
     
     // String to write
     NSString *str = @"";

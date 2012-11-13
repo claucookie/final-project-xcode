@@ -28,6 +28,8 @@
 @property (assign) IBOutlet NSTextField *taggerFilePathTextField;
 @property (assign) IBOutlet NSTextField *textFilePathTextField;
 @property (assign) IBOutlet NSTextField *latexFilePathTextField;
+@property (assign) IBOutlet NSTextField *latexAppPathTextField;
+@property (assign) IBOutlet NSTextField *textAppPathTextField;
 
 
 

@@ -20,4 +20,15 @@
 {
     return [pathString stringByReplacingOccurrencesOfString:@" " withString:@"\ "];
 }
+
++ (NSString *)fixAccentInPathString:(NSString *)pathString
+{
+    pathString = [pathString stringByReplacingOccurrencesOfString:@"a%CC%81" withString:@"á"];
+    pathString = [pathString stringByReplacingOccurrencesOfString:@"e%CC%81" withString:@"é"];
+    pathString = [pathString stringByReplacingOccurrencesOfString:@"i%CC%81" withString:@"í"];
+    pathString = [pathString stringByReplacingOccurrencesOfString:@"o%CC%81" withString:@"ó"];
+    pathString = [pathString stringByReplacingOccurrencesOfString:@"u%CC%81" withString:@"ú"];
+    
+    return pathString;
+}
 @end

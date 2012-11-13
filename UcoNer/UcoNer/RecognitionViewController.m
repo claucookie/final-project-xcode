@@ -21,12 +21,18 @@
     return self;
 }
 
--(void)awakeFromNib{
+-(void)awakeFromNib
+{
     
     // Initalize fileListTableView
     [recogFilesListTableView setDataSource:self];
+    
     mRecogSteps = 0;
     mCorpusOrFileToggleButtonWasClickedYet = NO;
+    
+    // Customizing title label
+    [recognitionTitleLabel setBackgroundColor:[NSColor colorWithPatternImage:[NSImage imageNamed:@"background_label"]]];
+    
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -35,15 +41,37 @@
 }
 
 
-- (void)checkRecogSteps {
+- (void)checkRecogSteps
+{
     
     if( mRecogSteps >= 4){
         [startRecognitionButton setEnabled:YES];
         [startRecognitionLabel setHidden:NO];
     }
     
-    NSLog(@"%ld", mRecogSteps);
+    //NSLog(@"%ld", mRecogSteps);
 }
+
+- (Boolean)resultIsOk:(NSString*)result
+{
+    // Look for success message and return true or false
+    NSRange aRange = [result rangeOfString:@"The list of entities in"];
+
+    if (aRange.location ==NSNotFound) {
+        
+        //NSLog(@"string not found");
+        return NO;
+        
+    } else {
+        
+        //NSLog(@"string was found");
+        return YES;
+
+    }
+    
+}
+
+
 
 /**
  
@@ -53,6 +81,14 @@
 
 - (IBAction)startRecognitionTask:(id)sender
 {
+    // Clear log panel and hide open button
+    [recognitionResultTextField setString:@" "];
+    [openResultButton setHidden:YES];
+    // Clear output file
+    [@"" writeToFile:mOutputFilePathString
+          atomically:YES
+            encoding:NSISOLatin1StringEncoding error:NULL];
+
 
     [startRecognitionButton setHidden:YES];
     
@@ -60,12 +96,11 @@
     [progressIndicator setUsesThreadedAnimation:YES];
     [progressIndicator setHidden:NO];
     [progressIndicator display];
-    
+
     
     // Call system program with
     NSTask *task;
     task = [[NSTask alloc] init];
-    //[task setLaunchPath: @"/Users/claucookie/Documents/Desarrollo/MacOS/uconerTasks/recognitionTask.app/Contents/MacOS/recognitionTask"];
     [task setLaunchPath:@"/Applications/uconerApp/uconerTasks/recognitionTask.app/Contents/MacOS/recognitionTask"];
     
     
@@ -93,20 +128,46 @@
         NSData *data;
         data = [file readDataToEndOfFile];
         result = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
-        [recogFileContentTextField setString:result];
-        NSLog (@"task returned:\n%@", result);
+        //NSLog (@"task returned:\n%@", result);
 	}
 	@catch (id theException) {
-        [recogFileContentTextField setString:theException];
+        [recognitionResultTextField setString:theException];
         NSLog(@"%@", theException);
 	}
 	@finally {
+        [progressIndicator stopAnimation:self];
         [progressIndicator setHidden:YES];
-        [logLabel setStringValue:@"  Recognition task Result: "];
         [startRecognitionButton setHidden:NO];
-        NSLog(@"This always happens.");
+
+        [recognitionResultTextField setString:result];
+        [logLabel setStringValue:@"  Recognition task Result: "];
+
+        if( [self resultIsOk:result] ){
+
+            [openResultButton setHidden:NO];
+        }
+
+        //NSLog(@"This always happens.");
 	}
     
+}
+
+- (IBAction)openResultFile:(id)sender
+{
+    // Get the favorite app
+    NSString *favoriteApp = [PreferencesViewController
+                             getStringForKey:TEXT_APP_PREFERENCE];
+
+    // Open result file with preferences app.
+    // If is not specified, use default one.
+    if ( ![favoriteApp isEqualToString:@""] ) {
+        [[NSWorkspace sharedWorkspace] openFile:mOutputFilePathString
+                                    withApplication:favoriteApp];
+    } else {
+        [[NSWorkspace sharedWorkspace] openFile:mOutputFilePathString];
+    }
+
+
 }
 
 - (IBAction)openSelectFolderPanel:(id)sender
@@ -143,6 +204,7 @@
 
         // Replacing white spaces
         varCorpusDir = [Util removeBadWhiteSpaces:varCorpusDir];
+        varCorpusDir = [Util fixAccentInPathString:varCorpusDir];
         mCorpusPathString = [Util replaceWhiteSpacesByScapeChar:varCorpusDir];
         // We add +1 to recognition steps if is the first time to use the field
         if( [[recogInCorpusDirTextField stringValue] length] == 0){
@@ -159,12 +221,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
         
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
         
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
     
@@ -187,7 +249,7 @@
         // We switch on the corpus toggle button
         [self selectCorpusOrFileClick:corpusToggleButton];
         
-        NSLog(@"%3ld", [sender tag]);
+        //NSLog(@"%3ld", [sender tag]);
         
     }
 }
@@ -251,7 +313,7 @@
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Text Output file: (*.txt) "];
-        [mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
+        //[mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
         
         // Customizing path will be open
         NSString *favoritePath = [PreferencesViewController getStringForKey:TEXT_FILE_PREFERENCE];
@@ -267,7 +329,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
         
-        NSLog(@"doOpen we have an OK button");
+        //NSLog(@"doOpen we have an OK button");
         
         // Gettin url file
         resultFile = [mSelectFileOpenPanel URL];
@@ -275,6 +337,7 @@
         varFileString= [[resultFile absoluteString] substringFromIndex:16];
         // Replacing white spaces
         varFileString = [Util removeBadWhiteSpaces:varFileString];
+        varFileString = [Util fixAccentInPathString:varFileString];
         
         isFileSelected = YES;
         
@@ -282,12 +345,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
         
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
         
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
     
@@ -351,9 +414,9 @@
     NSString *fileContent = [[NSString alloc]
                              initWithData:data encoding: NSISOLatin1StringEncoding];
     
-    NSLog(@"%@", fileContent);
+    //NSLog(@"%@", fileContent);
     // Showing content
-    [recogFileContentTextField setString:fileContent];
+    [recognitionResultTextField setString:fileContent];
     [logLabel setStringValue:@"  File Content:"];
     [recogCheckFile setState:1];
     
@@ -365,7 +428,7 @@
 
 - (IBAction)clearConsoleWhenClickOn:(id) sender
 {
-    [recogFileContentTextField setString:@" "];
+    [recognitionResultTextField setString:@" "];
 }
 
 - (IBAction)createNewTxtFile:(id)sender
@@ -378,7 +441,7 @@
     
     NSString *filePath = [folderPath
                           stringByAppendingPathComponent: [newFilenameTextField stringValue]];
-    NSLog(@"%@", filePath);
+    //NSLog(@"%@", filePath);
     
     // String to write
     NSString *str = @"";
