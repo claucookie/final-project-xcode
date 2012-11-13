@@ -34,7 +34,7 @@
     [[self window] setContentSize:[recognition frame].size];
     [[[self window] contentView] addSubview:recognition];
     [[[self window] contentView] setWantsLayer:YES];
-
+    
 }
 
 - (NSRect)newFrameForNewContentView:(NSView *)view
