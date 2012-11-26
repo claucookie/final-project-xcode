@@ -71,6 +71,14 @@
     
 }
 
+- (Boolean)isFileRecognitionSelected
+{
+    if( [fileToggleButton state] == 1 )
+        return YES;
+    else
+        return NO;
+}
+
 
 
 /**
@@ -108,9 +116,25 @@
     NSString *entFileArgument = mGrammarPathString;
     NSString *inCorpusArgument = mCorpusPathString;
     NSString *outputEntitiesFileArgument = mOutputFilePathString;
+    NSString *corpusTypeArgument = @"iob";
     
     NSArray *arguments;
-    arguments = [NSArray arrayWithObjects: @"iob", @"--inCorpus", inCorpusArgument, @"--entFile", entFileArgument, @"--tagFile", tagFileArgument , @"--entListFile", outputEntitiesFileArgument, nil];
+
+    if ( [self isFileRecognitionSelected] ) {
+
+        // We use the same path+name from text file to save iob file.
+        NSString *inFileArgument = [mCorpusPathString stringByAppendingString:[selectedFileTextField stringValue]];
+        // We create path "corpus path /../iob/ file name"
+        NSString *outFileArgument = [[[[mCorpusPathString stringByAppendingString:@"../"] stringByAppendingString:corpusTypeArgument] stringByAppendingString:@"/"] stringByAppendingString: [selectedFileTextField stringValue]];
+        outFileArgument = [outFileArgument stringByDeletingPathExtension];
+        outFileArgument = [outFileArgument stringByAppendingPathExtension:@"iob"];
+        
+        arguments = [NSArray arrayWithObjects: corpusTypeArgument, @"--inFile", inFileArgument, @"--entFile", entFileArgument, @"--tagFile", tagFileArgument , @"--entListFile", outputEntitiesFileArgument, @"--outFile", outFileArgument,  nil];
+    } else {
+        
+        arguments = [NSArray arrayWithObjects: corpusTypeArgument, @"--inCorpus", inCorpusArgument, @"--entFile", entFileArgument, @"--tagFile", tagFileArgument , @"--entListFile", outputEntitiesFileArgument, nil];
+    }
+
     [task setArguments: arguments];
     
     NSPipe *pipe;
@@ -193,7 +217,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
         
-        NSLog(@"doOpen we have an OK button");
+        //NSLog(@"doOpen we have an OK button");
         
         // Gettin url folder
         resultDirectory = [mSelectFolderOpenPanel directoryURL];
@@ -289,7 +313,7 @@
     // Creating the open panel
 
     mSelectFileOpenPanel = [NSOpenPanel openPanel];
-    [mSelectFileOpenPanel setCanChooseDirectories:YES];
+    [mSelectFileOpenPanel setCanChooseDirectories:NO];
     [mSelectFileOpenPanel setCanChooseFiles:YES];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
@@ -311,9 +335,8 @@
     }
     else if( [sender tag] == TEXT_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
-        //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Text Output file: (*.txt) "];
-        //[mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
+        [mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
         
         // Customizing path will be open
         NSString *favoritePath = [PreferencesViewController getStringForKey:TEXT_FILE_PREFERENCE];
@@ -433,22 +456,19 @@
 
 - (IBAction)createNewTxtFile:(id)sender
 {
-    // Create file manager
-    //NSFileManager *fileMgr = mFileManager;
-    
     // Point to Document directory
     NSString *folderPath = [[[mSelectFileOpenPanel directoryURL] absoluteString] substringFromIndex:16];
-    
+
     NSString *filePath = [folderPath
                           stringByAppendingPathComponent: [newFilenameTextField stringValue]];
     //NSLog(@"%@", filePath);
-    
-    // String to write
-    NSString *str = @"";
-    
-    // Write the file
-    [str writeToFile:filePath atomically:YES
-            encoding:NSUTF8StringEncoding error:nil];
+    filePath = [Util removeBadWhiteSpaces:filePath];
+    filePath = [Util replaceWhiteSpacesByScapeChar:filePath];
+    //NSLog(@"%@", filePath);
+
+    // Create the file
+    NSFileManager * fileMgr = [NSFileManager defaultManager];
+    [fileMgr createFileAtPath:filePath contents:nil attributes:nil];
 }
 
 
