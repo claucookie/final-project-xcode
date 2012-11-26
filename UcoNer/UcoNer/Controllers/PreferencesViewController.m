@@ -7,6 +7,7 @@
 //
 
 #import "PreferencesViewController.h"
+#import "Util.h"
 
 @interface PreferencesViewController ()
 
@@ -82,18 +83,43 @@
     //NSLog(@"Load preferences");
     
     value = [self getStringForKey:TEXT_CORPUS_PREFERENCE];
+    if( [value isEqualToString:@""] ){
+        // Default customized path
+        value = @"/Applications/uconerApp/uconerResources/example corpus/arrendamientos/txt/";
+        [self setStringForKey:value :TEXT_CORPUS_PREFERENCE];
+    }
     [textCorpusPathTextField setStringValue: value];
 
     value = [self getStringForKey:IOB_CORPUS_PREFERENCE];
+    if( [value isEqualToString:@""] ){
+        // Default customized path
+        value = @"/Applications/uconerApp/uconerResources/example corpus/arrendamientos/iob/";
+        [self setStringForKey:value :IOB_CORPUS_PREFERENCE];
+    }
     [iobCorpusPathTextField setStringValue: value];
     
     value = [self getStringForKey:IOB_REVISED_CORPUS_PREFERENCE];
+    if( [value isEqualToString:@""] ){
+        // Default customized path
+        value = @"/Applications/uconerApp/uconerResources/example corpus/arrendamientos eval/iobRevisado/";
+        [self setStringForKey:value :IOB_REVISED_CORPUS_PREFERENCE];
+    }
     [iobRevisedCorpusPathTextField setStringValue: value];
     
     value = [self getStringForKey:GRAMMAR_FILE_PREFERENCE];
+    if( [value isEqualToString:@""] ){
+        // Default customized path
+        value = @"/Applications/uconerApp/uconerResources/example rules/";
+        [self setStringForKey:value :GRAMMAR_FILE_PREFERENCE];
+    }
     [grammarFilePathTextField setStringValue: value];
     
     value = [self getStringForKey:TAGGER_FILE_PREFERENCE];
+    if( [value isEqualToString:@""] ){
+        // Default customized path
+        value = @"/Applications/uconerApp/uconerResources/example rules/";
+        [self setStringForKey:value :TAGGER_FILE_PREFERENCE];
+    }
     [taggerFilePathTextField setStringValue: value];
     
     value = [self getStringForKey:TEXT_FILE_PREFERENCE];
@@ -132,8 +158,7 @@
         // Open the saved path
         if( ![[textCorpusPathTextField stringValue] isEqualTo:@""]){
             customDirString = [textCorpusPathTextField stringValue];
-        }
-        
+        }        
     }
     else if( [sender tag] == IOB_CORPUS_FOLDER_TAG){
         [mSelectFileOpenPanel setTitle:@"Select IOB Corpus folder: "];
@@ -176,9 +201,8 @@
     else if( [sender tag] == TEXT_FILE_TAG ){
         [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
-        //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
+        [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Text Output file: (*.txt) "];
-        //[mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
         
         // Open the saved path
         if( ![[textFilePathTextField stringValue] isEqualTo:@""]){
@@ -188,9 +212,8 @@
     else if( [sender tag] == LATEX_FILE_TAG ){
         [mSelectFileOpenPanel setCanChooseFiles:YES];
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"tex"]];
-        //[mSelectFolderOpenPanel setAccessoryView:openPanelExtraButtonsView];
+        [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
         [mSelectFileOpenPanel setTitle:@"Select Latex Output file: (*.tex) "];
-        //[mSelectFileOpenPanel setAccessoryView: openPanelExtraButtonsView];
         
         // Open the saved path
         if( ![[latexFilePathTextField stringValue] isEqualTo:@""]){
@@ -217,6 +240,8 @@
         // Open the saved path
         if( ![[textAppPathTextField stringValue] isEqualTo:@""]){
             customDirString = [textAppPathTextField stringValue];
+        }else{
+            customDirString = @"/Applications/";
         }
     }
     
@@ -231,7 +256,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
         
-        NSLog(@"doOpen we have an OK button");
+        //NSLog(@"doOpen we have an OK button");
         
         // Gettin url file
         resultFile = [mSelectFileOpenPanel URL];
@@ -246,12 +271,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
         
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
         
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
     
@@ -259,7 +284,6 @@
         
         varFileString = [Util replaceWhiteSpacesByScapeChar:varFileString];
         varFileString = [Util fixAccentInPathString:varFileString];
-        //NSLog(@"hola %@", varFileString);
 
         
         switch ([sender tag]) {
@@ -326,13 +350,71 @@
     NSString *filePath = [folderPath
                           stringByAppendingPathComponent: [newFilenameTextField stringValue]];
     //NSLog(@"%@", filePath);
+    filePath = [Util removeBadWhiteSpaces:filePath];
+    filePath = [Util replaceWhiteSpacesByScapeChar:filePath];
+    //NSLog(@"%@", filePath);
     
-    // String to write
-    NSString *str = @"";
-    
-    // Write the file
-    [str writeToFile:filePath atomically:YES
-            encoding:NSUTF8StringEncoding error:nil];
+    // Create the file
+    NSFileManager * fileMgr = [NSFileManager defaultManager];
+    [fileMgr createFileAtPath:filePath contents:nil attributes:nil];
+}
+
+- (IBAction)removePreferenceFromField:(id)sender
+{
+    if ([sender tag] == TEXT_CORPUS_FOLDER_TAG) {
+        [textCorpusPathTextField setStringValue:@""];
+        [self setStringForKey:@"" :TEXT_CORPUS_PREFERENCE];
+    }
+    switch ([sender tag]) {
+        case TEXT_CORPUS_FOLDER_TAG:
+            [textCorpusPathTextField setStringValue: @""];
+            [self setStringForKey:@"" :TEXT_CORPUS_PREFERENCE];
+            break;
+
+        case IOB_CORPUS_FOLDER_TAG:
+            [iobCorpusPathTextField setStringValue: @""];
+            [self setStringForKey:@"" :IOB_CORPUS_PREFERENCE ];
+            break;
+
+        case IOB_REVISED_CORPUS_FOLDER_TAG:
+            [iobRevisedCorpusPathTextField setStringValue: @""];
+            [self setStringForKey:@"" :IOB_REVISED_CORPUS_PREFERENCE ];
+            break;
+
+        case GRAMMAR_RULES_FILE_TAG:
+            [grammarFilePathTextField setStringValue: @""];
+            [self setStringForKey:@"" :GRAMMAR_FILE_PREFERENCE];
+            break;
+
+        case TAGGER_RULES_FILE_TAG:
+            [taggerFilePathTextField setStringValue: @""];
+            [self setStringForKey:@"" :TAGGER_FILE_PREFERENCE];
+            break;
+
+        case TEXT_FILE_TAG:
+            [textFilePathTextField setStringValue: @""];
+            [self setStringForKey:@"" :TEXT_FILE_PREFERENCE];
+            break;
+
+        case LATEX_FILE_TAG:
+            [latexFilePathTextField setStringValue: @""];
+            [self setStringForKey:@"" :LATEX_FILE_PREFERENCE ];
+            break;
+
+        case LATEX_APP_TAG:
+            [latexAppPathTextField setStringValue: @""];
+            [self setStringForKey:@"" :LATEX_APP_PREFERENCE ];
+            break;
+
+        case TEXT_APP_TAG:
+            [textAppPathTextField setStringValue: @""];
+            [self setStringForKey:@"" :TEXT_APP_PREFERENCE ];
+            break;
+
+        default:
+            break;
+
+    }
 }
 
 @end
