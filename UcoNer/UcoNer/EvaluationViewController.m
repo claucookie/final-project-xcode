@@ -49,7 +49,6 @@
 
 - (NSString *)readFile:(NSString*) filepath
 {
-    // TODO: CHECK FILE EXISTS
     NSString *filecontent;
     //Get file into string
     filecontent = [NSString stringWithContentsOfFile:filepath encoding: NSUTF8StringEncoding error:NULL];
@@ -257,7 +256,7 @@
 {
     // Creating the open panel
     mSelectFileOpenPanel = [NSOpenPanel openPanel];
-    [mSelectFileOpenPanel setCanChooseDirectories:YES];
+    [mSelectFileOpenPanel setCanChooseDirectories:NO];
     [mSelectFileOpenPanel setCanChooseFiles:YES];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     
@@ -273,7 +272,7 @@
     else if( [sender tag] == TEXT_FILE_TAG ){
         [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
         [mSelectFileOpenPanel setTitle:@"Select Text file: (*.txt) "];
-        //[mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+        [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
         
         // Customizing path will be open
         NSString *favoritePath = [PreferencesViewController
@@ -369,22 +368,19 @@
 
 - (IBAction)createNewTxtFile:(id)sender
 {
-    // Create file manager
-    //NSFileManager *fileMgr = mFileManager;
-    
     // Point to Document directory
     NSString *folderPath = [[[mSelectFileOpenPanel directoryURL] absoluteString] substringFromIndex:16];
-    
+
     NSString *filePath = [folderPath
                           stringByAppendingPathComponent: [newFilenameTextField stringValue]];
     //NSLog(@"%@", filePath);
-    
-    // String to write
-    NSString *str = @"";
-    
-    // Write the file
-    [str writeToFile:filePath atomically:YES
-            encoding:NSUTF8StringEncoding error:nil];
+    filePath = [Util removeBadWhiteSpaces:filePath];
+    filePath = [Util replaceWhiteSpacesByScapeChar:filePath];
+    //NSLog(@"%@", filePath);
+
+    // Create the file
+    NSFileManager * fileMgr = [NSFileManager defaultManager];
+    [fileMgr createFileAtPath:filePath contents:nil attributes:nil];
 }
 
 

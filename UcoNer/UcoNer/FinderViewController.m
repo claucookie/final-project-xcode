@@ -51,7 +51,7 @@
     else{
         [self deactivateStartButton];
     }
-    NSLog(@"%ld", mFinderSteps);
+    //NSLog(@"%ld", mFinderSteps);
 }
 
 - (void)activateStartButton {
@@ -188,12 +188,12 @@
 {
     // Creating the open panel
     mSelectFileOpenPanel = [NSOpenPanel openPanel];
-    [mSelectFileOpenPanel setCanChooseDirectories:YES];
+    [mSelectFileOpenPanel setCanChooseDirectories:NO];
     [mSelectFileOpenPanel setCanChooseFiles:YES];
     [mSelectFileOpenPanel setCanCreateDirectories:YES];
     [mSelectFileOpenPanel setAllowedFileTypes:[NSArray arrayWithObject:@"txt"]];
     [mSelectFileOpenPanel setTitle:@"Select output Text file: (*.txt) "];
-    //[mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
+    [mSelectFileOpenPanel setAccessoryView:openPanelExtraButtonsView];
 
     // Customizing path will be open
     NSString *favoritePath = [PreferencesViewController getStringForKey:TEXT_FILE_PREFERENCE];
@@ -208,7 +208,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
 
-        NSLog(@"doOpen we have an OK button");
+        //NSLog(@"doOpen we have an OK button");
 
         // Gettin url file
         resultFile = [mSelectFileOpenPanel URL];
@@ -219,7 +219,7 @@
         varFileString = [Util fixAccentInPathString:varFileString];
 
         mOutputFilePathString = [Util replaceWhiteSpacesByScapeChar:varFileString];
-        NSLog(@"%@", varFileString);
+        //NSLog(@"%@", varFileString);
 
         isFileSelected = YES;
 
@@ -227,12 +227,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
 
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
 
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
 
@@ -277,7 +277,7 @@
     // Click on OK button
     if(resultNSInteger == NSOKButton){
 
-        NSLog(@"doOpen we have an OK button");
+        //NSLog(@"doOpen we have an OK button");
 
         // Gettin url folder
         resultDirectory = [mSelectFolderOpenPanel directoryURL];
@@ -303,12 +303,12 @@
     // Click on Cancel button
     else if(resultNSInteger == NSCancelButton){
 
-        NSLog(@"doOpen we have a Cancel button");
+        //NSLog(@"doOpen we have a Cancel button");
         return;
     }
     else {
 
-        NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
+        //NSLog(@"doOpen tvarInt not equal 1 or zero = %3ld",resultNSInteger);
         return;
     }
 
@@ -368,22 +368,19 @@
 
 - (IBAction)createNewTxtFile:(id)sender
 {
-    // Create file manager
-    //NSFileManager *fileMgr = mFileManager;
-
     // Point to Document directory
     NSString *folderPath = [[[mSelectFileOpenPanel directoryURL] absoluteString] substringFromIndex:16];
 
     NSString *filePath = [folderPath
                           stringByAppendingPathComponent: [newFilenameTextField stringValue]];
-    NSLog(@"%@", filePath);
+    //NSLog(@"%@", filePath);
+    filePath = [Util removeBadWhiteSpaces:filePath];
+    filePath = [Util replaceWhiteSpacesByScapeChar:filePath];
+    //NSLog(@"%@", filePath);
 
-    // String to write
-    NSString *str = @"";
-
-    // Write the file
-    [str writeToFile:filePath atomically:YES
-            encoding:NSUTF8StringEncoding error:nil];
+    // Create the file
+    NSFileManager * fileMgr = [NSFileManager defaultManager];
+    [fileMgr createFileAtPath:filePath contents:nil attributes:nil];
 }
 
 
