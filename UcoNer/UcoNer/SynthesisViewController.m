@@ -100,9 +100,10 @@
 
     NSString *inCorpusArgument = mCorpusPathString;
     NSString *texFileArgument = mTexFilePathString;
+    NSString *entitiesArgument = [[entitiesTokenField stringValue] stringByReplacingOccurrencesOfString:@"," withString:@" "];
 
     NSArray *arguments;
-    arguments = [NSArray arrayWithObjects: @"--iobCorpus", inCorpusArgument, @"--outLatexFile", texFileArgument, nil];
+    arguments = [NSArray arrayWithObjects: @"--iobCorpus", inCorpusArgument, @"--outLatexFile", texFileArgument, @"--entities", entitiesArgument, nil];
     [task setArguments: arguments];
 
     NSPipe *pipe;

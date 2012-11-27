@@ -27,6 +27,7 @@
     IBOutlet NSTextView *synthesisResultTextView;
     IBOutlet NSTextField *logLabel;
     IBOutlet NSButton *openResultButton;
+    IBOutlet NSTokenField *entitiesTokenField;
 
     
     IBOutlet NSProgressIndicator *progressIndicator;
